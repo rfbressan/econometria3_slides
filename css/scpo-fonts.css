@@ -20,7 +20,7 @@ h1, h2, h3 {
 .remark-inline-code { 
     font-family: 'Inconsolata', monospace; 
     color: #515151;
-    background-color: rgba(217, 5, 2, 0.2);
+    background-color: rgba(19, 153, 84, 0.2);
     border-radius: 5px; /* Making border radius */
     width: auto; /* Making auto-sizable width */
     height: auto; /* Making auto-sizable height */

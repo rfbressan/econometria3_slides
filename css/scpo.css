@@ -5,6 +5,9 @@ Updated: 03/06/2018
 
 Modified by Florian Oswald for ScPo
 18/08/2019
+
+Modified by Rafael Bressan for UDESC/Esag
+2022-07-26
 */
 
 /* Package defaults that we slightly tweak */
@@ -44,14 +47,14 @@ a, a > code {
 
 /* color tweak */
 .inverse {
-  background-color: #ffebf0;
+  background-color: #eefff6;
   color: #353632;
   text-shadow: none;
 }
 
 /* slightly spacing change */
 .inverse h1, .inverse h2, .inverse h3 {
-  color: #0729a6;
+  color: red;
   line-height: 1.0em;
 }
 
@@ -85,7 +88,7 @@ a, a > code {
 }
 
 .right-thin {
-  width: 30%;
+  width: 25%;
   float: right;
 }
 
@@ -96,7 +99,7 @@ a, a > code {
 }
 
 .left-thin {
-  width: 30%;
+  width: 25%;
   float: left;
 }
 
@@ -148,9 +151,9 @@ blockquote {
 
 /* changing background image to ScPo*/
 .title-slide {
-  background-image: url("../img/logo/ScPo-econ.png");
+  background-image: url("../img/logo/UdescEsag.jpeg");
   background-position: 9% 30%;
-  background-size: 300px;
+  background-size: 600px;
   background-color: #fff;
   padding-left: 100px;  /* delete this for 4:3 aspect ratio */
 }
@@ -170,7 +173,7 @@ blockquote {
 
 /* H2 fonts */
 .title-slide h2 {
-  color: #d90502;
+  color: #054B28;
   font-size: 35px;
   text-align: left;
   text-shadow: none;
@@ -248,7 +251,7 @@ blockquote {
 
 
 .title-slide-final h1 {
-  color: #d90502;
+  color: #054B28;
 }
 
 
@@ -263,13 +266,21 @@ blockquote {
 
 /* Color adjustments for text */
 
-/* Make bold syntax compile to ScPo-red */
+/* Make bold syntax compile to udescgreen */
 strong {
-  color: #d90502;
+  color: #054B28;
 }
 
 .ScPored {
   color: #d90502;
+}
+
+.udescgreen {
+    color: #054B28;
+}
+
+.udesclight {
+    color: #139954;
 }
 
 /* Pink text */
@@ -305,7 +316,7 @@ strong {
 
 /* Color adjustments to headers */
 h1 {
-  color: #d90502;
+  color: #054B28;
 }
 
 h3 {
@@ -324,7 +335,7 @@ ru-blockquote {
   margin-bottom: 1em;
   margin-left: 40px;
   margin-right: 40px;
-  border-left: solid 10px #d90502;
+  border-left: solid 10px #054B28;
   background-color: #818181;
   padding: 1em;
   color: #fff;

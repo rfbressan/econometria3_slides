@@ -1,22 +1,27 @@
-# **Advanced Econometrics at SciencesPo**
+# Bem-vindos a Econometria III
 
-This is the syllabus for the 2nd year course *advanced econometrics* offered by the department of economics at SciencesPo Paris.
+Neste curso você aprenderá algumas das principais ferramentas atualmente utilizadas em ***microeconometria***. Modelos com dados em painel, regressão com efeitos-fixos, diferença-em-diferenças, modelos de equações simultâneas, variáveis instrumentais e mínimos quadrados em dois estágios (MQ2E) e, modelos com variável dependente limitada.
+ 
+Você também aprenderá a usar a linguagem de programação `R` para fazer as manipulações de dados, estimações e testes de hipóteses, entretanto, este **não** é um curso de `R` e uma leitura complementar é sugerida. 
 
-## Prerequisites
-
-You need to have taken the course [**Introduction to Econometrics with R**](https://scpoecon.github.io/ScPoEconometrics/) at SciencesPo. Alternatively, if you are an exchange student, you need to have taken a course that covers the same syllabus. You will have to make sure that you are familiar with `R` knowledge we accumulate in that course as well.
-
-## Overview
-
-We continue with our practical approach to learning Econometrics and R where we left it in the introductory part “Introduction to Econometrics with R”. We will learn about an important method to establish casual relationships in non-experimental data, called “Instrumental Variables”. We will learn about panel data, that is, data which tracks individuals over time. We will look at situations when our outcome data is discrete in nature, like “subject i chose option A (and not B)”. And we will look at a range of simple machine learning methods which are helpful for classification and prediction tasks. 
+Este material é baseado no trabalho da equipe `ScPoEcon`, de `Edward Rubin`, de `Nick CH K` e o devido crédito é dado. O material foi traduzido para português e levemente adaptado para o ensino de econometria no Brasil. Os decks de slides originais podem ser encontrados em [ScPoEconometrics-Slides](https://github.com/ScPoEcon/Advanced-Metrics-slides), [EC 421](https://github.com/edrubin/EC421S19) e, [Nick](https://github.com/NickCH-K/EconometricsSlides)
 
 
-## Syllabus and Slides
+## Pré-requisitos
 
-Notice that several of those lectures extend over two sessions. 
+Você precisa ter feito os cursos de Econometria I e II na Esag (ou equivalente). Você também é incentivado durante o curso a se familiarizar com o conhecimento de [`R`](https://cran.r-project.org/) para aproveitar ao máximo todo o conteúdo ofertado neste curso.
+
+## Visão geral
+
+Continuamos com nossa abordagem prática para aprender Econometria e `R`. Conheceremos um importante método para estabelecer relações casuais em dados não experimentais, chamado de “Variáveis Instrumentais”. Aprenderemos sobre dados em painel, ou seja, dados que rastreiam indivíduos ao longo do tempo. Veremos situações em que nossos variáveis dependentes são de natureza discreta, como “sujeito *i* escolhe a opção A (e não B)”, além de modelos de equações simultâneas, onde duas variáveis dependentes são determinadas concomitantemente.
 
 
-Lecture 0: Introduction and contiuation from intro course: Difference-in-Differences  [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/00-DID/chapter_did.html)]
+## Programa e slides
+
+Observe que várias dessas aulas se estendem por duas sessões.
+
+
+Lecture 0: Introduction and continuation from intro course: Difference-in-Differences  [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/00-DID/chapter_did.html)]
 
 Lecture 1: Introduction, Logistics and Recap 1 from intro course. Uncertainty in regression estimates, orthogonality of error, BLUE property.  [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/01-recap/recap1.html)]
 
@@ -36,16 +41,21 @@ Lecture 8: Intro to Statistical (or *Machine*) Learning 1: the bias-variance-tra
 
 Lecture 9: Intro to Statistical (or *Machine*) Learning 2: Subset selection (Lasso and Ridge regressions), unsupervised learning (PCA and K-means clustering) [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/09-unsupervised/09-unsupervised.html)]
 
+## Aulas Adicionais
+
+Bootstrapping: More details about bootstrapping. [HTML](https://raw.githack.com/rfbressan/econometria_slides/master/chapter_bootstrap/boostrap.html)
+
+
 ## Legal
 
-You can copy and adapt this material for your purposes, as long as you give appropriate credit and share the work yourself  under same terms. Of course you can use the slides to teach in your classrooms. *Appropriate Credit* means that somewhere in your slides there is link back to this repo, indicating that this is what you are building upon. Click on the icon for details.
+Você pode copiar e adaptar este material para seus propósitos, contanto que dê os devidos créditos e compartilhe o trabalho nos mesmos termos. Claro que você pode usar os slides para ensinar em suas salas de aula. *Crédito Apropriado* significa que em algum lugar em seus slides há um link para o repositório [original](https://github.com/ScPoEcon/Advanced-Metrics-slides), [EC 421](https://github.com/edrubin/EC421S19) e, [NickCH-K](https://github.com/NickCH-K/EconometricsSlides) indicando que é sobre aqueles trabalhos que você está construindo. Clique no ícone para detalhes.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-## How to build
+## Como construir
 
-* These are simply Rmarkdown slides.
-* So, in Rstudio, just click *knit*.
-* To print slides as PDF, do 
-```decktape chapter1.html chapter1.pdf --chrome-arg=--disable-web-security```
-using the awesome [decktape](https://github.com/astefanutti/decktape)
+* Estes são simplesmente slides Rmarkdown.
+* Então, no Rstudio, basta clicar em *knit*.
+* Para imprimir os slides como PDF, faça
+```decktape capitulo1.html capitulo1.pdf --chrome-arg=--disable-web-security```
+usando o incrível [decktape](https://github.com/astefanutti/decktape)
