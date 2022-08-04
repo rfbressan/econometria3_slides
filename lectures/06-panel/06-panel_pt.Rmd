@@ -582,18 +582,20 @@ ht
 
 ---
 
-# Interpreting the Within Estimates
+# A Transformação Intragrupo (_Within_)
+
+## Interpretando as estimativas
 
 
 ```{r,echo = FALSE}
 panel_p = round(predict(mod$dummy,newdata = data.frame(prbarr = c(0.2,0.3), county = factor(1))),3)
 ```
 
-* How to interpret those negative slopes?
+* Como interpretar essas inclinações negativas?
 
-* We look at a single unit $i$ and ask: 
+* Olhamos para uma única unidade $i$ e perguntamos:
 
-> if the arrest probability in $i$ increases by 10 percentage points (i.e. from 0.2 to 0.3) from year $t$ to $t+1$, we expect crimes per person to fall from `r panel_p[1]` to `r panel_p[2]`, or by `r round(100 * diff(panel_p) / panel_p[1],2)` percent (in the reference county number 1).
+> se a probabilidade de prisão em $i$ aumentar em 10 pontos percentuais (ou seja, de 0,2 para 0,3) do ano $t$ para $t+1$, esperamos que os crimes por pessoa caiam de `r panel_p[1]` para `r panel_p[2]`, ou por `r round(100 * diff(panel_p) / panel_p[1],2)` por cento.
 
 ```{r,echo = FALSE,fig.height = 3}
 pcolor
@@ -602,30 +604,32 @@ pcolor
 
 ---
 
-# Fixed Effects Estimation in `R`: use a Package!
+# Estimativa de Efeitos Fixos no `R`
+## use um Pacote!
 
 
-* In real life you will hardly ever perform the within-transformation by yourself 
+* Na vida real, você dificilmente realizará a transformação intragrupo manualmente
 
-* and use a package instead!
+* use um pacote!
 
-* There are several options ([`fixest` is fastest](https://github.com/lrberge/fixest)). In our context:
+* Existem várias opções ([`fixest`](https://github.com/lrberge/fixest) é o mais eficiente). Em nosso contexto:
 
 ```{r}
-mod$FE = fixest::feols(crmrte ~ prbarr | county, cdata)
+mod$FE <- fixest::feols(crmrte ~ prbarr | county, cdata)
 ```
 
-* Notice the similar setup to the `estimatr::iv_robust` *two-part formula*. Here the fixed effects come after the `|`. 
+* Observe a configuração semelhante à `estimatr::iv_robust` *fórmula de duas partes*. Aqui os efeitos fixos vêm após o `|`.
 
-* Also, we can have *more than one fixed effect*! For a cool example with *three* fixed effects see the package [vignette](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html)
+* Além disso, podemos ter *mais de um efeito fixo*! Para um exemplo legal com *três* efeitos fixos veja a [vinheta](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html) do pacote.
 
 ---
 
-# Fixed Effects Estimation in `R`: use `fixest` 🙂
+# Estimativa de Efeitos Fixos no `R`
+## use o `fixest` 🙂
 
 .left-wide[
 ```{r,echo = FALSE}
-ht = modelsummary::modelsummary(mod[c("xsect","dummy","demeaned","FE")],
+ht = modelsummary::modelsummary(mod[c("pooled","dummy","intra","FE")],
                            statistic = 'std.error',
                            coef_omit = "factor",
                            gof_map = gofmap,output = "huxtable")
@@ -637,22 +641,19 @@ ht %>%
 ]
 
 .right-thin[
-<br>
 
-* Same estimates! 😅
+* Mesmas estimativas! 😅
 
-* Notice the standard errors: *robust*?!
+* `fixest` calcula erros padrão **robustos por clusters**.
 
-* `fixest` computes **cluster-robust** se's. 
-
-* We suspect there is strong correlation in residuals *within* each county (over time).
+* Suspeita que haja forte correlação nos resíduos *dentro* de cada condado (ao longo do tempo).
 
 ]
 
 
 ---
 
-# Within Transformation Animated
+# Transformação Intragrupo Animada!
 
 .left-wide[
 
@@ -663,13 +664,13 @@ knitr::include_graphics("../../img/gifs/panel.gif")
 
 .right-thin[
 
-* The within transformation **centers** the data!
+* Transformação intragrupo **centraliza** os dados!
 
-* By time-demeaning $y$ and $x$, we *project out* the fixed factors related to *county*
+* Subtrair a média temporal de $y$ e $x$, *retira* os fatores fixos no tempo relacionados ao *condado*
 
-* Only *within* county variation is left.
+* Apenas variação *dentro* do condado
 
-* Made by [Nick C Huntington-Klein](http://nickchk.com).  🙏
+* Créditos para [Nick C Huntington-Klein](http://nickchk.com).
 
 ]
 
@@ -683,18 +684,25 @@ knitr::include_graphics("../../img/gifs/panel.gif")
 
 ---
 
+layout: false
+
 class: title-slide-final, middle
 background-image: url(../../img/logo/UdescEsag.jpeg)
 background-size: 350px
 background-position: 9% 19%
 
-# END
+# ATÉ A PRÓXIMA AULA!
 
+Com a Lista 1 feita! `r emo::ji("white_check_mark")`
 
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
 
 
 |                                                                                                            |                                   |
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
 | <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
+| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |
 
