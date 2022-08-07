@@ -1,0 +1,28 @@
+# Plano de Aula
+
+- [Where Are We At?](#the-toc)
+- Setting the Scene
+- Non-Experimental Data
+- Welcome to London in 1850
+- John Snow's (Non) Experiment: Cholera Hits the Town
+- Let's Go Watch a Movie
+- Snow's Detective Work
+- The `cholera` package
+- `cholera`
+- Removal of the Broad Street Pump?
+- Mapping London's Water Supply
+- Snow's conclusion
+- We Need A Model.
+- Snow's Model of Cholera Transmission
+- Doing the Simple Thing is always right?
+- The Simple Thing
+- Snow's Model and Some Algebra
+- The IV Estimator
+- John Snow Says
+- London Water Supply
+- Proposing an IV
+- Simple IV in a DAG
+- Defining Snow's IV Formally
+- Defining the IV Estimator
+- Special Case: Wald Estimator
+- END

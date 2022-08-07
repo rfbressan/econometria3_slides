@@ -1,0 +1,551 @@
+---
+title: "Econometria III"
+subtitle: "Variáveis Instrumentais"
+author: "Rafael Bressan"
+date: "Esag </br> `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, "../../css/scpo.css", "../../css/scpo-fonts.css"]
+    nature:
+      beforeInit: ["../../js/ru_xaringan.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: ["../../libs/partials/header.html"]
+---
+
+layout: true
+
+<div class="my-footer"><img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/></div> 
+
+---
+
+```{r setup, include=FALSE,warning=FALSE,message=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  dev = "svg",
+  cache = TRUE,
+  fig.align = "center"
+  #fig.width = 11,
+  #fig.height = 5
+)
+
+# define vars
+om = par("mar")
+lowtop = c(om[1],om[2],0.1,om[4])
+# Load libraries
+library(ggplot2)
+library(ggdag)
+library(dplyr)
+```
+
+exclude: true
+
+```{r the-toc, include=FALSE, eval=TRUE}
+infile <- knitr::current_input()
+outfile <- "the-TOC.Rmd"
+outline_heading <- "# Plano de Aula"
+update_TOC <- TRUE
+source("../child_TOC.R")
+```
+
+---
+
+class: inverse
+name: the-toc
+
+```{r child = "the-TOC.Rmd"}
+```
+
+
+# Preparando a cena
+
+.pull-left[
+
+* Nos capítulos [7](https://scpoecon.github.io/ScPoEconometrics/causality.html), [8](https://scpoecon.github.io/ScPoEconometrics/STAR.html) e [9](https ://scpoecon.github.io/ScPoEconometrics/RDD.html) do livro `Introduction to Econometrics with R` é falado sobre os méritos dos _métodos experimentais_.
+
+* Ensaios de controle aleatórios (RCTs) ou configurações _Quasi-experimentais_ (tão bons quanto aleatórios) nos permitem estimar efeitos **causais**.
+
+
+]
+
+--
+
+.pull-right[
+
+* Se as pessoas tiverem algum tipo de opção sobre a ingestão do tratamento, haverá *seleção*.
+
+* RCTs podem quebrar a auto-seleção de pessoas em tratamento, designando-as aleatoriamente.
+
+* Então, com dados experimentais, temos uma boa solução.
+
+* E os dados não experimentais?
+]
+
+---
+
+# Dados não experimentais
+
+.pull-left[
+
+* Falamos sobre **viés de variável omitida**.
+
+* E se houver correlação entre uma variável no termo de erro $u$, $x_2$ digamos, e nossa variável explicativa $x_1$?
+
+* Obteremos estimativas tendenciosas porque não podemos separar o que é o quê: efeito de $x_1$, ou de $x_2$?
+
+* Lembre-se de que isso pode ser tão grave que nem conseguimos o sinal correto de um efeito.
+]
+
+.pull-right[
+
+```{r dag1,fig.height = 6,echo = FALSE}
+dag = dagify(y ~ x1,
+            y ~ x2,
+            y ~ x3,
+            x1 ~ x2,
+            x3 ~ x2,
+       coords = list(x = c("x2" = 0,"x1" = 1,"x3" = 1.0,"y" = 2),
+                     y = c("x2" = 0,"x1" = 0.5,"x3" = -0.5,"y" = 0)))
+p2 = dag %>%
+  tidy_dagitty() %>%
+      mutate(linetype = if_else(name == "x2", "dashed","solid")) %>% 
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+    geom_dag_point() + 
+      geom_dag_text(col = "white") +
+    geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) + 
+    theme_dag()
+p2
+```
+]
+
+--
+
+.center[**VI** fornece uma solução para VVO.]
+
+---
+background-image: url(../../img/Kensington_slums_large.jpg)
+background-size: cover
+class: middle
+
+# Bem-vindo a Londres em 1850
+
+## .white[(Favela em Kensington)]
+
+---
+
+# A (não) Experiência de John Snow: Cólera atinge a cidade
+
+.pull-left[
+
+* John Snow era médico em Londres por volta de 1850, quando o cólera explodiu várias vezes na cidade.
+
+* Houve uma disputa na época sobre como a doença é transmitida: pelo ar ou pela água?
+
+]
+
+.pull-right[
+```{r, fig.width=6,echo = FALSE}
+knitr::include_graphics("../../img/father-thames.jpg")
+```
+]
+
+---
+background-image: url(../../img/slum.jpg)
+background-size: cover
+
+.pull-right[
+<br>
+<br>
+<br>
+.red[
+## Em 1850:
+
+
+* Desconhecido que os germes podem causar doenças.
+
+* Microscópios existiam, mas funcionavam com resolução bastante baixa.
+
+* A maioria dos patógenos humanos não é visível a olho nu.
+
+* A chamada *teoria da infecção* (ou seja, infecção via *germes*) tem alguns adeptos,
+
+* mas a ideia dominante é que a doença, em geral, resulta de [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
+]
+]
+
+
+---
+
+# Trabalho de detetive de Snow
+
+.pull-left[
+
+* Snow coletou muitos dados.
+
+* Ele mapeou pela primeira vez a localização dos mortos durante o surto de 1854.
+
+* Este foi o notório *Broadstreet Pump Outbreak*
+
+]
+
+--
+
+.pull-right[
+```{r snow-map,echo = FALSE}
+knitr::include_graphics("../../img/snow-map.jpg")
+```
+]
+
+---
+
+# O pacote `cholera`
+
+.pull-left[
+* O pacote `cholera` tem alguns recursos interessantes.
+
+* Por exemplo, uma versão R do mapa de Snow:
+]
+
+.pull-right[
+```{r}
+cholera::snowMap()
+```
+]
+
+---
+
+# `cholera`
+
+.pull-left[
+...ou o caminho a pé do caso número 15 nos dados de Snow:
+
+```{r,echo = FALSE,fig.height = 5}
+plot(cholera::walkingPath(15))
+```
+]
+
+--
+
+.pull-right[
+...ou estime os [polígonos de Voronoi](https://pt.wikipedia.org/wiki/Diagrama_de_Voronoy) para vizinhança das bombas:
+```{r,echo = FALSE,fig.height = 5}
+# compute vertices of Voronoi tiles
+vertices <- cholera::voronoiPolygons(sites = cholera::pumps, rw.data = cholera::roads)
+
+# define colors
+snow.colors <- grDevices::adjustcolor(cholera::snowColors(), alpha.f = 1/3)
+
+# plot map and color coded tiles
+cholera::snowMap(add.cases = FALSE)
+invisible(lapply(seq_along(vertices), function(i) {
+  polygon(vertices[[i]], col = snow.colors[[i]])
+}))
+```
+]
+
+---
+
+# Remoção da bomba Broad Street?
+
+.pull-left[
+* Snow identificou a Broad Street Pump como culpada.
+
+* Ele implorou para que sua alça fosse removida.
+
+* Ele estava cético por esta ter sido a razão pela qual a epidemia terminou.
+
+]
+.pull-right[
+```{r,echo = FALSE}
+plot(cholera::timeSeries())
+```
+]
+
+---
+
+# Mapeamento do abastecimento de água de Londres
+
+
+* O abastecimento de água veio do rio Tâmisa
+
+* Diferentes empresas fornecedoras tinham pontos de entrada diferentes
+
+* As companhias de água Southwark e Vauxhall recolheram água sob uma grande descarga de esgoto.
+
+* A água de Lambeth não.
+
+---
+
+# Conclusão de Snow
+
+* Snow coletou os seguintes dados:
+
+```{r,echo = FALSE}
+st9 <- data.frame(area = c("Southwark and Vauxhall","Lambeth","Rest of London"),
+                  numhouses = c(40046,26107,256423), 
+                  deaths = c(1263,98,1422),
+                  death1000 = c(315,37,59))
+knitr::kable(st9)
+```
+
+* E concluiu
+
+>que se as companhias de água de Southwark e Vauxhall tivessem movido suas tomadas de água rio acima para onde a água de Lambeth estava sendo abastecida, cerca de 1.000 vidas poderiam ter sido salvas.
+
+* Para os defensores da teoria do miasma, isso ainda não era evidência suficiente, porque também havia muitos fatores que levavam à má qualidade do ar nessas áreas.
+
+---
+
+layout: false
+class: separator, middle
+
+# Precisamos de um modelo.
+
+## Porque: *É preciso um modelo para vencer um modelo*
+
+---
+layout: true
+
+<div class="my-footer"><img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/></div> 
+
+---
+
+# Modelo de Transmissão do Cólera de Snow
+
+
+* Suponha que $c_i$ assuma o valor 1 se o indivíduo $i$ morrer de cólera, 0 caso contrário.
+
+* Seja $w_i = 1$ significando que o abastecimento de água de $i$ é impuro e $w_i = 0$ vice-versa. A pureza da água é avaliada com uma tecnologia que não detecta pequenos micróbios.
+
+* Colete em $u_i$ todos os fatores não observáveis que afetam a probabilidade de $i$ morrer da doença: se $i$ é pobre, onde exatamente eles residem, se há má qualidade do ar nos arredores de $i$ e outras características individuais que impactam o resultado (como configuração genética de $i$).
+
+--
+
+Nós podemos escrever:
+
+$$
+c_i = \alpha + \delta w_i + u_i
+$$
+
+---
+
+# Fazer o Simples é sempre certo?
+
+.pull-left[
+
+* John Snow poderia ter usado seus dados e avaliar a correlação entre beber água pura e a incidência de cólera.
+
+* medida $Cor(c_i,w_i)$
+
+* Suponha $Cor(c_i,w_i) \approx 0,5$. Isso prova a teoria da infecção?
+]
+
+--
+
+.pull-right[
+Não é bem assim. Angus Deaton disse:
+
+> As pessoas que bebiam água impura também eram mais propensas a serem pobres e a viver em um ambiente contaminado de várias maneiras, principalmente pelos “miasmas venenosos” que eram então considerados a causa da cólera.
+
+️
+
+]
+---
+
+# A coisa simples
+
+
+* Não faz sentido comparar alguém que bebe água pura com alguém com água impura.
+
+* porque *tudo o mais não é igual*: a água pura está correlacionada com ser pobre, morar em área ruim, má qualidade do ar e assim por diante - todos os fatores que encontramos em $u_i$.
+
+* Isso viola a suposição crucial de ortogonalidade para estimativas MQO válidas, $E[u_i | w_i]=0$ neste contexto.
+
+* Outra maneira de dizer isso é que $Cov(w_i, u_i) \neq 0$, implicando que $w_i$ é *endógeno*.
+
+* Existem fatores em $u_i$ que afetam tanto $w_i$ quanto $c_i$
+
+---
+
+# Snow's Model and Some Algebra
+
+Remember our simple model:
+$$c_i = \alpha + \delta + u_i$$
+Now let's condition on both values of $w$:
+\begin{align}
+E[c_i | w_i = 1] &= \alpha + \delta + E[u_i | w_i = 1] \\
+E[c_i | w_i = 0] &= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
+\end{align}
+
+--
+
+Now substract one line from the other:
+
+\begin{equation}
+E[c_i | w_i = 1] - E[c_i | w_i = 0] = \delta + \left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}
+\end{equation}
+
+* The last term $\left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}$ is not equal to zero (by what Deaton said!)
+
+* A regression estimate for $\delta$ would be biased by that quantity.
+
+---
+
+
+layout: false
+class: separator, middle
+
+# The IV Estimator
+
+
+---
+layout: true
+
+<div class="my-footer"><img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/></div> 
+
+---
+
+# John Snow Says
+
+> [...] the mixing of the supply is of the most intimate kind. The pipes of each Company go down all the streets, and into nearly all the courts and alleys. [...] The experiment, too, is on the grandest scale. No fewer than three hundred thousand people of both sexes, of every age and occupation, and of every rank and station, from gentlefolks down to the very poor, were divided into two groups without their choice, and in most cases, without their knowledge; one group supplied with water containing the sewage of London, and amongst it, whatever might have come from the cholera patients, the other group having water quite free from such impurity.
+
+---
+background-image: url("../../img/snow-supply.jpg")
+background-size: cover
+
+# London Water Supply
+
+---
+
+# Proposing an IV
+
+* Snow is proposing an **instrumental variable** $z_i$, the *identity of the water supplying company* to household $i$:
+
+More formally, let's define the instrument as follows:
+
+\begin{align*}
+z_i &=  \begin{cases}
+                    1 & \text{if water supplied by Lambeth} \\
+                    0 & \text{if water supplied by Southwark or Vauxhall.} \\
+                 \end{cases} \\
+\end{align*}
+
+* $z_i$ is highly correlated with the water purity $w_i$. 
+
+* However, it seems to be uncorrelated with all the other factors in $u_i$, which worried us before: Water supply was decided years before, and now houses on the same street have different suppliers!
+
+---
+background-image: url(../../img/IV-dag.png)
+background-position: 60% 50%
+
+# Simple IV in a DAG
+
+* $u$ affects both outcome and explanatory variable
+
+
+---
+
+# Defining Snow's IV Formally
+
+
+
+--
+
+Here are the conditions for a valid instrument:
+
+1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that $$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$ i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
+
+--
+
+2. **Independence**: Whether a household has $z_i = 1$ or $z_i = 0$ is unrelated to $u$, hence *as good as random*. Whether we condition $u$ on certain values of $z$ does not change the result - we want $$E[u_i | z_i = 1] = E[u_i | z_i = 0].$$
+
+--
+
+3. **Excludability** the instrument should affect the outcome $c$ *only* through the specified channel (i.e. via water purity $w$), and nothing else.
+
+
+---
+
+# Defining the IV Estimator
+
+We are now ready to define a simple IV estimator. Like before, let's condition on the values of $z$:
+
+\begin{align}
+E[c_i | z_i = 1] &= \alpha + \delta E[w_i | z_i = 1] + E[u_i | z_i = 1] \\
+E[c_i | z_i = 0] &= \alpha + \delta E[w_i | z_i = 0] + E[u_i | z_i = 0]
+\end{align}
+
+which upon differencing both lines gives 
+
+\begin{align}
+E[c_i | z_i = 1] - E[c_i | z_i = 0] &= \delta  \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
+&+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ by Exogeneity Assumption}}
+\end{align}
+
+--
+
+* Finally, if the IV is *relevant*, i.e. $E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0$:
+
+\begin{equation}
+\delta = \frac{E[c_i | z_i = 1] - E[c_i | z_i = 0]}{E[w_i | z_i = 1] - E[w_i | z_i = 0]}
+\end{equation}
+
+
+---
+
+# Special Case: Wald Estimator
+
+Let's say that $x \mapsto y$ means that $x$ is an estimate for $y$:
+
+1. $\overline{c}_1 \mapsto E[c_i | z_i = 1]$: the proportion of households supplied by Lambeth with cholera.
+1. $\overline{w}_1 \mapsto E[w_i | z_i = 1]$: the proportion of households supplied by Lambeth with bad water.
+1. $\overline{c}_0 \mapsto E[c_i | z_i = 0]$: the proportion of households not supplied by Lambeth with cholera.
+1. $\overline{w}_0 \mapsto E[w_i | z_i = 0]$: the proportion of households not supplied by Lambeth with bad water.
+
+The estimator would then be
+
+\begin{equation}
+\hat{\delta} = \frac{\overline{c}_1 - \overline{c}_0}{\overline{w}_1 - \overline{w}_0} 
+\end{equation}
+
+In this special case where all involved variables $c,w,z$ are binary, the estimator is called the *Wald estimator*.
+
+---
+
+**Summary**: IVs are a powerful tool to establish causality in contexts with observational data only and where we are concerned that the conditional mean assumption $E[u_i | x_i]=0$ is violated, hence, we cannot say *all else equal, as $x$ changes, $y$ changes like this and that*. Then we say that $x$ is *endogenous*. The key features of IV $z$ are that 
+
+1. $z$ is *relevant* for $x$. For example, in a simple regression of $z$ on $x$, we want $z$ to have considerable predictive power. We can *test* this condition in data.
+2. We need a theory according to which is *reasonable* to assume that $z$ is *unrelated* to other unobservable factors that might impact the outcome. Hence, $z$ is *exogenous* to $u$, or $E[u | z] = 0$. This is an **assumption** (i.e. we can not test this with data).
+
+
+---
+
+layout: false
+
+class: title-slide-final, middle
+background-image: url(../img/logo/UdescEsag.jpeg)
+background-size: 350px
+background-position: 9% 19%
+
+# ATÉ A PRÓXIMA AULA!
+
+Com a Lista 1 feita! `r emo::ji("white_check_mark")`
+
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
+
+
+
+
+|                                                                                                            |                                   |
+| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
+| <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
+| <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
+| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |

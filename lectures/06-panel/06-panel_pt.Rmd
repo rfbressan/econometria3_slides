@@ -50,10 +50,10 @@ gofmap[clean == "R2", omit := FALSE]
 
 exclude: true
 
-```{r the-toc, include=FALSE}
+```{r the-toc, include=FALSE, eval=TRUE}
 infile <- knitr::current_input()
 outfile <- "the-TOC.Rmd"
-outline_heading <- "# Outline"
+outline_heading <- "# Plano de Aula"
 update_TOC <- TRUE
 source("../child_TOC.R")
 ```
