@@ -35,7 +35,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-08-05
+### Esag </br> 2022-08-12
 ]
 
 ---
@@ -89,15 +89,14 @@ name: the-toc
 - END
 
 
-# Setting the Scene
+# Preparando a cena
 
 .pull-left[
 
-* In chapters [7](https://scpoecon.github.io/ScPoEconometrics/causality.html), [8](https://scpoecon.github.io/ScPoEconometrics/STAR.html) and [9](https://scpoecon.github.io/ScPoEconometrics/RDD.html) of the book (and the intro course) we talk about the merits of _experimental methods_.
+* Nos capítulos [7](https://scpoecon.github.io/ScPoEconometrics/causality.html), [8](https://scpoecon.github.io/ScPoEconometrics/STAR.html) e [9](https ://scpoecon.github.io/ScPoEconometrics/RDD.html) do livro `Introduction to Econometrics with R` é falado sobre os méritos dos _métodos experimentais_.
 
-* Randomized Control Trials (RCTs) or _Quasiexperimental_ (as good as random) settings allow us to estimate **causal** effects. 
+* Ensaios de controle aleatórios (RCTs) ou configurações _Quasi-experimentais_ (tão bons quanto aleatórios) nos permitem estimar efeitos **causais**.
 
-* In particular the [RCT](https://scpoecon.github.io/ScPoEconometrics/causality.html#rct) should be familiar to you.
 
 ]
 
@@ -105,28 +104,28 @@ name: the-toc
 
 .pull-right[
 
-* If people have some sort of control about getting treatment, there will be *selection*.
+* Se as pessoas tiverem algum tipo de opção sobre a ingestão do tratamento, haverá *seleção*.
 
-* RCTs can break the self-selection of people into treatment by assigning randomly.
+* RCTs podem quebrar a auto-seleção de pessoas em tratamento, designando-as aleatoriamente.
 
-* So with experimental data, we have a good solution.
+* Então, com dados experimentais, temos uma boa solução.
 
-* What about non-experimental data?
+* E os dados não experimentais?
 ]
 
 ---
 
-# Non-Experimental Data
+# Dados não experimentais
 
 .pull-left[
 
-* We talked about **omitted variable bias**.
+* Falamos sobre **viés de variável omitida**.
 
-* What if there is correlation between a variable in the error term `\(u\)`, `\(x_2\)` say, and our explanatory variable `\(x_1\)`?
+* E se houver correlação entre uma variável no termo de erro `\(u\)`, `\(x_2\)` digamos, e nossa variável explicativa `\(x_1\)`?
 
-* We will obtain biased estimates because we cannot separate out what  is what: effect of `\(x_1\)`, or of `\(x_2\)`?
+* Obteremos estimativas tendenciosas porque não podemos separar o que é o quê: efeito de `\(x_1\)`, ou de `\(x_2\)`?
 
-* Remember that this can be so severe that we don't even get the correct sign of an effect.
+* Lembre-se de que isso pode ser tão grave que nem conseguimos o sinal correto de um efeito.
 ]
 
 .pull-right[
@@ -136,26 +135,26 @@ name: the-toc
 
 --
 
-.center[**IV** provides a solution to OVB.]
+.center[**VI** fornece uma solução para VVO.]
 
 ---
 background-image: url(../../img/Kensington_slums_large.jpg)
 background-size: cover
 class: middle
 
-# Welcome to London in 1850
+# Bem-vindo a Londres em 1850
 
-## .white[(Slum in Kensington)]
+## .white[(Favela em Kensington)]
 
 ---
 
-# John Snow's (Non) Experiment: Cholera Hits the Town
+# O (não) Experimento de John Snow: Cólera atinge a cidade
 
 .pull-left[
 
-* John Snow was a physician in London around 1850, when Cholera erupted several times in the City.
+* John Snow era médico em Londres por volta de 1850, quando o cólera explodiu várias vezes na cidade.
 
-* There was a dispute at the time about how the disease is transmitted: via air or via water?
+* Houve uma disputa na época sobre como a doença é transmitida: pelo ar ou pela água?
 
 ]
 
@@ -172,34 +171,33 @@ background-size: cover
 &lt;br&gt;
 &lt;br&gt;
 .red[
-## In 1850:
+## Em 1850:
 
 
-* Unknown that germs can cause disease.
+* Desconhecido que os germes podem causar doenças.
 
-* Microscopes exist, but work at rather poor resolution.
+* Microscópios existiam, mas funcionavam com resolução bastante baixa.
 
-* Most human pathogens are not visible to the naked eye.
+* A maioria dos patógenos humanos não é visível a olho nu.
 
-* The so-called *infection theory* (i.e. infection via *germs*) has some supporters, 
+* A chamada *teoria da infecção* (ou seja, infecção via *germes*) tem alguns adeptos,
 
-* but the dominant idea is that disease, in general, results from [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
+* mas a ideia dominante é que a doença, em geral, resulta de [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
 ]
-
 ]
 
 
 ---
 
-# Snow's Detective Work
+# Trabalho de detetive de Snow
 
 .pull-left[
 
-* Snow collected a lot of data.
+* Snow coletou muitos dados.
 
-* He first mapped the location of dead during the 1854 outbreak.
+* Ele mapeou pela primeira vez a localização dos mortos durante o surto de 1854.
 
-* This was the notorious *Broadstreet Pump Outbreak*
+* Este foi o notório *Broadstreet Pump Outbreak*
 
 ]
 
@@ -211,12 +209,12 @@ background-size: cover
 
 ---
 
-# The `cholera` package
+# O pacote `cholera`
 
 .pull-left[
-* The `cholera` package has some interesting features.
+* O pacote `cholera` tem alguns recursos interessantes.
 
-* For example an R version of Snow's map:
+* Por exemplo, uma versão R do mapa de Snow:
 ]
 
 .pull-right[
@@ -233,7 +231,7 @@ cholera::snowMap()
 # `cholera`
 
 .pull-left[
-...or the walking path of case number 15 in Snow's data:
+...ou o caminho a pé do caso número 15 nos dados de Snow:
 
 &lt;img src="04-IV_pt_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
 ]
@@ -241,47 +239,44 @@ cholera::snowMap()
 --
 
 .pull-right[
-...or estimate Voronoi Polygons for pump neighborhoods:
+...ou estime os [polígonos de Voronoi](https://pt.wikipedia.org/wiki/Diagrama_de_Voronoy) para vizinhança das bombas:
 &lt;img src="04-IV_pt_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Removal of the Broad Street Pump?
+# Remoção da bomba Broad Street?
 
 .pull-left[
-* Snow identified the Broad Street Pump as culprit.
+* Snow identificou a Broad Street Pump como culpada.
 
-* He pleaded to have its handle removed.
+* Ele implorou para que sua alça fosse removida.
 
-* He was sceptical this was the reason the epidemic ended.
+* Ele estava cético por esta ter sido a razão pela qual a epidemia terminou.
 
 ]
-
 .pull-right[
 &lt;img src="04-IV_pt_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Mapping London's Water Supply
+# Mapeamento do abastecimento de água de Londres
 
 
-* Water supply came from the River Thames
+* O abastecimento de água veio do rio Tâmisa
 
-* Different supply companies had different intake points
+* Diferentes empresas fornecedoras tinham pontos de entrada diferentes
 
-* Southwark and Vauxhall water companies took in water beneath a major sewage discharge.
+* As companhias de água Southwark e Vauxhall recolheram água sob uma grande descarga de esgoto.
 
-* Lambeth water did not.
-
-
+* A água de Lambeth não.
 
 ---
 
-# Snow's conclusion
+# Conclusão de Snow
 
-* Snow collected the following data: 
+* Snow coletou os seguintes dados:
 
 
 |area                   | numhouses| deaths| death1000|
@@ -290,22 +285,20 @@ cholera::snowMap()
 |Lambeth                |     26107|     98|        37|
 |Rest of London         |    256423|   1422|        59|
 
-* And concluded
+* E concluiu
 
-&gt;that if Southwark and Vauxhall water companies had moved their water intakes upstream to where Lambeth water was taking in their supply, roughly 1,000 lives could have been saved. 
+&gt;que se as companhias de água de Southwark e Vauxhall tivessem movido suas tomadas de água rio acima para onde a água de Lambeth estava sendo abastecida, cerca de 1.000 vidas poderiam ter sido salvas.
 
-* For proponents of the miasma theory, this was still not evidence enough, because there were also many factors that led to poor air quality in those areas.
+* Para os defensores da teoria do miasma, isso ainda não era evidência suficiente, porque também havia muitos fatores que levavam à má qualidade do ar nessas áreas.
 
 ---
 
 layout: false
 class: separator, middle
 
-# We Need A Model.
+# Precisamos de um modelo.
 
-## Because: *It takes a model to beat a model*
-
-
+## Porque: *É preciso um modelo para vencer um modelo*
 
 ---
 layout: true
@@ -314,69 +307,68 @@ layout: true
 
 ---
 
-# Snow's Model of Cholera Transmission
+# Modelo de Transmissão do Cólera de Snow
 
 
-* Suppose that `\(c_i\)` takes the value 1 if individual `\(i\)` dies of cholera, 0 else.
+* Suponha que `\(c_i\)` assuma o valor 1 se o indivíduo `\(i\)` morrer de cólera, 0 caso contrário.
 
-* Let `\(w_i = 1\)` mean that `\(i\)`'s water supply is impure and `\(w_i = 0\)` vice versa. Water purity is assessed with a technology that cannot detect small microbes.
+* Seja `\(w_i = 1\)` significando que o abastecimento de água de `\(i\)` é impuro e `\(w_i = 0\)` vice-versa. A pureza da água é avaliada com uma tecnologia que não detecta pequenos micróbios.
 
-* Collect in `\(u_i\)` all unobservable factors that impact `\(i\)`'s likelihood of dying from the disease: whether `\(i\)` is poor, where exactly they reside, whether there is bad air quality in `\(i\)`'s surrounding, and other invidivual characteristics which impact the outcome (like genetic setup of `\(i\)`).
+* Colete em `\(u_i\)` todos os fatores não observáveis que afetam a probabilidade de `\(i\)` morrer da doença: se `\(i\)` é pobre, onde exatamente eles residem, se há má qualidade do ar nos arredores de `\(i\)` e outras características individuais que impactam o resultado (como configuração genética de `\(i\)`).
 
 --
 
-We can write:
+Nós podemos escrever:
 
 $$
-c_i = \alpha + \delta w_i + u_i 
+c_i = \alpha + \delta w_i + u_i
 $$
 
 ---
 
-# Doing the Simple Thing is always right?
+# Fazer o Simples é sempre certo?
 
 .pull-left[
 
-* John Snow could have used his data and assess the correlation between drinking pure water and cholera incidence.
+* John Snow poderia ter usado seus dados e avaliar a correlação entre beber água pura e a incidência de cólera.
 
-* measure `\(Cor(c_i,w_i)\)`
+* medida `\(Cor(c_i,w_i)\)`
 
-* Suppose `\(Cor(c_i,w_i) \approx 0.5\)`. Does that prove the infection theory?
+* Suponha `\(Cor(c_i,w_i) \approx 0,5\)`. Isso prova a teoria da infecção?
 ]
 
 --
 
 .pull-right[
-Note quite. Angus Deaton says:
+Não é bem assim. Angus Deaton disse:
 
-&gt; The people who drank impure water were also more likely to be poor, and to live in an environment contaminated in many ways, not least by the ‘poison miasmas’ that were then thought to be the cause of cholera.
+&gt; As pessoas que bebiam água impura também eram mais propensas a serem pobres e a viver em um ambiente contaminado de várias maneiras, principalmente pelos “miasmas venenosos” que eram então considerados a causa da cólera.
 
 ️
 
 ]
+---
+
+# A coisa simples
+
+
+* Não faz sentido comparar alguém que bebe água pura com alguém com água impura.
+
+* porque *tudo o mais não é igual*: a água impura está correlacionada com ser pobre, morar em área ruim, má qualidade do ar e assim por diante - todos os fatores que encontramos em `\(u_i\)`.
+
+* Isso viola a suposição crucial de ortogonalidade para estimativas MQO válidas, `\(E[u_i | w_i]=0\)` neste contexto.
+
+* Outra maneira de dizer isso é que `\(Cov(w_i, u_i) \neq 0\)`, implicando que `\(w_i\)` é *endógeno*.
+
+* Existem fatores em `\(u_i\)` que afetam tanto `\(w_i\)` quanto `\(c_i\)`
 
 ---
 
-# The Simple Thing
+# Modelo de Snow e um pouco de álgebra
 
-
-* It does not make sense to compare someone who drinks pure water with someone with impure water.
-
-* because *all else is not equal*: pure water is correlated with being poor, living in bad area, bad air quality and so on - all factors that we encounter in `\(u_i\)`. 
-
-* This violates the crucial orthogonality assumption for valid OLS estimates, `\(E[u_i | w_i]=0\)` in this context. 
-
-* Another way to say this, is that `\(Cov(w_i, u_i) \neq 0\)`, implying that `\(w_i\)` is *endogenous*. 
-
-* There are factors in `\(u_i\)` that affect both `\(w_i\)` and `\(c_i\)`
-
----
-
-# Snow's Model and Some Algebra
-
-Remember our simple model:
+Lembre-se do nosso modelo simples:
 `$$c_i = \alpha + \delta + u_i$$`
-Now let's condition on both values of `\(w\)`:
+Agora vamos condicionar os dois valores de `\(w\)`:
 `\begin{align}
 E[c_i | w_i = 1] &amp;= \alpha + \delta + E[u_i | w_i = 1] \\
 E[c_i | w_i = 0] &amp;= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
@@ -384,23 +376,22 @@ E[c_i | w_i = 0] &amp;= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
 
 --
 
-Now substract one line from the other:
+Agora subtraia uma linha da outra:
 
 `\begin{equation}
 E[c_i | w_i = 1] - E[c_i | w_i = 0] = \delta + \left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}
 \end{equation}`
 
-* The last term `\(\left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}\)` is not equal to zero (by what Deaton said!)
+* O último termo `\(\left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}\)` não é igual a zero (pelo que Deaton disse!)
 
-* A regression estimate for `\(\delta\)` would be biased by that quantity.
-
+* Uma estimativa de regressão para `\(\delta\)` seria influenciada por essa quantidade.
 ---
 
 
 layout: false
 class: separator, middle
 
-# The IV Estimator
+# Estimador de Variáveis Instrumentais
 
 
 ---
@@ -410,141 +401,150 @@ layout: true
 
 ---
 
-# John Snow Says
+# John Snow diz
 
-&gt; [...] the mixing of the supply is of the most intimate kind. The pipes of each Company go down all the streets, and into nearly all the courts and alleys. [...] The experiment, too, is on the grandest scale. No fewer than three hundred thousand people of both sexes, of every age and occupation, and of every rank and station, from gentlefolks down to the very poor, were divided into two groups without their choice, and in most cases, without their knowledge; one group supplied with water containing the sewage of London, and amongst it, whatever might have come from the cholera patients, the other group having water quite free from such impurity.
+&gt; [...] a mistura da oferta é do tipo mais íntimo. Os tubos de cada Companhia descem por todas as ruas e por quase todos os pátios e vielas. [...] O experimento, também, está em grande escala. Nada menos que trezentas mil pessoas de ambos os sexos, de todas as idades e profissões, e de todas as classes e posições, desde os nobres até os muito pobres, foram divididas em dois grupos sem sua escolha e, na maioria dos casos, sem seu conhecimento; um grupo abastecido com água contendo o esgoto de Londres, e entre eles, o que poderia ter vindo dos pacientes de cólera, o outro grupo tendo água totalmente livre de tal impureza.
 
 ---
 background-image: url("../../img/snow-supply.jpg")
 background-size: cover
 
-# London Water Supply
+# Suprimento de Água em Londres
 
 ---
 
-# Proposing an IV
+# Propondo uma VI
 
-* Snow is proposing an **instrumental variable** `\(z_i\)`, the *identity of the water supplying company* to household `\(i\)`:
+* Snow está propondo uma **variável instrumental** `\(z_i\)`, a *identidade da empresa fornecedora de água* para o domicílio `\(i\)`:
 
-More formally, let's define the instrument as follows:
+Mais formalmente, vamos definir o instrumento da seguinte forma:
 
 `\begin{align*}
-z_i &amp;=  \begin{cases}
-                    1 &amp; \text{if water supplied by Lambeth} \\
-                    0 &amp; \text{if water supplied by Southwark or Vauxhall.} \\
-                 \end{cases} \\
+z_i &amp;= \begin{cases}
+                     1 &amp; \text{se água fornecida por Lambeth} \\
+                     0 &amp; \text{se água fornecida por Southwark ou Vauxhall.} \\
+                  \end{cases} \\
 \end{align*}`
 
-* `\(z_i\)` is highly correlated with the water purity `\(w_i\)`. 
+* `\(z_i\)` está altamente correlacionado com a pureza da água `\(w_i\)`.
 
-* However, it seems to be uncorrelated with all the other factors in `\(u_i\)`, which worried us before: Water supply was decided years before, and now houses on the same street have different suppliers!
+* No entanto, parece não ter correlação com todos os outros fatores em `\(u_i\)`, que nos preocupavam antes: o abastecimento de água foi decidido anos antes, e agora as casas na mesma rua têm fornecedores diferentes!
 
 ---
 background-image: url(../../img/IV-dag.png)
 background-position: 60% 50%
 
-# Simple IV in a DAG
+# VI em um DAG
 
-* `\(u\)` affects both outcome and explanatory variable
-
-
+* `\(u\)` afeta tanto o resultado quanto a variável explicativa
 
 ---
 
-# Defining Snow's IV Formally
+# Definindo a VI de Snow Formalmente
 
 
 
 --
 
-Here are the conditions for a valid instrument:
+Aqui estão as ***condições para um instrumento válido***:
 
-1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that `$$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$` i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
+1. **Relevância**: A pureza da água é, de fato, uma função da identidade do fornecedor. Queremos que `\(E[w_i | z_i = 1] \neq E[w_i | z_i = 0]\)`, ou seja, a pureza média da água difere entre os fornecedores. Podemos *verificar* esta condição com dados observacionais. 
+--
+
+2. **Independência**: Se uma família tem `\(z_i = 1\)` ou `\(z_i = 0\)` não tem relação com `\(u\)`, portanto `\(z\)` é *tão bom quanto aleatório*. Se condicionarmos `\(u\)` a certos valores de `\(z\)` não altera o resultado - queremos `\(E[u_i | z_i = 1] = E[u_i | z_i = 0].\)`
 
 --
 
-2. **Independence**: Whether a household has `\(z_i = 1\)` or `\(z_i = 0\)` is unrelated to `\(u\)`, hence *as good as random*. Whether we condition `\(u\)` on certain values of `\(z\)` does not change the result - we want `$$E[u_i | z_i = 1] = E[u_i | z_i = 0].$$`
-
---
-
-3. **Excludability** the instrument should affect the outcome `\(c\)` *only* through the specified channel (i.e. via water purity `\(w\)`), and nothing else.
-
-
+3. **Exclusividade** o instrumento deve afetar o resultado `\(c\)` *somente* através do canal especificado (ou seja, através da pureza da água `\(w\)`), e nada mais.
 ---
 
-# Defining the IV Estimator
+# Definindo o estimador de VI
 
-We are now ready to define a simple IV estimator. Like before, let's condition on the values of `\(z\)`:
+Agora estamos prontos para definir um estimador de VI simples. Como antes, vamos condicionar os valores de `\(z\)`:
 
 `\begin{align}
 E[c_i | z_i = 1] &amp;= \alpha + \delta E[w_i | z_i = 1] + E[u_i | z_i = 1] \\
 E[c_i | z_i = 0] &amp;= \alpha + \delta E[w_i | z_i = 0] + E[u_i | z_i = 0]
 \end{align}`
 
-which upon differencing both lines gives 
+tomando a diferença entre as expressões:
 
 `\begin{align}
-E[c_i | z_i = 1] - E[c_i | z_i = 0] &amp;= \delta  \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
-&amp;+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ by Exogeneity Assumption}}
+E[c_i | z_i = 1] - E[c_i | z_i = 0] &amp;= \delta \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
+&amp;+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ por Indepedência}}
 \end{align}`
-
 --
 
-* Finally, if the IV is *relevant*, i.e. `\(E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0\)`:
-
+* Finalmente, se a VI for *relevante*, ou seja, `\(E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0\)`:
 `\begin{equation}
-\delta = \frac{E[c_i | z_i = 1] - E[c_i | z_i = 0]}{E[w_i | z_i = 1] - E[w_i | z_i = 0]} (\#eq:IV)
+\delta = \frac{E[c_i | z_i = 1] - E[c_i | z_i = 0]}{E[w_i | z_i = 1] - E[w_i | z_i = 0]}
 \end{equation}`
 
 
 ---
 
-# Special Case: Wald Estimator
+# Caso Especial: Estimador de Wald 
 
-Let's say that `\(x \mapsto y\)` means that `\(x\)` is an estimate for `\(y\)`:
+Digamos que `\(x \mapsto y\)` significa que `\(x\)` é uma estimativa para `\(y\)`:
 
-1. `\(\overline{c}_1 \mapsto E[c_i | z_i = 1]\)`: the proportion of households supplied by Lambeth with cholera.
-1. `\(\overline{w}_1 \mapsto E[w_i | z_i = 1]\)`: the proportion of households supplied by Lambeth with bad water.
-1. `\(\overline{c}_0 \mapsto E[c_i | z_i = 0]\)`: the proportion of households not supplied by Lambeth with cholera.
-1. `\(\overline{w}_0 \mapsto E[w_i | z_i = 0]\)`: the proportion of households not supplied by Lambeth with bad water.
+1. `\(\overline{c}_1 \mapsto E[c_i | z_i = 1]\)`: a proporção de domicílios abastecidos por Lambeth com cólera.
+1. `\(\overline{w}_1 \mapsto E[w_i | z_i = 1]\)`: a proporção de domicílios abastecidos por Lambeth com água ruim.
+1. `\(\overline{c}_0 \mapsto E[c_i | z_i = 0]\)`: a proporção de domicílios não abastecidos por Lambeth com cólera.
+1. `\(\overline{w}_0 \mapsto E[w_i | z_i = 0]\)`: a proporção de domicílios não abastecidos por Lambeth com água ruim.
 
-The estimator would then be
+O estimador seria então
 
 `\begin{equation}
 \hat{\delta} = \frac{\overline{c}_1 - \overline{c}_0}{\overline{w}_1 - \overline{w}_0} 
 \end{equation}`
 
-In this special case where all involved variables `\(c,w,z\)` are binary, the estimator is called the *Wald estimator*.
+Neste caso especial onde todas as variáveis envolvidas `\(c,w,z\)` são binárias, o estimador é chamado de ***estimador de Wald***.
 
 ---
 
-**Summary**: IVs are a powerful tool to establish causality in contexts with observational data only and where we are concerned that the conditional mean assumption `\(E[u_i | x_i]=0\)` is violated, hence, we cannot say *all else equal, as `\(x\)` changes, `\(y\)` changes like this and that*. Then we say that `\(x\)` is *endogenous*. The key features of IV `\(z\)` are that 
+**Resumo**: VIs são uma ferramenta poderosa para estabelecer causalidade em contextos apenas com dados observacionais e onde estamos preocupados que a suposição de média condicional `\(E[u_i | x_i]=0\)` é violado (*endogeneidade*). 
 
-1. `\(z\)` is *relevant* for `\(x\)`. For example, in a simple regression of `\(z\)` on `\(x\)`, we want `\(z\)` to have considerable predictive power. We can *test* this condition in data.
-2. We need a theory according to which is *reasonable* to assume that `\(z\)` is *unrelated* to other unobservable factors that might impact the outcome. Hence, `\(z\)` is *exogenous* to `\(u\)`, or `\(E[u | z] = 0\)`. This is an **assumption** (i.e. we can not test this with data).
+As principais características da VI `\(z\)` são que:
 
+1. `\(z\)` é *relevante* para `\(x\)`. Por exemplo, em uma regressão simples de `\(z\)` em `\(x\)`, queremos que `\(z\)` tenha um poder preditivo considerável. Podemos *testar* essa condição nos dados.
+
+1. Precisamos de uma teoria segundo a qual seja *razoável* supor que `\(z\)` não esteja *relacionado* a outros fatores não observáveis que possam impactar o resultado. Portanto, `\(z\)` é *exógeno* a `\(u\)`, ou `\(E[u | z] = 0\)`. Esta é uma **suposição** (ou seja, não podemos testar isso com dados).
 
 ---
 
+# Leitura Recomendada
+
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo XX.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. Capítulo XX
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009.
+
+---
+
+layout: false
 
 class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
+background-image: url(../img/logo/UdescEsag.jpeg)
+background-size: 350px
 background-position: 9% 19%
 
-# END
+# ATÉ A PRÓXIMA AULA!
+
+Com a Lista 1 feita! ✅
+
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
 
 
 
 
 |                                                                                                            |                                   |
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| &lt;a href="mailto:florian.oswald@sciencespo.fr"&gt;.ScPored[&lt;i class="fa fa-paper-plane fa-fw"&gt;&lt;/i&gt;]               | florian.oswald@sciencespo.fr       |
-| &lt;a href="https://github.com/ScPoEcon/Advanced-Metrics-slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
-| &lt;a href="https://scpoecon.github.io/ScPoEconometrics"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Book |
-| &lt;a href="http://twitter.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-twitter fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                         |
-| &lt;a href="http://github.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                       |
-
+| &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
+| &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

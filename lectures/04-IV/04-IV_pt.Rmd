@@ -139,7 +139,7 @@ class: middle
 
 ---
 
-# A (não) Experiência de John Snow: Cólera atinge a cidade
+# O (não) Experimento de John Snow: Cólera atinge a cidade
 
 .pull-left[
 
@@ -363,7 +363,7 @@ Não é bem assim. Angus Deaton disse:
 
 * Não faz sentido comparar alguém que bebe água pura com alguém com água impura.
 
-* porque *tudo o mais não é igual*: a água pura está correlacionada com ser pobre, morar em área ruim, má qualidade do ar e assim por diante - todos os fatores que encontramos em $u_i$.
+* porque *tudo o mais não é igual*: a água impura está correlacionada com ser pobre, morar em área ruim, má qualidade do ar e assim por diante - todos os fatores que encontramos em $u_i$.
 
 * Isso viola a suposição crucial de ortogonalidade para estimativas MQO válidas, $E[u_i | w_i]=0$ neste contexto.
 
@@ -373,11 +373,11 @@ Não é bem assim. Angus Deaton disse:
 
 ---
 
-# Snow's Model and Some Algebra
+# Modelo de Snow e um pouco de álgebra
 
-Remember our simple model:
+Lembre-se do nosso modelo simples:
 $$c_i = \alpha + \delta + u_i$$
-Now let's condition on both values of $w$:
+Agora vamos condicionar os dois valores de $w$:
 \begin{align}
 E[c_i | w_i = 1] &= \alpha + \delta + E[u_i | w_i = 1] \\
 E[c_i | w_i = 0] &= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
@@ -385,23 +385,22 @@ E[c_i | w_i = 0] &= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
 
 --
 
-Now substract one line from the other:
+Agora subtraia uma linha da outra:
 
 \begin{equation}
 E[c_i | w_i = 1] - E[c_i | w_i = 0] = \delta + \left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}
 \end{equation}
 
-* The last term $\left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}$ is not equal to zero (by what Deaton said!)
+* O último termo $\left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}$ não é igual a zero (pelo que Deaton disse!)
 
-* A regression estimate for $\delta$ would be biased by that quantity.
-
+* Uma estimativa de regressão para $\delta$ seria influenciada por essa quantidade.
 ---
 
 
 layout: false
 class: separator, middle
 
-# The IV Estimator
+# Estimador de Variáveis Instrumentais
 
 
 ---
@@ -411,87 +410,81 @@ layout: true
 
 ---
 
-# John Snow Says
+# John Snow diz
 
-> [...] the mixing of the supply is of the most intimate kind. The pipes of each Company go down all the streets, and into nearly all the courts and alleys. [...] The experiment, too, is on the grandest scale. No fewer than three hundred thousand people of both sexes, of every age and occupation, and of every rank and station, from gentlefolks down to the very poor, were divided into two groups without their choice, and in most cases, without their knowledge; one group supplied with water containing the sewage of London, and amongst it, whatever might have come from the cholera patients, the other group having water quite free from such impurity.
+> [...] a mistura da oferta é do tipo mais íntimo. Os tubos de cada Companhia descem por todas as ruas e por quase todos os pátios e vielas. [...] O experimento, também, está em grande escala. Nada menos que trezentas mil pessoas de ambos os sexos, de todas as idades e profissões, e de todas as classes e posições, desde os nobres até os muito pobres, foram divididas em dois grupos sem sua escolha e, na maioria dos casos, sem seu conhecimento; um grupo abastecido com água contendo o esgoto de Londres, e entre eles, o que poderia ter vindo dos pacientes de cólera, o outro grupo tendo água totalmente livre de tal impureza.
 
 ---
 background-image: url("../../img/snow-supply.jpg")
 background-size: cover
 
-# London Water Supply
+# Suprimento de Água em Londres
 
 ---
 
-# Proposing an IV
+# Propondo uma VI
 
-* Snow is proposing an **instrumental variable** $z_i$, the *identity of the water supplying company* to household $i$:
+* Snow está propondo uma **variável instrumental** $z_i$, a *identidade da empresa fornecedora de água* para o domicílio $i$:
 
-More formally, let's define the instrument as follows:
+Mais formalmente, vamos definir o instrumento da seguinte forma:
 
 \begin{align*}
-z_i &=  \begin{cases}
-                    1 & \text{if water supplied by Lambeth} \\
-                    0 & \text{if water supplied by Southwark or Vauxhall.} \\
-                 \end{cases} \\
+z_i &= \begin{cases}
+                     1 & \text{se água fornecida por Lambeth} \\
+                     0 & \text{se água fornecida por Southwark ou Vauxhall.} \\
+                  \end{cases} \\
 \end{align*}
 
-* $z_i$ is highly correlated with the water purity $w_i$. 
+* $z_i$ está altamente correlacionado com a pureza da água $w_i$.
 
-* However, it seems to be uncorrelated with all the other factors in $u_i$, which worried us before: Water supply was decided years before, and now houses on the same street have different suppliers!
+* No entanto, parece não ter correlação com todos os outros fatores em $u_i$, que nos preocupavam antes: o abastecimento de água foi decidido anos antes, e agora as casas na mesma rua têm fornecedores diferentes!
 
 ---
 background-image: url(../../img/IV-dag.png)
 background-position: 60% 50%
 
-# Simple IV in a DAG
+# VI em um DAG
 
-* $u$ affects both outcome and explanatory variable
-
-
----
-
-# Defining Snow's IV Formally
-
-
-
---
-
-Here are the conditions for a valid instrument:
-
-1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that $$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$ i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
-
---
-
-2. **Independence**: Whether a household has $z_i = 1$ or $z_i = 0$ is unrelated to $u$, hence *as good as random*. Whether we condition $u$ on certain values of $z$ does not change the result - we want $$E[u_i | z_i = 1] = E[u_i | z_i = 0].$$
-
---
-
-3. **Excludability** the instrument should affect the outcome $c$ *only* through the specified channel (i.e. via water purity $w$), and nothing else.
-
+* $u$ afeta tanto o resultado quanto a variável explicativa
 
 ---
 
-# Defining the IV Estimator
+# Definindo a VI de Snow Formalmente
 
-We are now ready to define a simple IV estimator. Like before, let's condition on the values of $z$:
+
+
+--
+
+Aqui estão as ***condições para um instrumento válido***:
+
+1. **Relevância**: A pureza da água é, de fato, uma função da identidade do fornecedor. Queremos que $E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$, ou seja, a pureza média da água difere entre os fornecedores. Podemos *verificar* esta condição com dados observacionais. 
+--
+
+2. **Independência**: Se uma família tem $z_i = 1$ ou $z_i = 0$ não tem relação com $u$, portanto $z$ é *tão bom quanto aleatório*. Se condicionarmos $u$ a certos valores de $z$ não altera o resultado - queremos $E[u_i | z_i = 1] = E[u_i | z_i = 0].$
+
+--
+
+3. **Exclusividade** o instrumento deve afetar o resultado $c$ *somente* através do canal especificado (ou seja, através da pureza da água $w$), e nada mais.
+---
+
+# Definindo o estimador de VI
+
+Agora estamos prontos para definir um estimador de VI simples. Como antes, vamos condicionar os valores de $z$:
 
 \begin{align}
 E[c_i | z_i = 1] &= \alpha + \delta E[w_i | z_i = 1] + E[u_i | z_i = 1] \\
 E[c_i | z_i = 0] &= \alpha + \delta E[w_i | z_i = 0] + E[u_i | z_i = 0]
 \end{align}
 
-which upon differencing both lines gives 
+tomando a diferença entre as expressões:
 
 \begin{align}
-E[c_i | z_i = 1] - E[c_i | z_i = 0] &= \delta  \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
-&+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ by Exogeneity Assumption}}
+E[c_i | z_i = 1] - E[c_i | z_i = 0] &= \delta \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
+&+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ por Indepedência}}
 \end{align}
-
 --
 
-* Finally, if the IV is *relevant*, i.e. $E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0$:
-
+* Finalmente, se a VI for *relevante*, ou seja, $E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0$:
 \begin{equation}
 \delta = \frac{E[c_i | z_i = 1] - E[c_i | z_i = 0]}{E[w_i | z_i = 1] - E[w_i | z_i = 0]}
 \end{equation}
@@ -499,30 +492,42 @@ E[c_i | z_i = 1] - E[c_i | z_i = 0] &= \delta  \left\{ E[w_i | z_i = 1] - E[w_i 
 
 ---
 
-# Special Case: Wald Estimator
+# Caso Especial: Estimador de Wald 
 
-Let's say that $x \mapsto y$ means that $x$ is an estimate for $y$:
+Digamos que $x \mapsto y$ significa que $x$ é uma estimativa para $y$:
 
-1. $\overline{c}_1 \mapsto E[c_i | z_i = 1]$: the proportion of households supplied by Lambeth with cholera.
-1. $\overline{w}_1 \mapsto E[w_i | z_i = 1]$: the proportion of households supplied by Lambeth with bad water.
-1. $\overline{c}_0 \mapsto E[c_i | z_i = 0]$: the proportion of households not supplied by Lambeth with cholera.
-1. $\overline{w}_0 \mapsto E[w_i | z_i = 0]$: the proportion of households not supplied by Lambeth with bad water.
+1. $\overline{c}_1 \mapsto E[c_i | z_i = 1]$: a proporção de domicílios abastecidos por Lambeth com cólera.
+1. $\overline{w}_1 \mapsto E[w_i | z_i = 1]$: a proporção de domicílios abastecidos por Lambeth com água ruim.
+1. $\overline{c}_0 \mapsto E[c_i | z_i = 0]$: a proporção de domicílios não abastecidos por Lambeth com cólera.
+1. $\overline{w}_0 \mapsto E[w_i | z_i = 0]$: a proporção de domicílios não abastecidos por Lambeth com água ruim.
 
-The estimator would then be
+O estimador seria então
 
 \begin{equation}
 \hat{\delta} = \frac{\overline{c}_1 - \overline{c}_0}{\overline{w}_1 - \overline{w}_0} 
 \end{equation}
 
-In this special case where all involved variables $c,w,z$ are binary, the estimator is called the *Wald estimator*.
+Neste caso especial onde todas as variáveis envolvidas $c,w,z$ são binárias, o estimador é chamado de ***estimador de Wald***.
 
 ---
 
-**Summary**: IVs are a powerful tool to establish causality in contexts with observational data only and where we are concerned that the conditional mean assumption $E[u_i | x_i]=0$ is violated, hence, we cannot say *all else equal, as $x$ changes, $y$ changes like this and that*. Then we say that $x$ is *endogenous*. The key features of IV $z$ are that 
+**Resumo**: VIs são uma ferramenta poderosa para estabelecer causalidade em contextos apenas com dados observacionais e onde estamos preocupados que a suposição de média condicional $E[u_i | x_i]=0$ é violado (*endogeneidade*). 
 
-1. $z$ is *relevant* for $x$. For example, in a simple regression of $z$ on $x$, we want $z$ to have considerable predictive power. We can *test* this condition in data.
-2. We need a theory according to which is *reasonable* to assume that $z$ is *unrelated* to other unobservable factors that might impact the outcome. Hence, $z$ is *exogenous* to $u$, or $E[u | z] = 0$. This is an **assumption** (i.e. we can not test this with data).
+As principais características da VI $z$ são que:
 
+1. $z$ é *relevante* para $x$. Por exemplo, em uma regressão simples de $z$ em $x$, queremos que $z$ tenha um poder preditivo considerável. Podemos *testar* essa condição nos dados.
+
+1. Precisamos de uma teoria segundo a qual seja *razoável* supor que $z$ não esteja *relacionado* a outros fatores não observáveis que possam impactar o resultado. Portanto, $z$ é *exógeno* a $u$, ou $E[u | z] = 0$. Esta é uma **suposição** (ou seja, não podemos testar isso com dados).
+
+---
+
+# Leitura Recomendada
+
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo XX.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. Capítulo XX
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009.
 
 ---
 
