@@ -41,6 +41,9 @@ lowtop = c(om[1],om[2],0.1,om[4])
 library(dplyr)
 library(ggplot2)
 library(ROCR)
+library(marginaleffects)
+library(modelsummary)
+library(kableExtra)
 ```
 
 # Onde estamos?
@@ -92,7 +95,7 @@ Até agora, nossos modelos ficaram assim:
 
 $$\begin{align}
 y &= b_0 + b_1 x + e \\
-e &\sim N\left(0,\sigma^2\right)
+e &\sim D\left(0,\sigma^2\right)
 \end{align}$$
 
 * A suposição de distribuição em $e$:
@@ -194,25 +197,10 @@ plot(factor(inlf) ~ age, data = mroz,
      ylab = "in labor force?")
 ```
 
----
-class: inverse
-
-# Task 1 (5 Minutes)
-
-1. What is the unit of observation in this data set?
-
-1. How many rows and columns of data do we have?
-
-1. What is the unconditional probability of being in the labor force?
-
-1. What is the unconditional mean of being in the labor force?
-
-1. What is the conditional probability of being in the labor force conditional on the number of kids less than 6 years old?
-
 
 ---
 
-# Running the LPM
+# Rodando o MPL
 
 .pull-left[
 ```{r}
@@ -223,20 +211,19 @@ broom::tidy(LPM)
 ]
 
 .pull-right[
-* **identical** to our previous linear regression models
+* **idêntico** aos nossos modelos de regressão linear anteriores
 
-* Just `inlf` takes on only two values, 0 or 1. 
+* Apenas `inlf` assume somente dois valores, 0 ou 1.
 
-* Results: non-wife income increases by 10 (i.e 10,000 USD), $p(x)$ falls by 0.034 (that's a small effect!), 
+* Resultados: se a renda da mulher solteira aumenta em 10 (ou seja, 10.000 USD), $p(x)$ cai em 0,034 (isso é um efeito pequeno!),
 
-* an additional small child would reduce the probability of work by 0.26 (that's large). 
+* uma criança pequena adicional reduziria a probabilidade de trabalho em 0,26 (isso é grande).
 
-* So far, so simple. ✌️
-]
+* Até agora, tudo simples.️]
 
 ---
 
-# LPM: Predicting negative probabilities?!
+# MPL: Prevendo probabilidades negativas?!
 
 
 .pull-left[
@@ -251,18 +238,17 @@ abline(a = 1, b = 0, col = "red",lw = 3)
 .pull-right[
 <br>
 <br>
-* LPM predictions of $p(x)$ are not guaranteed to lie in unit interval $[0,1]$. 
+* As previsões do MPL de $p(x)$ não são garantidas no intervalo unitário $[0,1]$.
 
-* Remember: $e \sim N\left(0,\sigma^2\right)$
+* Lembre-se: $e \sim D\left(0,\sigma^2\right)$
 
-* here, some probs smaller than zero!
+* aqui, algumass probabilidades menores que zero!
 
-* Particularly annoying if you want *predictions*: What is a probability of -0.3? 🤔
-]
+* Particularmente irritante se você quiser *previsões*: O que é probabilidade -0,3? 🤔]
 
 ---
 
-# LPM in Saturated Model: No Problem!
+# MPL no modelo saturado: sem problemas!
 
 .left-wide[
 ```{r,message=FALSE,warning=FALSE}
@@ -280,16 +266,15 @@ broom::tidy(LPM_saturated)
 ]
 
 .right-thin[
-* *saturated model* : only have dummy explanatory variables 
+* *modelo saturado* : só tem variáveis explicativas binárias (_dummies_)
 
-* Each class: $p(x)$ *within that cell*. 
-
+* Cada classe: $p(x)$ *dentro daquela célula*.
 
 ]
 
 ---
 
-# LPM in Saturated Model: No Problem!
+# MPL no modelo saturado: sem problemas!
 
 .left-wide[
 ```{r saturated,message=FALSE,warning=FALSE,fig.height = 5,echo = FALSE}
@@ -304,66 +289,43 @@ ggplot(mroz[order(mroz$pred),], aes(x = 1:nrow(mroz),y = pred,color = classes)) 
 
 .right-thin[
 
-* Each line segment: $p(x)$ *within that cell*. 
+* Cada segmento de linha: $p(x)$ *dentro daquela célula*.
 
-* E.g. women from the youngest age category and lowest husband income (class `age_1_hus_1`) have the highest probability of working (`r round(max(mroz$pred),3)`).
-
+* Por exemplo. as mulheres da faixa etária mais jovem e de menor renda do marido (classe `age_1_hus_1`) têm a maior probabilidade de trabalhar (`r round(max(mroz$pred),3)`).
 ]
 
 
 ---
-class: inverse
 
-# Task 2 (10 Minutes): Saturated LPM
+# Modelos de Resposta Binária Não-Lineares
 
-Define a *saturated* LPM as before
-
-$$
-\Pr(y = 1 | x) = p(x) = \beta_0 + \beta_1 x_1 + \dots + \beta_K x_K
-$$
-but restrict all $x_j \in \{0,1\}$.
-
-1. Create a binary indicator `age_lt_50 = 1` for age smaller than 50 and `0` else and same for `husage_lt_50`. 
-
-1. Run a full interactions model (use the `*` syntax in your formula) of `age_lt_50 = 1` interacted with `husage_lt_50`. I.e. run the following LPM: 
-$$
-\Pr(y = 1 | x) =\beta_0 + \beta_1 \text{age_lt_50} + \beta_2 \text{husage_lt_50} + \beta_3 \times \text{age_lt_50} \times \text{husage_lt_50}
-$$
-
-1. `predict` $\Pr(y = 1 | x)$ for each observation using your LPM.
-
-1. What's the probability for a woman younger than 50 with a husband younger than 50?
-
-1. make a plot similar to the one on the previous slide.
-
----
-
-# Nonlinear Binary Response Models
-
-In this class of models we change the way we model the response probability $p(x)$. Instead of the simple linear structure from above, we write
+Nesta classe de modelos mudamos a forma como modelamos a probabilidade de resposta $p(x)$. Em vez da estrutura linear simples de cima, escrevemos
 
 $$
 \Pr(y = 1 | x) = p(x) = G \left(\beta_0 + \beta_1 x_1 + \dots + \beta_K x_K \right)
 $$
-* *almost* identical to LPM!
+--
 
-* except the *linear index* $\beta_0 + \beta_1 x_1 + \dots + \beta_K x_K$ is now inside some function $G(\cdot)$. 
+* ***quase*** idêntico ao MPL!
 
-* Main property of $G$: transforms any $z\in \mathbb{R}$ into a number in the interval $(0,1)$. 
+* exceto que o *índice linear* $\beta_0 + \beta_1 x_1 + \dots + \beta_K x_K$ agora está dentro da ***função de ligação*** $G(\cdot)$ (i.e. _link function_).
 
-* This immediately solves our problem of getting weird predictions for probabilities.
+* Propriedade principal de $G$: transforma qualquer $z\in \mathbb{R}$ em um número no intervalo $(0,1)$.
 
+* Isso resolve nosso problema de previsões fora do intervalo $\left[0, 1\right]$ para probabilidades.
 ---
 
-# $G$: **probit** and **logit**
+# Modelos de Resposta Binária Não-Lineares
+
+## $G$: *probit* e *logit*
 
 .left-wide[
-```{r cdfs,echo = FALSE,fig.height = 5}
-ggplot(data.frame(x = c(-5,5)), aes(x=x)) + 
+```{r cdfs,echo = FALSE,fig.height = 4}
+ggplot(data.frame(x = c(-5,5)), aes(x = x)) + 
   stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) + 
   stat_function(fun = plogis, aes(colour = "Logit"), size = 1) + 
   theme_bw() + 
-  scale_colour_manual(name = "Function G",values = c("red", "blue")) +
+  scale_colour_manual(name = "Função G",values = c("red", "blue")) +
   scale_y_continuous(name = "Pr(y = 1 | x)")
 ```
 ]
@@ -371,23 +333,53 @@ ggplot(data.frame(x = c(-5,5)), aes(x=x)) +
 .right-thin[
 
 <br>
-For both **probit** and **logit** we see that:
+Para **probit** e **logit**:
 
-1. any value $x$ results in a value $p(x)$ between 0 and 1
+1. qualquer valor $x$ resulta em um valor $p(x)$ entre 0 e 1.
 
-1. the higher $x$, the higher the resulting $p(x)$.
+1. estritamente crescentes.
 
-1. Logit has *fatter tails* than Probit.
+1. Logit tem *caudas mais longas*.
 
 ]
 
 ---
 
-# Running probit and logit in `R`: the `glm` function
+# Modelos de Resposta Binária Não-Lineares
 
-* We use the `glm` function to run a **generalized linear model**
+## $G$: *probit* e *logit*
 
-* This *generalizes* our standard linear model. We have to specify a `family` and a `link`:
+.left-wide[
+```{r cdfs2, echo = FALSE,fig.height = 4}
+ggplot(data.frame(x = c(-5,5)), aes(x = x)) + 
+  stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) + 
+  stat_function(fun = plogis, aes(colour = "Logit"), size = 1) + 
+  theme_bw() + 
+  scale_colour_manual(name = "Função G",values = c("red", "blue")) +
+  scale_y_continuous(name = "Pr(y = 1 | x)")
+```
+]
+
+.right-thin[
+
+<br>
+**Probit**:
+
+* $G(z)=\Phi(z)$ Distribuição Normal
+
+**Logit**:
+
+* $G(z)=\Lambda(z)=\frac{1}{1+\exp(-z)}$ Distribuição Logística
+]
+
+---
+# Modelos de Resposta Binária Não-Lineares
+
+## Rodando probit e logit no `R`: a função `glm`
+
+* Usamos a função `glm` para rodar um **modelo linear generalizado**
+
+* Isso *generaliza* nosso modelo linear padrão. Temos que especificar uma `família` e um `link`:
 
 ```{r}
 probit <- glm(inlf ~ age, 
@@ -402,7 +394,7 @@ logit <- glm(inlf ~ age,
 
 ---
 
-# Interpretation
+# Interpretação
 
 .pull-left[
 ```{r}
@@ -411,53 +403,45 @@ modelsummary::modelsummary(list("probit" = probit,"logit" = logit))
 ]
 
 .pull-right[
-* probit coefficient for `age` is `r round(coef(probit)[2],3)` 
+* coeficiente de probit para `idade` é `r round(coef(probit)[2],3)`
 
-* logit: `r round(coef(logit)[2],3)` for logit, 
+* logit: `r round(coef(logit)[2],3)` para logit,
 
-* impact of age on the prob of working is **negative**
+* impacto da idade na probabilidade de trabalhar é **negativo**
 
-* However, **how** negative? We can't tell!
-]
+* No entanto, **quão** negativo? Não podemos dizer!]
 
 ---
 
-# Interpretation
-
-The model is
+# Interpretação
 
 $$
 \Pr(y = 1 | \text{age})= G \left(x \beta\right) = G \left(\beta_0 + \beta_1 \text{age} \right) 
 $$
-and the *marginal effect* of `age` on the response probability is
+e o *efeito marginal* de `idade` na probabilidade de resposta é
 
 $$\frac{\partial{\Pr(y = 1 | \text{age})}}{ \partial{\text{age}}} = g \left(\beta_0 + \beta_1 \text{age} \right) \beta_1$$
 
-* function $g$ is defined as $g(z) = \frac{dG}{dz}(z)$ - the first derivative function of $G$ (i.e. the *slope* of $G$). 
+* $g$ é definida como $g(z) = \frac{dG}{dz}(z)$ - a primeira derivada de $G$ (sendo $G$ uma distribuição, $g$ é a função densidade).
 
-* given $G$ that is nonlinear, this means that $g$ will be non-constant. You are able to try this out yourself using this [app here](https://floswald.shinyapps.io/marginal_effects_of_logit_probit/):
+* dado que $G$ é não-linear, isso significa que $g$ não será constante. Você pode experimentar isso usando este [aplicativo aqui](https://floswald.shinyapps.io/marginal_effects_of_logit_probit/):
 
-```{r, eval = FALSE}
-ScPoApps::launchApp("marginal_effects_of_logit_probit")
-```
-
-or online 
 
 ---
 
-# Interpretation
+# Interpretação
 
-So you can see that there is not one single *marginal effect* in those models, as that depends on *where we evaluate* the previous expression. In practice, there are two common approaches:
+***Não há um único efeito marginal*** nesses modelos, pois isso depende de *onde avaliamos* a expressão anterior. Na prática, existem duas abordagens comuns:
 
-1. report effect at the average values of $x$:             $$g(\bar{x} \beta) \beta_j$$
+1. reporte o **efeito parcial na média** (PEA): $$PEA(X_j)=g(\bar{x} \beta) \beta_j$$
 
-1. report the sample average of all marginal effects: $$\frac{1}{n} \sum_{i=1}^N g(x_i \beta) \beta_j$$
+1. relate o **efeito parcial médio** (APE): $$APE(X_j)=\frac{1}{n} \sum_{i=1}^N g(x_i \beta) \beta_j$$
 
-Thankfully there are packages available that help us to compute those marginal effects fairly easily. One of them is called [`mfx`](https://cran.r-project.org/web/packages/mfx/), and we would use it as follows:
+Felizmente, existem pacotes disponíveis que nos ajudam a calcular esses efeitos marginais com bastante facilidade. Um deles se chama [`marginaleffects`](https://vincentarelbundock.github.io/marginaleffects/index.html), e o usamos da seguinte forma:
 
 ---
 
-# Interpretation
+# Interpretação
 
 ```{r glms}
 f <- "inlf ~ age + kidslt6 + nwifeinc" # setup a formula
@@ -469,81 +453,84 @@ glms$logit <- glm(formula = f,
                     data = mroz, 
                     family = binomial(link = "logit"))
 # now the marginal effects versions
-glms$probitMean <- mfx::probitmfx(formula = f, 
-                    data = mroz, atmean = TRUE)
-glms$probitAvg <- mfx::probitmfx(formula = f, 
-                    data = mroz, atmean = FALSE)
-glms$logitMean <- mfx::logitmfx(formula = f, 
-                    data = mroz, atmean = TRUE)
-glms$logitAvg <- mfx::logitmfx(formula = f, 
-                    data = mroz, atmean = FALSE)
+mfx_mean <- lapply(glms, marginaleffects, newdata = "mean")
+mfx_avg <- lapply(glms, marginaleffects)
 
 ```
 
 
 ---
 
-# Interpretation
+# Interpretação
 
-```{r,echo = FALSE}
-
-modelsummary::modelsummary(glms, 
-                           stars = TRUE,
-                           gof_omit = "AIC|BIC")
+```{r, echo = FALSE}
+modelsummary(c(mfx_mean, mfx_avg),
+             output = "kableExtra",
+             stars = TRUE,
+             gof_omit = "AIC|BIC") |> 
+    kable_classic() |> 
+    add_header_above(c(" " = 1,
+                       "PEA" = 2,
+                       "APE" = 2))
 ```
 
 ---
+layout: false
 class: separator, middle
 
 
-# Goodness of Fit in Binary Models
+# Qualidade do Ajuste em Modelos Binários
 
 ---
+layout: true
 
-# GOF in Binary Models
+<div class="my-footer"><img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/></div> 
 
-* There is no universally accepted $R^2$ for binary models.
+---
+# Qualidade do Ajuste em Modelos Binários
 
-* We can think of a *pseudo* $R^2$ which compares our model to one without any regressors:
+* Não existe $R^2$ universalmente aceito para modelos binários.
 
-```{r}
-glms$probit0 <- update(glms$probit, formula = . ~ 1)  # intercept model only
+* Podemos pensar em um *pseudo* $R^2$ que compara nosso modelo com outro sem regressores:
+
+```{r, eval=TRUE}
+glms$probit0 <- update(glms$probit, formula = . ~ 1)
 1 - as.vector(logLik(glms$probit)/logLik(glms$probit0))
 ```
 
 --
 
-* But that's not super informative (unlike the standard $R^2$). Changes in likelihood value are highly non-linear, so that's not great.
+* Mas isso não é super informativo (ao contrário do $R^2$). As alterações no valor da log-verossimilhança são altamente não lineares.
 
-* Let's check **accuracy** - what's the proportion correctly predicted! `round(fitted(x))` assigns `1` if the predicted prob $> 0.5$.
+---
+# Qualidade do Ajuste em Modelos Binários
+
+* Vamos verificar **precisão** - qual é a proporção prevista corretamente! `round(fitted(x))` atribui `1` se a prob $> 0.5$ previsto.
 
 ```{r}
-prop.table(table(true = mroz$inlf, pred = round(fitted(glms$probit))))
+kbl(prop.table(table(true = mroz$inlf, pred = round(fitted(glms$probit)))))
 ```
 
 ---
 
-# GOF in Binary Models: ROC Curves
+# Curvas ROC (Receiver Operating Characteristics)
 
-* The 0.5 cutuff is arbitrary. What if all predicted probs are $> 0.5$ but in the data there are about 50% of zeros? 
+* O corte de 0,5 é arbitrário. E se todas as probabilidades previstas forem $> 0,5$, mas nos dados houver cerca de 50% de zeros?
 
-* Let's choose an *arbitrary cutoff* $c \in (0,1)$ and check accuracy for each value. This gives a better overview.
-
+* Vamos escolher um *corte arbitrário* $c \in (0,1)$ e verificar a precisão de cada valor. Isso dá uma visão melhor.
 --
 
-* Also, we can confront the **true positives rate** (TPR) with the **false positives rate** (FPR). 
-    1. TPR: number of women correctly predicted to work divided by num of working women.
-    2. FPR: number of women incorrectly predicted to work divided by num of non-working women.
+* Além disso, podemos confrontar a **taxa de verdadeiros positivos** (TPR) com a **taxa de falsos positivos** (FPR).
+     1. TPR: número de mulheres corretamente previstas para trabalhar dividido pelo número de mulheres que trabalham.
+     2. FPR: número de mulheres incorretamente previstas para trabalhar dividido pelo número de mulheres não trabalhadoras.
     
 --
-    
-* Plotting FPR vs TPR for each $c$ defines the **ROC** (Receiver Operating Characteristics) Curve.
+* Plotar FPR vs TPR para cada $c$ define a curva **ROC**.
 
-* A good model has a ROC curve in the upper left corner: FPR = 0, TPR = 1.
-
+* Um bom modelo tem uma curva ROC no canto superior esquerdo: FPR = 0, TPR = 1.
 ---
 
-# GOF in Binary Models: ROC Curves
+# Curvas ROC (Receiver Operating Characteristics)
 
 .left-wide[
 ```{r,fig.height = 3}
@@ -551,43 +538,28 @@ pred <- prediction(fitted(glms$probit), mroz$inlf)
 par(mfrow = c(1,2), mar = lowtop)
 plot(performance(pred,"acc"))
 plot(performance(pred,"tpr","fpr"))
-abline(0,1,lty = 2, col = "red")
+abline(0, 1, lty = 2, col = "red")
 ```
 ]
 
 .right-thin[
 <br>
 <br>
-* Best accuracy at around $c=0.6$
+* Melhor precisão em torno de $c=0,6$
 
-* ROC always above 45 deg line. Better than random assignment (flipping a coin)! Yeah!
+* ROC sempre acima da linha de 45 graus. Melhor do que atribuição aleatória (jogar uma moeda)! Sim!
 
 ]
-
----
-class: inverse
-
-# Task 3 (10 Minutes): `SwissLabor`
-
-1. Load the `SwissLabor` Dataset from the `AER` package with `data(SwissLabor, package = "AER")`
-
-1. `skim` the data to get a quick overview. How many foreigners are in the data?
-
-1. Run a probit model of `participation` on all other variables plus age squared. Which age has the largest impact on participation? 
-
-1. What is the marginal effect at the mean of all $x$ of being a foreigner on participation?
-
-1. Produce a ROC curve of this probit model and discuss it!
-
-
 
 ---
 
 # Leitura Recomendada
 
-* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 13 O Agrupamento de Cortes Transversais ao Longo do Tempo.
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 17 Modelo com Variáveis Dependentes Limitadas e Correções da Seleção Amostral.
 
-* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. Capítulo 16 Modelos de regressão com dados em painel
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. Capítulo 15 Modelos de regressão de resposta qualitativa
+
+* WOOLDRIDGE, Jeffrey M. Econometric Analysis of Cross Section and Panel Data. MIT press, 2010. Second Edition. Chapter 15 Binary Response Models
 
 ---
 
