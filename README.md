@@ -45,6 +45,20 @@ Lecture 9: Intro to Statistical (or *Machine*) Learning 2: Subset selection (Las
 
 Bootstrapping: More details about bootstrapping. [HTML](https://raw.githack.com/rfbressan/econometria_slides/master/chapter_bootstrap/boostrap.html)
 
+## Bibliografia Recomendada
+
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. 
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. 
+
+* CUNNINGHAM, Scott. Causal Inference: The Mixtape, New Haven: Yale University Press, 2021. URL: https://mixtape.scunning.com/
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mastering'metrics: The path from cause to effect. Princeton university press, 2014. URL: http://www.masteringmetrics.com/
+
+* WOOLDRIDGE, Jeffrey M. Econometric Analysis of Cross Section and Panel Data. MIT press, 2010. Second Edition. 
+
+* HANSEN, Bruce E. Econometrics. Manuscript, revision of February 2020.
+
 
 ## Legal
 
