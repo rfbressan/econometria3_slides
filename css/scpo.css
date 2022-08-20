@@ -264,6 +264,12 @@ blockquote {
   padding-left: 100px;  /* delete this for 4:3 aspect ratio */
 }
 
+/* Adjust h2 font-size, smaller */
+
+.remark-slide-content h2 {
+    font-size: 35px;
+}
+
 /* Color adjustments for text */
 
 /* Make bold syntax compile to udescgreen */
@@ -312,6 +318,15 @@ strong {
 /* Add white tag */
 .white {
   color: white;
+}
+
+/* Plots covering the full screen */
+.full {
+  padding: 0px;
+}
+
+.full p {
+  margin-top: 0px;
 }
 
 /* Color adjustments to headers */
