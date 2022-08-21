@@ -55,6 +55,8 @@ Bootstrapping: More details about bootstrapping. [HTML](https://raw.githack.com/
 
 * ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mastering'metrics: The path from cause to effect. Princeton university press, 2014. URL: http://www.masteringmetrics.com/
 
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009.
+
 * WOOLDRIDGE, Jeffrey M. Econometric Analysis of Cross Section and Panel Data. MIT press, 2010. Second Edition. 
 
 * HANSEN, Bruce E. Econometrics. Manuscript, revision of February 2020.

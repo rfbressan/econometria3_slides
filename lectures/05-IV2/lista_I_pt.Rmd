@@ -1,0 +1,74 @@
+---
+title: "Variáveis Instrumentais"
+subtitle: "Lista de Exercícios I"
+author: "Rafael Bressan"
+date: "UDESC/Esag </br> `r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Questão 1
+
+Suponha que temos um modelo $y=\beta_0 + \beta_1 x + u$, onde $E\left[x_i u_i\right]\neq 0$. Você obtém uma variável $Z$ tal que $E\left[z_i u_i\right] = 0$.
+
+a) Utilize a expressão $Cov(z_i, u_i) = 0$ para deduzir a forma do parâmetro $\beta_1$
+nesse modelo.
+
+b) Na letra (a), uma das hipóteses necessárias é “há correlação entre as variáveis X e Z”. Como isso aparece na forma estimada acima? Explique, intuitivamente, o sentido econômico dessa hipótese. Procure usar exemplos de um problema real.
+
+c) Utilizando os análogos amostrais de (a), proponha um estimador para o parâmetro populacional. Chame esse estimador de $\hat\beta_{1,IV}$.
+
+d) Outra forma de calcular $\hat\beta_{1,IV}$ é via MQ2E. Explique quais são os dois estágios da regressão.
+
+e) Assuma agora que $y = X\beta + u$, onde $E\left[X' u\right] \neq 0$ e $X$ tenha dimensão $k > 1$.
+Você obtém um conjunto de $g \leq k$ variáveis $Z$ tal que $E\left[Z'u\right] = 0$. Perceba que X pode conter, por exemplo, apenas uma variável tal que $E\left[x_k u\right] \neq 0$ (endógena), o que já tornaria o modelo inválido. Dê uma intuição para o motivo do número de variáveis instrumentais ser necessariamente maior ou igual ao número de variáveis explicativas em $X$ que são correlacionadas com o termo de erro. O que acontece quando o número de variáveis instrumentais é estritamente maior que o número de variáveis endógenas?
+
+## Questão 2
+
+Um dos problemas mais simples de variáveis instrumentais é o caso onde $y_i=\alpha+\beta x_i+u_i$ , $E\left[x_i u_i\right] \neq 0$, e você obtém um instrumento binário (dummy) $z_i$, com $E\left[z_i u_i\right] = 0$
+
+a) Mostre que o estimador de IV pode ser escrito como
+$$
+b_{Wald}=\frac{\bar{y}_1 - \bar{y}_0}{\bar{x}_1 - \bar{x}_0}
+$$
+Onde $\bar{y}_0$ e $\bar{x}_0$ são as médias amostrais de $x_i$ e $y_i$ considerando apenas a parte da amostra com $z_i = 0$, e que $\bar{y}_1$ e $\bar{x}_1$ são as médias amostrais considerando apenas a amostra com $z_i = 1$. Esse estimador, conhecido como estimador de Wald, foi proposto pelo próprio em 1940.
+
+b) Pense no caso onde $x_i$ é uma variável dummy indicando um tratamento (por exemplo, $x_i = 1$ se o indivı́duo aplicou para um programa de retreinamento fornecido pelo governo). Interprete intuitivamente o estimador acima, lembrando que a média de uma variável dummy é a proporção de observações cujo valor de $x_i$ é igual à 1. Para ajudar na resposta, note que o estimador da letra (a) requer que $\bar{x}_1 - \bar{x}_0 \neq 0$.
+
+## Questão 3
+
+Suponha que você está interessado em estimar
+$$y_i = \alpha + \beta x_i + u_i$$
+onde $x_i$ é um escalar e $E\left[x_i u_i\right] \neq 0$. Você observa uma variável aleatória $z_i$, relevante no sentido de que $E\left[z_i x_i\right] \neq 0$, mas não não tem certeza se ela é válida como instrumento, ou seja, não é garantindo que $E\left[z_i u_i\right] = 0$. Você decide estimar o modelo por OLS e IV, usando os estimadores
+
+$$b_{MQO}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2} \text{ e } b_{VI}=\frac{\sum(z_i-\bar z)(y_i-\bar y)}{\sum (z_i-\bar z)(x_i-\bar x)}$$
+Nesse exercício, queremos deduzir condições para as quais o estimador de MQO é uma opção melhor que o estimador de VI.
+
+a) Mostre que o viés assintótico do MQO é igual à
+
+$$plim(b_{MQO}) − \beta = \text{corr}(x_i, u_i)\frac{\sigma_u}{\sigma_x}$$
+
+b) Mostre que o viés assintótico do IV é igual à
+
+$$plim(b_{VI}) − \beta = \frac{\text{corr}(z_i, u_i)}{\text{corr}(z_i, x_i)}\frac{\sigma_u}{\sigma_x}$$
+
+c) Use os resultados acima para deduzir quando o estimador de MQO é preferı́ve ao de VI, em termos de viés.
+
+d) Você sabe o que são “instrumentos fracos”. Relacione a discussão sobre instrumentos fracos, isso é, um instrumento tal que $E\left[x_i z_i\right]$ tem um valor baixo, com o resultado da letra (c).
+
+## Questão 4
+
+O objetivo deste exercı́cio é comparar as estimativas e erros padrão corretamente obtidos usando MQ2E com aqueles obtidos usando procedimentos inadequados. Use a base WAGE2.dta para esse exercı́cio.
+
+a) Estime a equação abaixo usando MQ2E
+$$\log(wage) = \beta_0 + \beta_1 educ + \beta_2 exper + \beta_3 tenure + \beta_4 black + u,$$
+
+onde `sibs` é uma variável instrumental para `educ`. Reporte os resultados.
+
+b) Agora, execute manualmente o MQ2E. Ou seja, primeiro faça a regressão de $educ_i$ em $sibs_i$, $exper_i$, $tenure_i$ e $black_i$ e obtenha os valores ajustados, $\widehat{educ}_i$ $i = 1, \ldots , n$. Em seguida, execute a regressão de segundo estágio $\log(wage_i)$ em $\widehat{educ}_i$, $exper_i$, $tenure_i$ e $black_i$. Verifique se os $\beta_j$ são idênticos aos obtidos no item a) e os erros padrão são um pouco diferentes. Os erros padrão obtidos da regressão do segundo estágio ao realizar manualmente MQ2E são inadequados.
+
+c) Agora, use o seguinte procedimento de duas etapas, que geralmente produz estimativas inconsistentes de $\beta_j$, e não apenas erros padrão incorretos. Na etapa um, regresse $educ_i$ em $sibs_i$ apenas e obtenha os valores ajustados, digamos $\widetilde{educ}_i$. (Observe que esta é uma regressão de primeiro estágio incorreta). Em seguida, na segunda etapa, execute a regressão de $\log(wage)$ em $\widetilde{educ}_i$, $exper_i$ , $tenure_i$ e $black_i$. Como a estimativa desse procedimento incorreto de duas etapas se compara à estimativa correta de MQ2E do retorno à educação?

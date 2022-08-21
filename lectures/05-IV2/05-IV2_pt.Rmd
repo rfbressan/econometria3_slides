@@ -862,152 +862,102 @@ htab
 
 ---
 
-# Returns to Education for Married Women
+# VI com um instrumento fraco
 
-Consider the following model for married women's wages:
+* VI é consistente sob determinadas premissas.
 
-$$
-\log wage = \beta_0 + \beta_1 educ + u
-$$
-Let's run an OLS on this, and then compare it to an IV estimate using *father's education*. Keep in mind that this is a valid IV $z$ if 
+* No entanto, *mesmo* que tenhamos apenas $Cor(z,u)$ muito pequenos, podemos errar
 
-1. *fatheduc* and *educ* are correlated
-2. *fatheduc* and $u$ are not correlated.
-
----
-
-# Returns to Education for Married Women
-
-
-```{r mroz1,echo = TRUE}
-data(mroz,package = "wooldridge")
-mods = list()
-mods$OLS <- lm(lwage ~ educ, data = mroz)
-mods[['First Stage']] <- lm(educ ~ fatheduc, data = subset(mroz, inlf == 1))
-mods$IV  <- estimatr::iv_robust(lwage ~ educ | fatheduc, data = mroz)
-```
-
-```{r,echo = FALSE}
-modelsummary::modelsummary(mods, gof_map = gm, gof_omit = gom,output = "huxtable") %>%
-  set_bottom_border(row = 7, col = everywhere) %>%
-  set_bold(1, everywhere) %>%
-  set_tb_padding(5)
-
-```
-
----
-
-# IV Standard Errors
-
-```{r se-plot,echo = FALSE,fig.height=5}
-coefs_ols = broom::tidy(mods$OLS, conf.int = TRUE)
-coefs_IV = broom::tidy(mods$IV, conf.int = TRUE)
-
-bind_rows(
-  coefs_ols %>% filter(term == "educ") %>% mutate(estimator = "OLS"),
-  coefs_IV %>% filter(term == "educ") %>% mutate(estimator = "IV")
-  ) %>%
-  ggplot(aes(x=estimator, y=estimate, ymin=conf.low, ymax=conf.high)) +
-  geom_hline(yintercept = 0.0, color = "red", size =1.5) +
-  geom_pointrange() +
-  theme_bw()
-```
-
----
-
-# IV with a Weak Instrument
-
-* IV is consistent under given assumptions.
-
-* However, *even if* we have only very small $Cor(z,u)$, we can get wrong-footed
-
-* Small corrleation between $x$ and $z$ can produce **inconsistent** estimates. 
-
-.pull-left[
-<br>
-<br>
+* Pequena correlação entre $x$ e $z$ pode produzir estimativas **inconsistentes**.
 
 $$
 \text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
 $$
-]
 
 --
 
-.pull-right[
-* Take $Cor(z,u)$ is very small,
-* A **weak instrument** is one with only a small absolute value for $Cor(z,x)$ 
-* This will blow up this second term in the probability limit. 
-* Even with a very big sample size $n$, our estimator would *not* converge to the true population parameter $\beta_1$, because we are using a weak instrument.
-]
+
+* Mesmo que $Cor(z,u)$ seja muito pequena
+
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para $Cor(z,x)$
+
+* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional $\beta_1$.
+
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
-To illustrate this point, let's assume we want to look at the impact of number of packs of cigarettes smoked per day by pregnant women (*packs*) on the birthweight of their child (*bwght*):
+Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
 
 $$
 \log(bwght) = \beta_0 + \beta_1 packs + u
 $$
 
-We are worried that smoking behavior is correlated with a range of other health-related variables which are in $u$ and which could impact the birthweight of the child. So we look for an IV. Suppose we use the price of cigarettes (*cigprice*), assuming that the price of cigarettes is uncorrelated with factors in $u$. Let's run the first stage of *cigprice* on *packs* and then let's show the 2SLS estimates:
+Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em $u$ e que podem afetar o peso ao nascer da criança. 
 
+Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em $u$. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
 
 ```{r bw}
 data(bwght, package = "wooldridge")
 mods <- list()
-mods[["First Stage"]] <- lm(packs ~ cigprice, data = bwght)
-mods[["IV"]] <- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, diagnostics = TRUE)
+mods$Estagio_1 <- lm(packs ~ cigprice, data = bwght)
+mods$VI <- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
+                               diagnostics = TRUE)
 ```
 
 ```{r,echo = FALSE}
-modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|statistic|Log.Lik.|Num.Obs.|N', output = "huxtable") %>%
-  set_bottom_border(row = 7, col = everywhere) %>%
-  set_bold(1, everywhere) %>%
-  set_tb_padding(5)
+tbl <- modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|statistic|Log.Lik.|Num.Obs.|N', output = "huxtable") %>%
+    set_bottom_border(row = 7, col = everywhere) %>%
+    set_bold(1, everywhere) %>%
+    set_tb_padding(5)
+font_size(tbl) <- 15
+tbl
 ```
 
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
 .pull-left[
 
-* The first columns shows: very weak first stage. *cigprice* has zero impact on packs it seems!
+* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
 
-* $R^2$ is zero.
+* $R^2$ é zero.
 
-* What is we use this IV nevertheless?
+* O que é que usamos nesta VI, no entanto?
 ]
 
 --
 
 .pull-right[
 
-* in the second column: very large, positive(!) impact of packs smoked on birthweight. 🤔
+* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
 
-* Huge Standard Error though.
+* Enorme erro padrão.
 
-* An $R^2$ of -23?!
+* Um $R^2$ de -23?!
 
-* F-stat of first stage: 0.121. Corresponds to a p-value of `r round(mods[["IV"]]$diagnostic_first_stage_fstatistic["p.value"],3)` : we **cannot** reject the H0 of an insignificant first stage here *at all*.
+* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de `r round(mods[["VI"]]$diagnostic_first_stage_fstatistic["p.value"],3)` : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
 
-* So: **invalid** approach. ❌
+* Então: abordagem **inválida**. ❌
 ]
-
 
 ---
 
 # Leitura Recomendada
 
-* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. 
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed.
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Chapter 4 Instrumental Variables in Action.
 
 
 ---
@@ -1032,4 +982,4 @@ Com a Lista 1 feita! `r emo::ji("white_check_mark")`
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
 | <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
-| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |
+| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-IV2/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |

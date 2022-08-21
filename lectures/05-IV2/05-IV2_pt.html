@@ -821,7 +821,7 @@ layout: false
 .left-wide[
 <table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:ms1">
 <col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_2</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">2SLS</th></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_2</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">MQ2E</th></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.995***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">12.747***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.955***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.955***</td></tr>
 <tr>
@@ -949,11 +949,9 @@ mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct,
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.000)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.028)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.000)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.028)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.020)</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.118</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.091</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">Num.Obs.</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">329509</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">329509</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">329509</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">329509</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">329509</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.64</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.64</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.64</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">48.990</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">47.731</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">32.323</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">R2 Adj.</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.118</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.091</td></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">Instruments</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">none</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">Q4</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">none</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">Q4</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 6pt 4pt 6pt; font-weight: normal;">All Quarters</td></tr>
 <tr>
@@ -1002,173 +1000,118 @@ mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct,
 
 ---
 
-# Returns to Education for Married Women
+# VI com um instrumento fraco
 
-Consider the following model for married women's wages:
+* VI é consistente sob determinadas premissas.
 
-$$
-\log wage = \beta_0 + \beta_1 educ + u
-$$
-Let's run an OLS on this, and then compare it to an IV estimate using *father's education*. Keep in mind that this is a valid IV `\(z\)` if 
+* No entanto, *mesmo* que tenhamos apenas `\(Cor(z,u)\)` muito pequenos, podemos errar
 
-1. *fatheduc* and *educ* are correlated
-2. *fatheduc* and `\(u\)` are not correlated.
-
----
-
-# Returns to Education for Married Women
-
-
-
-```r
-data(mroz,package = "wooldridge")
-mods = list()
-mods$OLS &lt;- lm(lwage ~ educ, data = mroz)
-mods[['First Stage']] &lt;- lm(educ ~ fatheduc, data = subset(mroz, inlf == 1))
-mods$IV  &lt;- estimatr::iv_robust(lwage ~ educ | fatheduc, data = mroz)
-```
-
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
-<col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;">OLS</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;">First Stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;">IV</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">-0.185</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">10.237</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.441</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.185)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.276)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.467)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">educ</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.109</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.059</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.014)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.037)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">fatheduc</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.269</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.029)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">Num.Obs.</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">428</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">428</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">428</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.118</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.173</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.093</td></tr>
-</table>
-
-
----
-
-# IV Standard Errors
-
-&lt;img src="05-IV2_pt_files/figure-html/se-plot-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# IV with a Weak Instrument
-
-* IV is consistent under given assumptions.
-
-* However, *even if* we have only very small `\(Cor(z,u)\)`, we can get wrong-footed
-
-* Small corrleation between `\(x\)` and `\(z\)` can produce **inconsistent** estimates. 
-
-.pull-left[
-&lt;br&gt;
-&lt;br&gt;
+* Pequena correlação entre `\(x\)` e `\(z\)` pode produzir estimativas **inconsistentes**.
 
 $$
 \text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
 $$
-]
 
 --
 
-.pull-right[
-* Take `\(Cor(z,u)\)` is very small,
-* A **weak instrument** is one with only a small absolute value for `\(Cor(z,x)\)` 
-* This will blow up this second term in the probability limit. 
-* Even with a very big sample size `\(n\)`, our estimator would *not* converge to the true population parameter `\(\beta_1\)`, because we are using a weak instrument.
-]
+
+* Mesmo que `\(Cor(z,u)\)` seja muito pequena
+
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Cor(z,x)\)`
+
+* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional `\(\beta_1\)`.
+
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
-To illustrate this point, let's assume we want to look at the impact of number of packs of cigarettes smoked per day by pregnant women (*packs*) on the birthweight of their child (*bwght*):
+Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
 
 $$
 \log(bwght) = \beta_0 + \beta_1 packs + u
 $$
 
-We are worried that smoking behavior is correlated with a range of other health-related variables which are in `\(u\)` and which could impact the birthweight of the child. So we look for an IV. Suppose we use the price of cigarettes (*cigprice*), assuming that the price of cigarettes is uncorrelated with factors in `\(u\)`. Let's run the first stage of *cigprice* on *packs* and then let's show the 2SLS estimates:
+Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em `\(u\)` e que podem afetar o peso ao nascer da criança. 
 
+Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em `\(u\)`. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
 
 
 ```r
 data(bwght, package = "wooldridge")
 mods &lt;- list()
-mods[["First Stage"]] &lt;- lm(packs ~ cigprice, data = bwght)
-mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, diagnostics = TRUE)
+mods$Estagio_1 &lt;- lm(packs ~ cigprice, data = bwght)
+mods$VI &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
+                               diagnostics = TRUE)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-8">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
 <col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;">First Stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold;">IV</th></tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">Estagio_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">VI</th></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.067</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">4.448</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.067</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">4.448</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.103)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.940)</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.103)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.940)</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">cigprice</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">cigprice</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(0.001)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.001)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">packs</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">2.989</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">packs</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">2.989</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">(8.996)</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(8.996)</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">-23.230</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">-23.230</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.30</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal;">115.77</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.30</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">115.77</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal;">0.121</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.121</td></tr>
 </table>
 
 
 
 ---
 
-# Weak Stuff
+# VI com um instrumento fraco
 
 .pull-left[
 
-* The first columns shows: very weak first stage. *cigprice* has zero impact on packs it seems!
+* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
 
-* `\(R^2\)` is zero.
+* `\(R^2\)` é zero.
 
-* What is we use this IV nevertheless?
+* O que é que usamos nesta VI, no entanto?
 ]
 
 --
 
 .pull-right[
 
-* in the second column: very large, positive(!) impact of packs smoked on birthweight. 🤔
+* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
 
-* Huge Standard Error though.
+* Enorme erro padrão.
 
-* An `\(R^2\)` of -23?!
+* Um `\(R^2\)` de -23?!
 
-* F-stat of first stage: 0.121. Corresponds to a p-value of 0.728 : we **cannot** reject the H0 of an insignificant first stage here *at all*.
+* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de 0.728 : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
 
-* So: **invalid** approach. ❌
+* Então: abordagem **inválida**. ❌
 ]
-
 
 ---
 
 # Leitura Recomendada
 
-* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. 
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed.
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Chapter 4 Instrumental Variables in Action.
 
 
 ---
@@ -1193,7 +1136,7 @@ Com a Lista 1 feita! ✅
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
 | &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
-| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-IV2/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
