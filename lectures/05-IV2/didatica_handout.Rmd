@@ -1,0 +1,35 @@
+---
+title: "Econometria III"
+subtitle: "Variáveis Instrumentais e Mínimos Quadrados em 2 Estágios"
+author: "Rafael Bressan"
+date: "Esag </br> `r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Plano de Aula
+
+* Motivando Variáveis Instrumentais
+    * Retornos da Escolaridade
+    * Mincer com Habilidade não Observada
+* Mecânica das Variáveis Instrumentais
+    * Identificação
+    * Estimador de VI
+* Estimação de VI via Mínimos Quadrados Ordinários em 2 Estágios
+* Vamos implementar Angrist e Krueger (1991)!
+* Instrumentos Fracos
+
+# Leitura Recomendada
+
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed.
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Chapter 4 Instrumental Variables in Action.
+
+* STAIGER, Douglas; James H. Stock. Instrumental Variables Regression with Weak Instruments. Econometrica, vol. 65, no. 3, 1997, pp. 557–86. JSTOR, https://doi.org/10.2307/2171753.
+
+* LEE, David S. et al. Valid t-ratio Inference for IV. National Bureau of Economic Research, 2021.

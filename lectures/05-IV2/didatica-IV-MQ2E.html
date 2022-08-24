@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Econometria III</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rafael Bressan" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-41584331-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-41584331-6');
+    </script>
+
+    <link rel="stylesheet" href="../../css/scpo.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/scpo-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Econometria III
+]
+.subtitle[
+## Variáveis Instrumentais e Mínimos Quadrados em 2 Estágios
+]
+.author[
+### Rafael Bressan
+]
+.date[
+### Esag </br> 2022-08-24
+]
+
+---
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+
+
+# Plano de Aula
+
+* Motivando Variáveis Instrumentais
+    * Retornos da Escolaridade
+    * Mincer com Habilidade não Observada
+* Mecânica das Variáveis Instrumentais
+    * Identificação
+    * Estimador de VI
+* Estimação de VI via Mínimos Quadrados Ordinários em 2 Estágios
+* Vamos implementar Angrist e Krueger (1991)!
+* Instrumentos Fracos
+
+---
+
+# Retornos da Escolaridade
+
+.pull-left[
+* Qual é o impacto causal da escolaridade sobre os rendimentos?
+
+* [Jacob Mincer](https://en.wikipedia.org/wiki/Jacob_Mincer) estava interessado nesta importante questão.
+
+* Aqui está o modelo dele:
+
+$$
+\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i
+$$
+]
+
+--
+.pull-right[
+* Comparamos os ganhos de pessoas com certa escolaridade e idade
+
+* Tudo o mais é igual, depois de controlar isso?
+     * Podemos encontrar trabalhadores com capacidades diferentes?
+     
+* Sim claro. Então, *todo o resto* não é igual.
+
+* ***Viés de habilidade***
+]
+
+
+
+---
+
+# Mincer com Habilidade não Observada
+
+.pull-left[
+* Na verdade temos *dois* fatores não-observáveis: `\(e\)` e `\(A\)`.
+
+* Não podemos distingui-los.
+
+* `\(A_i\)` tem efeito em ambos, `\(Y_i\)` e `\(S_i\)`. ***Variável de confusão*** (confounder)
+
+* Definimos um novo fator não observável
+`$$u_i = e_i + A_i$$`
+
+`$$\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + \underbrace{u_i}_{A_i + e_i}$$`
+]
+--
+
+.pull-right[
+
+&lt;img src="../../img/schooling-dag2.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+layout: false
+class: separator, middle
+
+# Mecânica das Variáveis Instrumentais
+
+## Identificação
+
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# Identificação
+
+Vamos voltar ao nosso modelo linear simples:
+
+$$
+y = \beta_0 + \beta_1 x + u
+$$
+
+onde tememos que `\(Cov(x,u) \neq 0\)`, `\(x\)` seja *endógeno*.
+
+--
+## Condições para VI
+
+Seja `\(z\)` nossa candidata a VI 
+1. **Relevância do Instrumento**: `\(Cov(z,x) \neq 0\)`
+1. **Exogenidade da VI** (restrição de exclusão): `\(Cov(z,u) = 0\)`, a VI é exógena na equação do resultado.
+
+
+---
+
+# Identificação
+
+## Modelo Válido (A) vs Model Inválido (B) para VI `z`
+
+&lt;img src="didatica-IV-MQ2E_files/figure-html/IV-dag2-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Identificação
+
+* Como estas condições ***identificam*** `\(\beta_1\)`?
+
+--
+
+`\begin{align}
+Cov(z,y) &amp;= Cov(z, \beta_0 + \beta_1 x + u) \\
+         &amp;= \beta_1 Cov(z,x) + Cov(z,u) 
+\end{align}`
+
+.pull-left[
+Sob a condição 2. acima (**restrição de exclusão**), temos que `\(Cov(z,u)=0\)`, então:
+
+$$
+Cov(z,y) = \beta_1 Cov(z,x) 
+$$
+]
+
+--
+
+.pull-right[
+e sob a condição 1. (**relevância**), temos `\(Cov(z,x)\neq 0\)`, portanto:
+
+$$
+\beta_1 =  \frac{Cov(z,y)}{Cov(z,x)}.
+$$
+]
+
+--
+* `\(\beta_1\)` é ***identificado*** via os momentos populacionais `\(Cov(z,y)\)` e `\(Cov(z,x)\)` 
+
+* Podemos ***estimar*** estes momentos através dos ***análogos amostrais*** (_sample plugin estimator_)
+
+
+---
+
+# Estimador de Variáveis Instrumentais
+
+Basta "plugar" os momentos **amostrais**:
+
+`$$\hat{\beta}_1 = \frac{\sum_{i=1}^n (z_i - \bar{z})(y_i - \bar{y})}{\sum_{i=1}^n (z_i - \bar{z})(x_i - \bar{x})}$$`
+
+* A estimativa do intercepto é `\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\)` 
+
+
+---
+# Como Saber se a VI é Válida?
+
+## Condições para VI
+
+1. **Relevância**: `\(Cov(z,x) \neq 0\)`
+2. **Exclusão**: `\(Cov(z,u) = 0\)`
+
+--
+* Somente a condição **1.** pode ser testada empiricamente!
+
+* ⚠️ Restrição de exclusão é hipótese não testável
+    + Pesquisador deve se valer de teoria econômica e arguição lógica
+
+---
+layout: false
+class: separator, middle
+
+# Estimação de VI via Mínimos Quadrados Ordinários em 2 Estágios
+
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+# Mínimos Quadrados Ordinários em 2 Estágios: MQ2E
+
+**Equação estrutural**: `\(y_i=\beta_0+\beta_1 s_i + \beta_2 x_i + u_i\)`
+
+--
+1. Estimamos um **modelo de primeiro estágio** que usa apenas variáveis exógenas (como `\(z\)`) para explicar nosso regressor endógeno `\(s\)`.
+
+2. Em seguida, usamos a **previsão** do 1º estágio, `\(\hat{s}\)`, no que é chamado de modelo de **segundo estágio**. Esse procedimento deve eliminar qualquer endogeneidade entre `\(\hat{s}\)` e `\(y\)`.
+
+`\begin{align}
+\text{1. Estágio: }s_i &amp;= \alpha_0 + \alpha_1 z_i + \alpha_2 x_i + \eta_i \\
+\text{2. Estágio: }y_i &amp;= \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i
+\end{align}`
+
+--
+**Condições:**
+
+1. Relevância do IV: `\(\alpha_1 \neq 0\)`
+1. Exogeneidade (restrição de exclusão): `\(E[u | z] = 0\)`
+
+---
+# Mínimos Quadrados Ordinários em 2 Estágios: MQ2E
+
+O primeiro estágio isola a endogeneidade no termo de erro `\(\eta_i\)`
+
+`$$s_i=\underbrace{\alpha_0 + \alpha_1 z_i + \alpha_2 x_i}_{\hat{s}_i\text{: parte exógena}} + \eta_i$$`
+--
+E utiliza somente a parte exógena no segundo estágio!
+
+`$$y_i = \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i$$`
+Assim o segundo estágio faz uso somente de ***variações exógenas*** de `\(s_i\)` e, portanto, `\(\hat{\beta}_1\)` será não viesado.
+
+--
+* ⚠️ o primeiro estágio **DEVE** ser linear. Caso contrário, regressão proibida de Hausman! (MHE ch. 4, p. 142)
+
+* Não realizamos manualmente porque os erros padrão no 2º estágio estarão errados
+
+---
+layout: false
+class: separator, middle
+
+# Vamos implementar Angrist e Krueger (1991)! 
+
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# Dados sobre aniversário e salários
+
+Vamos carregar os dados e olhar seu sumário
+
+
+```r
+# remotes::install_github("jrnold/masteringmetrics", 
+#                         subdir = "masteringmetrics")
+data("ak91", package = "masteringmetrics")
+# from the modelsummary package
+datasummary_skim(data.frame(ak91), histogram = TRUE)
+```
+
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Unique (#) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Missing (%) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; SD &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt;    &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; lnw &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26732 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; −2.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.23" y="11.66" width="1.73" height="0.0024" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="2.96" y="11.66" width="1.73" height="0.00014" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.68" y="11.66" width="1.73" height="0.0038" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="6.41" y="11.66" width="1.73" height="0.0045" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.14" y="11.66" width="1.73" height="0.0035" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.86" y="11.66" width="1.73" height="0.0035" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="11.59" y="11.66" width="1.73" height="0.0072" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="13.31" y="11.65" width="1.73" height="0.014" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.04" y="11.64" width="1.73" height="0.019" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.77" y="11.64" width="1.73" height="0.023" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="18.49" y="11.63" width="1.73" height="0.037" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="20.22" y="11.52" width="1.73" height="0.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.95" y="11.46" width="1.73" height="0.20" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.67" y="11.42" width="1.73" height="0.25" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="25.40" y="10.87" width="1.73" height="0.79" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.12" y="8.64" width="1.73" height="3.02" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="28.85" y="3.69" width="1.73" height="7.97" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.58" y="3.22" width="1.73" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="32.30" y="9.41" width="1.73" height="2.25" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.03" y="11.02" width="1.73" height="0.64" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="35.75" y="11.64" width="1.73" height="0.025" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.48" y="11.65" width="1.73" height="0.010" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="39.21" y="11.66" width="1.73" height="0.0063" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.93" y="11.66" width="1.73" height="0.0043" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="42.66" y="11.66" width="1.73" height="0.0013" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="44.39" y="11.66" width="1.73" height="0.00043" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="46.11" y="11.66" width="1.73" height="0.00022" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; s &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="11.61" width="2.22" height="0.056" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.00" y="11.62" width="2.22" height="0.042" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="6.22" y="11.59" width="2.22" height="0.075" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="8.44" y="11.57" width="2.22" height="0.092" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="10.67" y="11.52" width="2.22" height="0.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.89" y="11.40" width="2.22" height="0.27" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.11" y="11.24" width="2.22" height="0.42" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.33" y="10.56" width="2.22" height="1.11" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.56" y="10.76" width="2.22" height="0.91" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.78" y="10.53" width="2.22" height="1.14" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.00" y="10.72" width="2.22" height="0.94" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.22" y="3.22" width="2.22" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="28.44" y="10.41" width="2.22" height="1.25" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.67" y="9.90" width="2.22" height="1.76" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="32.89" y="10.98" width="2.22" height="0.69" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="35.11" y="9.21" width="2.22" height="2.46" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.33" y="10.83" width="2.22" height="0.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="39.56" y="10.86" width="2.22" height="0.80" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.78" y="11.23" width="2.22" height="0.43" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="44.00" y="10.87" width="2.22" height="0.79" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; yob &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1934.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1930.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1935.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1939.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.74" width="2.47" height="7.92" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.25" y="4.45" width="2.47" height="7.21" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="6.72" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.19" y="4.07" width="2.47" height="7.60" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="11.65" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="14.12" y="4.41" width="2.47" height="7.25" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.59" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.06" y="4.13" width="2.47" height="7.53" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.53" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="24.00" y="3.93" width="2.47" height="7.73" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.47" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="28.94" y="3.96" width="2.47" height="7.71" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="31.41" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.88" y="3.65" width="2.47" height="8.01" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="36.35" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="38.81" y="3.36" width="2.47" height="8.31" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.28" y="11.66" width="2.47" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.75" y="3.22" width="2.47" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; qob &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="1.78" y="3.72" width="2.96" height="7.94" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.74" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="7.70" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="10.67" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="13.63" y="3.87" width="2.96" height="7.79" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.59" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="19.56" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="22.52" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="25.48" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="28.44" y="3.22" width="2.96" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="31.41" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.37" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.33" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="40.30" y="11.66" width="2.96" height="0.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.26" y="3.80" width="2.96" height="7.86" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; sob &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="0.97" y="9.26" width="1.62" height="2.40" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="2.59" y="11.37" width="1.62" height="0.30" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="4.20" y="6.97" width="1.62" height="4.70" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.82" y="10.88" width="1.62" height="0.78" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="7.43" y="10.43" width="1.62" height="1.24" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.05" y="10.23" width="1.62" height="1.43" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="10.67" y="9.32" width="1.62" height="2.34" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.28" y="11.15" width="1.62" height="0.51" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="13.90" y="4.07" width="1.62" height="7.60" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="15.52" y="8.46" width="1.62" height="3.20" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="17.13" y="7.51" width="1.62" height="4.15" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="18.75" y="9.84" width="1.62" height="1.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="20.36" y="4.97" width="1.62" height="6.69" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.98" y="8.03" width="1.62" height="3.63" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.60" y="8.69" width="1.62" height="2.97" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="25.21" y="10.61" width="1.62" height="1.06" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="26.83" y="8.83" width="1.62" height="2.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="28.44" y="3.22" width="1.62" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.06" y="8.09" width="1.62" height="3.57" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="31.68" y="4.98" width="1.62" height="6.69" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="33.29" y="3.73" width="1.62" height="7.94" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.91" y="11.19" width="1.62" height="0.47" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="36.53" y="9.71" width="1.62" height="1.95" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="38.14" y="4.91" width="1.62" height="6.75" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="39.76" y="10.83" width="1.62" height="0.83" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.37" y="9.63" width="1.62" height="2.04" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="42.99" y="8.87" width="1.62" height="2.79" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="44.61" y="9.07" width="1.62" height="2.59" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt;  &lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"&gt;&lt;defs&gt;&lt;style type="text/css"&gt;
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  &lt;/style&gt;&lt;/defs&gt;&lt;rect width="100%" height="100%" style="stroke: none; fill: none;"&gt;&lt;/rect&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"&gt;&lt;rect x="0.00" y="0.00" width="48.00" height="12.00"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"&gt;
+&lt;/g&gt;&lt;defs&gt;&lt;clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"&gt;&lt;rect x="0.00" y="2.88" width="48.00" height="9.12"&gt;&lt;/rect&gt;&lt;/clipPath&gt;&lt;/defs&gt;&lt;g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"&gt;&lt;rect x="0.64" y="3.22" width="2.28" height="8.44" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="2.92" y="3.78" width="2.28" height="7.88" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="5.20" y="3.44" width="2.28" height="8.22" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="7.48" y="3.83" width="2.28" height="7.84" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="9.75" y="3.64" width="2.28" height="8.02" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="12.03" y="4.20" width="2.28" height="7.46" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="14.31" y="4.12" width="2.28" height="7.54" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="16.59" y="4.31" width="2.28" height="7.36" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="18.87" y="4.01" width="2.28" height="7.65" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="21.15" y="4.37" width="2.28" height="7.29" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="23.43" y="4.12" width="2.28" height="7.54" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="25.71" y="4.65" width="2.28" height="7.01" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="27.99" y="4.66" width="2.28" height="7.00" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="30.27" y="4.65" width="2.28" height="7.02" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="32.55" y="4.27" width="2.28" height="7.39" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="34.83" y="4.37" width="2.28" height="7.30" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="37.11" y="4.68" width="2.28" height="6.98" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="39.38" y="4.70" width="2.28" height="6.96" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="41.66" y="4.00" width="2.28" height="7.66" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;rect x="43.94" y="4.01" width="2.28" height="7.66" style="stroke-width: 0.38; fill: #000000;"&gt;&lt;/rect&gt;&lt;/g&gt;&lt;/svg&gt;
+&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Transformações dos Dados
+
+* Queremos criar  uma _dummy_ `q4` que é `TRUE` se você nasceu no 4º trimestre.
+
+* criar versões `factor` de trimestre e ano de nascimento.
+
+
+```r
+ak91 &lt;- mutate(ak91,
+               qob_fct = factor(qob),
+               q4 = as.integer(qob == "4"),
+               yob_fct = factor(yob))
+# get mean wage by year/quarter
+ak91_age &lt;- ak91 %&gt;%
+  group_by(qob, yob) %&gt;%
+  summarise(lnw = mean(lnw), s = mean(s)) %&gt;%
+  mutate(q4 = (qob == 4))
+```
+
+---
+
+# Primeiro Estágio!
+
+.left-thin[
+&lt;br&gt;
+1. Os números rotulados significam trimestre de nascimento.
+
+1. Nascidos no 4º trimestre **obtiveram** mais educação na maioria dos anos!
+
+1. **Relevância da VI**.
+
+]
+
+.right-wide[
+&lt;img src="didatica-IV-MQ2E_files/figure-html/ak91-dummy-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Impacto da VI no resultado
+
+
+.left-thin[
+&lt;br&gt;
+&lt;br&gt;
+1. Nascidos no 4º trimestre estão entre os mais bem pagos por ano de nascimento.
+
+1. Em geral, os salários semanais parecem diminuir um pouco ao longo do tempo.
+]
+
+.right-wide[
+
+&lt;img src="didatica-IV-MQ2E_files/figure-html/ak91-wage-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Executando estimativa VI no `R`
+
+&lt;br&gt;
+&lt;br&gt;
+
+.pull-left[
+* Várias opções (como sempre com `R`! 😉)
+
+* Usará a função [`iv_robust`](https://declaredesign.org/r/estimatr/reference/iv_robust.html) do pacote `estimatr`.
+
+* *Robusto*? Calcula erros padrão corretos. [Detalhes aqui.](https://declaredesign.org/r/estimatr/articles/mathematical-notes.html)
+
+* Observe o `predict` para obter `\(\hat{s}\)`.
+]
+
+
+.pull-right[
+
+```r
+library(estimatr)
+# create a list of models
+mod &lt;- list()
+
+# standard (biased!) OLS
+mod$ols &lt;- lm(lnw ~ s, data = ak91)
+
+# IV: born in q4 is TRUE?
+# doing IV manually in 2 stages.
+mod$stage_1 &lt;- lm(s ~ q4, data = ak91)
+*ak91$shat &lt;- predict(mod$stage_1)
+modmod$stage_2 &lt;- lm(lnw ~ shat, data = ak91)
+
+# run 2SLS
+# doing IV all in one go
+# notice the formula!
+# formula = y ~ x | z
+mod$MQ2E  &lt;- iv_robust(lnw ~ s | q4,
+                       data = ak91,
+                       diagnostics = TRUE)
+```
+]
+
+---
+layout: false
+
+# Resultados
+
+.left-wide[
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:ms1">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">stage_2</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">MQ2E</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.995***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">12.747***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.955***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">4.955***</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.004)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.007)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.381)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.358)</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">s</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.071***</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.074**</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.000)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.028)</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">q4</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.092***</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.013)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">shat</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.074*</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">(0.030)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.117</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.64</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">3.28</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.68</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">0.64</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">48.990</td></tr>
+<tr>
+<td colspan="5" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
+</table>
+
+]
+
+.right-thin[
+1. MQO viesado para baixo (erro de medição)
+
+1. Primeira Fase: VI `q4` é estatisticamente significativo
+
+1. O segundo estágio tem a mesma estimativa pontual que `MQ2E`, mas erro padrão diferente (segundo estágio está errado)
+]
+
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# Lembra da estatística F?
+
+* Encontramos isso antes: é útil testar modelos restritos versus irrestritos entre si.
+
+--
+
+* Aqui, estamos interessados em saber se nossos instrumentos são *conjuntamente* significativos. Claro, com apenas uma VI, isso não é mais informativo do que o t-stat dessa VI.
+
+--
+
+* A F-Stat compara o poder preditivo do primeiro estágio com e sem as VIs. Se eles tiverem poder preditivo muito semelhante, a F-stat será baixa e não poderemos rejeitar H0 de que nossas VIs são **conjuntamente insignificantes** no modelo do primeiro estágio. 
+
+* **Instrumentos fracos**! 😞
+---
+
+# VI com um instrumento fraco
+
+* VI é consistente sob determinadas premissas.
+
+* No entanto, *mesmo* que tenhamos apenas `\(Cor(z,u)\)` muito pequenos, podemos errar
+
+* Pequena correlação entre `\(x\)` e `\(z\)` pode produzir estimativas **inconsistentes**.
+
+$$
+\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
+$$
+
+--
+
+
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Cor(z,x)\)`
+
+* Usamos o teste F no primeiro estágio para verificar a existência de instrumentos fracos. Regra de bolso: `\(F_{stat} &gt; 10\)` (Staiger e Stock, 1997) contestada por Lee et al. 2021.
+
+
+---
+
+# Leitura Recomendada
+
+* WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
+
+* GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed.
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Chapter 4 Instrumental Variables in Action.
+
+* STAIGER, Douglas; James H. Stock. Instrumental Variables Regression with Weak Instruments. Econometrica, vol. 65, no. 3, 1997, pp. 557–86. JSTOR, https://doi.org/10.2307/2171753.
+
+* LEE, David S. et al. Valid t-ratio Inference for IV. National Bureau of Economic Research, 2021.
+---
+
+layout: false
+
+class: title-slide-final, middle
+background-image: url(../../img/logo/UdescEsag.jpeg)
+background-size: 350px
+background-position: 9% 19%
+
+# ATÉ A PRÓXIMA AULA!
+
+Com a Lista 2 feita! ✅
+
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
+
+
+|                                                                                                            |                                   |
+| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
+| &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
+| &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-IV2/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="../../js/ru_xaringan.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

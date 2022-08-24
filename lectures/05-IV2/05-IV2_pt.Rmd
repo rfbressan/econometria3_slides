@@ -971,7 +971,7 @@ background-position: 9% 19%
 
 # ATÉ A PRÓXIMA AULA!
 
-Com a Lista 1 feita! `r emo::ji("white_check_mark")`
+Com a Lista 2 feita! `r emo::ji("white_check_mark")`
 
 .footnote[
 [1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
