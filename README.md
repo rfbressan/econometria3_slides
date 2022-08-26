@@ -18,24 +18,23 @@ Continuamos com nossa abordagem prática para aprender Econometria e `R`. Conhec
 
 ## Programa e slides
 
-Observe que várias dessas aulas se estendem por duas sessões.
+Observe que várias dessas aulas se estendem por duas ou mais sessões.
+
+Lecture 1: Causalidade. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/01-causalidade/01-causality_pt.html)]
+
+Lecture 2: Modelos de Escolha Qualitativa.  [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/02-probit_pt.html)]
 
 
-Lecture 0: Introduction and continuation from intro course: Difference-in-Differences  [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/00-DID/chapter_did.html)]
+Lecture 3: Variáveis Instrumentais e Causalidade - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/03-IV/03-IV_pt.html)]
 
-Lecture 1: Introduction, Logistics and Recap 1 from intro course. Uncertainty in regression estimates, orthogonality of error, BLUE property.  [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/01-recap/recap1.html)]
+Lecture 4: Variáveis Instrumentais e Causalidade - Parte II. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/04-IV2.html)]
 
-Lecture 2: Recap 2 from intro course. What's a *model*, omitted variable bias, interpreting coefficients, the log transformation [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/02-recap/recap2.html)]
+Lecture 5: Modelos de Equações Simultâneas. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-simultaneas/05-eq_simultaneas.html)]
 
-Lecture 3: intro to the `data.table` package [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/03-datatable/03-datatable.html)]
+Lecture 6: Dados em Painel - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/06-panel_pt.html)]
 
-Lecture 4: Instrumental Variables and Causality 1. John Snow's Cholera Experiment as a motivation for the IV estimator, using a DAG to think about the exclusion restriction, the Wald estimator. [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/04-IV/04-IV.html)]
+Lecture 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)]
 
-Lecture 5: Instrumental Variables and Causality 2. 2SLS, returns to schooling and ability bias, replicating Angrist and Krueger (1991), IV mechanics, identification and inference, weak instruments [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/05-IV2/05-IV2.html)]
-
-Lecture 6: Panel Data 1: What, How and Why? Application to crime rates at county level, within and between variation, the within transformation, running panel regressions in R [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/06-panel/06-panel.html)]
-
-Lecture 7: Discrete Outcomes: Logit and Probit. Bernoulli reminder, Mroz dataset, the linear probability model, the saturated LPM, logit and probit marginal effects, Goodness of fit in non-linear binary response models. [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/07-probit/07-probit.html)]
 
 Lecture 8: Intro to Statistical (or *Machine*) Learning 1: the bias-variance-tradeoff, taxonomy of methods, parametric vs non-parametric, linear vs nonlinear, relationship between variance, bias and MSE [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/08-learning/08-learning.html)]
 
