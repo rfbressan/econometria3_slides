@@ -36,19 +36,13 @@ Lecture 6: Dados em Painel - Parte I. [[HTML](https://raw.githack.com/rfbressan/
 Lecture 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)]
 
 
-Lecture 8: Intro to Statistical (or *Machine*) Learning 1: the bias-variance-tradeoff, taxonomy of methods, parametric vs non-parametric, linear vs nonlinear, relationship between variance, bias and MSE [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/08-learning/08-learning.html)]
-
-Lecture 9: Intro to Statistical (or *Machine*) Learning 2: Subset selection (Lasso and Ridge regressions), unsupervised learning (PCA and K-means clustering) [[HTML](https://raw.githack.com/ScPoEcon/Advanced-Metrics-slides/master/lectures/09-unsupervised/09-unsupervised.html)]
-
-## Aulas Adicionais
-
-Bootstrapping: More details about bootstrapping. [HTML](https://raw.githack.com/rfbressan/econometria_slides/master/chapter_bootstrap/boostrap.html)
-
 ## Bibliografia Recomendada
 
 * WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. 
 
 * GUJARATI, Damodar N.; PORTER, Dawn C. Econometria básica. Porto Alegre: Amgh Editora, 2011. - 5. ed. 
+
+* GERTLER, Paul J. et al. Avaliação de Impacto na Prática, 2018. - 2. ed. Banco Mundial.
 
 * CUNNINGHAM, Scott. Causal Inference: The Mixtape, New Haven: Yale University Press, 2021. URL: https://mixtape.scunning.com/
 
@@ -59,6 +53,18 @@ Bootstrapping: More details about bootstrapping. [HTML](https://raw.githack.com/
 * WOOLDRIDGE, Jeffrey M. Econometric Analysis of Cross Section and Panel Data. MIT press, 2010. Second Edition. 
 
 * HANSEN, Bruce E. Econometrics. Manuscript, revision of February 2020.
+
+**Programação em R**
+
+* FREIRE, Sergio M. Introdução ao R. 2021. URL: http://www.lampada.uerj.br/introducaoaor
+
+* R Core Team. An Introduction to R. URL: https://cran.r-project.org/doc/manuals/r-release/R-intro.html
+
+* HANCK, Christoph et al. Introduction to Econometrics with R. University of Duisburg-Essen, 2019. URL: https://www.econometrics-with-r.org/
+
+* HEISS, Florian. Using R for Introductory Econometrics. URL: http://urfie.net/
+
+* WICKHAM, Hadley; GROLEMUND, Garrett. R for data science: import, tidy, transform, visualize, and model data. O'Reilly Media, Inc., 2016. URL: https://r4ds.had.co.nz/
 
 
 ## Legal
