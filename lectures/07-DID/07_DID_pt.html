@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Econometria III</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rafael Bressan" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-41584331-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-41584331-6');
+    </script>
+
+    <link rel="stylesheet" href="../../css/scpo.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/scpo-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Econometria III
+]
+.subtitle[
+## Diferenças-em-Diferenças
+]
+.author[
+### Rafael Bressan
+]
+.date[
+### Esag </br> 2022-09-03
+]
+
+---
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# Hoje: ***Diferenças-em-diferenças***
+
+* Explora mudanças ao longo do tempo que não afetam a todos
+
+* Necessidade de encontrar (ou construir) grupo de controle apropriado
+
+* *Suposição chave:* tendências paralelas
+
+* *Aplicação empírica*: impacto do ***salário mínimo*** no ***emprego***. Card e Krueger (1994)
+
+* Design de inferência causal mais amplamente utilizado em econometria aplicada
+---
+
+&lt;img src="../../img/photos/quasi_experimental_methods.png" height="580px" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Métodos de avaliação
+
+* A regressão múltipla geralmente não fornece estimativas causais por causa da ***seleção em não observáveis*** (e.g. viés de variável omitida).
+
+--
+
+* Experimentos RCTs são uma maneira de resolver este problema, mas muitas vezes são impossíveis de fazer.
+
+--
+
+* Quatro principais métodos de avaliação causal usados em economia:
+
+   - ***variáveis instrumentais (VI)***,
+   - ***pareamento por escore de propensão*** (Propensity Score Matching),
+   - ***regressão em descontinuidade (RDD)***
+   - ***diferenças-em-diferenças (DID)***, e
+   - ***bunching*** chegou atrasado 🕰
+
+--
+
+* Esses métodos são usados para identificar __relações causais__ entre tratamentos e resultados.
+
+
+---
+
+# Diferenças em Diferenças (DID)
+
+* ⚠️ indivíduos **não são** alocados aleatoriamente ao tratamento 
+
+--
+
+## Requisitos do DID canônico:
+
+--
+
+* 2 períodos de tempo: antes e depois do tratamento.
+
+--
+
+* 2 grupos:
+
+--
+  - ***grupo controle:*** nunca recebe tratamento,
+
+--
+
+  - ***grupo de tratamento:*** inicialmente não tratado e depois totalmente tratado.
+  
+--
+
+* Sob certas suposições, o grupo de controle pode ser usado como contrafactual para o grupo de tratamento
+
+---
+
+# Diferenças em Diferenças (DID)
+
+## Exemplo: Salário Mínimo e Emprego
+
+--
+
+* Imagine que você está interessado em avaliar o impacto __causal__ do aumento do salário mínimo no (des)emprego.
+
+--
+
+* Por que isso não é tão simples? Qual deve ser o grupo de controle?
+
+--
+
+* [Paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf) seminal em 1994  pelos proeminentes economistas trabalhistas David Card e Alan Krueger intitulado "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania"
+
+--
+
+* Estima o efeito de um aumento do salário mínimo sobre a taxa de emprego na indústria de fast-food. Por que essa indústria?
+
+---
+# Card e Krueger (1994)
+
+## Detalhes Institucionais
+
+* Nos EUA, existe um salário mínimo nacional, mas os estados podem divergir dele.
+
+--
+
+* 1º de abril de 1992: o salário mínimo de Nova Jersey aumenta de US$ 4,25 para US$ 5,05 por hora.
+
+--
+
+* A vizinha Pensilvânia não mudou seu nível de salário mínimo.
+
+--
+
+.pull-left[
+&lt;img src="../../img/photos/nj_penn_map.png" width="600px" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;br&gt;
+&lt;br&gt;
+Pensilvânia e Nova Jersey são ***muito semelhantes***: instituições semelhantes, hábitos semelhantes, consumidores semelhantes, renda semelhante, clima semelhante, etc.]
+---
+
+# Card e Krueger (1994)
+
+## Metodologia
+
+* Pesquisados 410 estabelecimentos de fast-food em Nova Jersey (NJ) e leste da Pensilvânia
+
+--
+
+* Tempo:
+
+--
+   - Levantamento antes do aumento de SM de NJ: fevereiro/março de 1992
+
+--
+   - Levantamento após aumento de SM de NJ: Nov/Dez 1992
+
+--
+
+* Que comparações você acha que eles fizeram?
+
+--
+
+.pull-left[
+Vamos dar uma olhada nos dados
+
+
+```r
+# install package that contains the cleaned data
+remotes::install_github("b-rodrigues/diffindiff")
+library(diffindiff)
+ck1994_df &lt;- njmin
+```
+]
+
+--
+
+.pull-right[
+
+```
+## # A tibble: 6 × 6
+##   sheet chain  state        observation   empft emppt
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+## 1 46    bk     Pennsylvania February 1992  30    15  
+## 2 49    kfc    Pennsylvania February 1992   6.5   6.5
+## 3 506   kfc    Pennsylvania February 1992   3     7  
+## 4 56    wendys Pennsylvania February 1992  20    20  
+## 5 61    wendys Pennsylvania February 1992   6    26  
+## 6 62    wendys Pennsylvania February 1992   0    31
+```
+
+]
+---
+
+class: inverse
+
+# Tarefa 1 (10 minutos)
+
+1. Dê uma olhada no conjunto de dados e liste as variáveis. Verifique as definições de variáveis com `?njmin`.
+
+1. Tabule o número de lojas por `state` e por onda de pesquisa (`observation`). Corresponde ao que está na *Tabela 1* do [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
+
+
+
+1. Crie uma variável de funcionários equivalente em tempo integral (FTE) chamada `empfte` igual a `empft` + 0,5*`emppt` + `nmgrs`. `empft` e `emppt` correspondem, respectivamente, a funcionários em tempo integral e meio período. `nmgrs` é o número de gerentes.
+
+
+
+1. Calcule o número médio de empregos FTE, porcentagem média de funcionários FT (fora do número de funcionários FTE) e salário inicial médio (`wage_st`) por estado e por onda de pesquisa. Compare seus resultados com a *Tabela 2* do artigo.
+
+
+
+5. Quão diferentes são os restaurantes de fast-food de Nova Jersey e da Pensilvânia antes do aumento do salário mínimo?
+
+---
+
+# Card e Krueger (1994) 
+
+.pull-left[
+## Resultados
+
+.center[__Emprego médio por loja antes e depois do aumento do salário mínimo de NJ__]
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variáveis &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Pensilvania &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Nova Jersey &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; emprego FTE antes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     text-align: c;"&gt;23.33&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     text-align: c;"&gt;20.44&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; emprego FTE depois &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     text-align: c;"&gt;21.17&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     text-align: c;"&gt;21.03&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mudança na média emprego FTE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(253, 231, 37, 1) !important;text-align: c;"&gt;-2.17&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(68, 1, 84, 1) !important;text-align: center;"&gt;0.59&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+.pull-right[
+## Estimativa de DID
+
+Estimativa causal de diferenças em diferenças: `\(0,59 - (-2,17) = 2,76\)`
+
+
+Interpretação: o aumento do salário mínimo levou a um __aumento__ no emprego FTE por loja de 2,76 em média.
+
+
+Sim, a essência das diferenças-em-diferenças é _assim_ simples! 😀
+
+Vejamos esses resultados graficamente.
+
+]
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Comparação ingênua depois/antes?
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Comparação ingênua depois/antes?
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Comparação simples NJ/PA?
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Comparação simples NJ/PA?
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: false
+class: separator, middle
+
+# Estimação
+
+---
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# DID em Forma de Regressão
+
+* Na prática, o DID é geralmente estimado em mais de 2 períodos (4 observações)
+
+* Há mais pontos de dados antes e depois da alteração da política
+
+--
+
+3 ingredientes:
+
+--
+
+1. __Variável dummy de tratamento__: `\(TREAT_s\)` onde o subscrito `\(s\)` nos lembra que o tratamento está no nível do estado
+
+--
+
+1. __Variável dummy dos períodos de pós-tratamento__: `\(POST_t\)` onde o subscrito `\(t\)` nos lembra que esta variável varia ao longo do tempo
+
+--
+
+1. __Termo de interação entre os dois__: `\(TREAT_s \times POST_t\)` 👉 o coeficiente neste termo é o **efeito causal** DID!
+
+---
+
+# DID in Regression Form
+
+__Variável dummy de tratamento__
+$$
+TREAT_s = \begin{cases}\begin{array}{lcl}
+0 \quad \text{se } s = \text{Pensilvânia} \\\
+1 \quad \text{se } s = \text{Nova Jersey}
+\end{array}\end{cases}
+$$
+
+--
+
+__Variável dummy pós-tratamento__
+$$
+POST_t = \begin{cases}\begin{array}{lcl}
+0 \quad \text{se } t &lt; \text{1º abril, 1992} \\\
+1 \quad \text{se } t \geq \text{1º abril, 1992}
+\end{array}\end{cases}
+$$
+
+--
+
+__Quais observações correspondem a `\(TREAT_s \times POST_t = 1\)`?__
+
+--
+
+* Vamos juntar todos esses ingredientes:
+`$$EMP_{st} = \alpha + \beta TREAT_s + \gamma POST_t + \delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
+
+---
+
+# Compreendendo a Regressão
+
+`$$EMP_{st} = \color{#d96502}\alpha + \color{#027D83}\beta TREAT_s + \color{#02AB0D}\gamma POST_t + \color{#d90502}\delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
+
+--
+
+Temos o seguinte:
+
+--
+
+`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 0) = \color{#d96502}\alpha \tag{1}\)`
+
+--
+
+`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 1) = \color{#d96502}\alpha + \color{#02AB0D}\gamma\tag{2}\)`
+
+--
+
+`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 0) = \color{#d96502}\alpha + \color{#027D83}\beta\tag{3}\)`
+
+--
+
+`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 1) = \color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\tag{4}\)`
+
+--
+
+`$$\left[(4)-(3)\right]-\left[(2)-(1)\right] = \color{#d90502}\delta$$`
+
+--
+`\(\color{#d90502}\delta\)`: ***efeito causal*** do aumento do salário mínimo sobre o emprego
+
+---
+
+# Compreendendo a Regressão
+
+`$$EMP_{st} = \color{#d96502}\alpha + \color{#027D83}\beta TREAT_s + \color{#02AB0D}\gamma POST_t + \color{#d90502}\delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
+
+Em formato de tabela:
+
+
+   | Pré  | Pós  | `\(\Delta\)`(Pós - Pré)
+:-:|:--:|:--:|:--:
+Pensilvânia (PA) | `\(\color{#d96502}\alpha\)` | `\(\color{#d96502}\alpha + \color{#02AB0D}\gamma\)` | `\(\color{#02AB0D}\gamma\)`
+Nova Jersey (NJ) | `\(\color{#d96502}\alpha + \color{#027D83}\beta\)` | `\(\color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\)` | `\(\color{#02AB0D}\gamma + \color{#d90502}\delta\)`
+`\(\Delta\)`(NJ - PA) | `\(\color{#027D83}\beta\)` | `\(\color{#027D83}\beta + \color{#d90502}\delta\)` | `\(\color{#d90502}\delta\)`
+
+--
+
+Esta tabela generaliza para outras configurações substituindo *Pensilvânia* por *Controle* e *Nova Jersey* por *Tratamento*
+---
+
+class: inverse
+
+# Tarefa 2 (10 minutos)
+
+1. Crie uma variável dummy, `treat`, igual a `FALSE` se `state` é Pensilvânia e `TRUE` se Nova Jersey.
+
+
+
+1. Crie uma variável dummy, `post`, igual a `FALSE` se `observation` é fevereiro de 1992 e `TRUE` caso contrário.
+
+
+
+1. Estime o seguinte modelo de regressão. Você obtém os mesmos resultados do slide 9?
+
+`$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$`
+
+
+
+
+---
+
+layout: false
+class: separator, middle
+
+# Identifying Assumptions
+
+---
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+---
+
+# Hipótese Crucial DID 
+
+## Tendências Paralelas
+
+&gt; __Hipótese de tendências comuns ou paralelas__: sem qualquer aumento do salário mínimo, a tendência de emprego de fast-food na Pensilvânia teria sido o que deveríamos esperar ver em Nova Jersey.
+
+--
+
+* Esta hipótese afirma que a tendência de emprego de fast-food da Pensilvânia entre fevereiro e novembro de 1992 fornece uma tendência confiável de emprego *contrafactual* que a indústria de fast-food de Nova Jersey *teria experimentado* caso não tivesse aumentado seu salário mínimo.
+
+--
+
+* Impossível validar ou invalidar completamente esta hipótese (não-testável).
+
+* *Verificação intuitiva:* comparar tendências antes da mudança de política e boa argumentação da comparabilidade dos grupos
+
+---
+
+#  Tendências Paralelas: Graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Verificando a hipótese de tendências paralelas
+
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-22-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Verificando a hipótese de tendências paralelas
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-26-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-27-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de Tendências Paralelas: [Card and Krueger (2000)](https://inequality.stanford.edu/sites/default/files/media/_media/pdf/Reference%20Media/Card%20and%20Krueger_2000_Policy.pdf)
+
+Aqui estão as tendências reais para a Pensilvânia e Nova Jersey
+
+&lt;img src="../../img/photos/min_wage_parallel_trends.png" width="600px" style="display: block; margin: auto;" /&gt;
+
+--
+
+.right-wide[
+* É provável que a hipótese de tendência comum seja verificada?
+]
+---
+
+# Hipótese de Tendências Paralelas: formalmente
+
+* `\(Y_{ist}^1\)`: emprego no restaurante `\(i\)` no estado `\(s\)` no momento `\(t\)` quando SM estadual alto (resultado potencial tratado);
+
+--
+* `\(Y_{ist}^0\)`: emprego no restaurante `\(i\)` no estado `\(s\)` no momento `\(t\)` quando SM baixo no estado (resultado potencial não tratado);
+
+--
+
+O principal pressuposto subjacente à estimativa de DID é que, **no estado sem tratamento**, o resultado do restaurante `\(i\)` no estado `\(s\)` no momento `\(t\)` é dado por:
+
+`$$\mathbb{E}[Y_{ist}^0|s,t] = \gamma_s + \lambda_t$$`
+
+Duas suposições implícitas:
+
+1. ***Viés de seleção***: refere-se a características de estado fixo `\((\gamma)\)`
+
+2. ***Tendência temporal***: mesma tendência temporal para grupos tratamento e controle `\((\lambda)\)`
+
+---
+
+# Hipótese de Tendências Paralelas: formalmente
+
+Resultados no grupo de comparação:
+
+`$$\mathbb{E}[Y_{ist}| s = \text{Pensilvânia},t = \text{Fev}] = \gamma_{PA} + \lambda_{Fev}$$`
+--
+
+`$$\mathbb{E}[Y_{ist}|s = \text{Pensilvânia},t = \text{Nov}] = \gamma_{PA} + \lambda_{Nov}$$`
+
+--
+
+$$
+`\begin{align}
+\mathbb{E}[Y_{ist}|s &amp;= \text{Pensilvânia},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{Pensilvânia},t = \text{Fev}] \\
+&amp;= \gamma_{PA} + \lambda_{Nov} - (\gamma_{PA} + \lambda_{Fev}) \\
+&amp;= \underbrace{\lambda_{Nov} - \lambda_{Fev}}_{\text{tendência temporal}}
+\end{align}`
+$$
+
+--
+
+➡️ o grupo de comparação permite estimar a ***tendência temporal***.
+
+---
+
+# Hipótese de Tendências Paralelas: formalmente
+
+Seja `\(\delta\)` o verdadeiro impacto do aumento do salário mínimo:
+
+`$$\mathbb{E}[Y_{ist}^1 - Y_{ist}^0|s,t] := \delta$$`
+
+--
+
+Resultados no grupo de tratamento:
+
+`$$\mathbb{E}[Y_{ist}|s = \text{Nova Jersey}, t = \text{Fev}] = \gamma_{NJ} + \lambda_{Fev}$$`
+--
+
+`$$\mathbb{E}[Y_{ist}|s = \text{Nova Jersey}, t = \text{Nov}] = \gamma_{NJ} + \delta + \lambda_{Nov}$$`
+--
+
+$$
+`\begin{align}
+\mathbb{E}[Y_{ist}|s &amp;= \text{Nova Jersey}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s = \text{Nova Jersey}, t = \text{Fev}] \\
+&amp;= \gamma_{NJ} + \delta + \lambda_{Nov} - (\gamma_{NJ} + \lambda_{Feb}) \\
+&amp;= \delta + \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{tendência temporal}}
+\end{align}`
+$$
+
+---
+
+# Hipótese de Tendências Paralelas: formalmente
+
+Portanto nós temos que:
+
+$$
+`\begin{align}
+\mathbb{E}[Y_{ist}&amp;|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}] = \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
+\end{align}`
+$$
+
+--
+
+$$
+`\begin{align}
+\mathbb{E}[Y_{ist}&amp;|s = \text{NJ},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{NJ},t = \text{Fev}] = \delta + \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
+\end{align}`
+$$
+
+--
+
+$$
+`\begin{align}
+DID &amp;= \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Fev}] \\
+&amp; \qquad \qquad - \Big(\mathbb{E}[Y_{ist}|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}]\Big) \\
+&amp;= \delta + \lambda_{Nov} - \lambda_{Feb} - (\lambda_{Nov} - \lambda_{Feb}) \\
+&amp;= \delta
+\end{align}`
+$$
+
+---
+# Leitura Recomendada
+
+* GERTLER, Paul J. et al. Avaliação de Impacto na Prática, 2018. - 2. ed. Banco Mundial. Capítulo 7 Diferenças em diferenças
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Section 5.2 Differences-in-differences
+
+* CUNNINGHAM, Scott. Causal Inference: The Mixtape, New Haven: Yale University Press, 2021. URL: https://mixtape.scunning.com/. Chapter 9 Difference-in-differences
+
+---
+
+layout: false
+
+class: title-slide-final, middle
+background-image: url(../../img/logo/UdescEsag.jpeg)
+background-size: 350px
+background-position: 9% 19%
+
+# ATÉ A PRÓXIMA AULA!
+
+Com a Lista 4 feita! ✅
+
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
+
+
+|                                                                                                            |                                   |
+| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
+| &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
+| &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_IV_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="../../js/ru_xaringan.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

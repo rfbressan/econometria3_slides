@@ -1,0 +1,40 @@
+---
+title: "Diferenças em diferenças"
+subtitle: "Lista de Exercícios IV"
+author: "Rafael Bressan"
+date: "UDESC/Esag </br> `r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Questão 1
+
+Consider the canonical DID setup with T = 2 and N = 2.
+$$y_{it} = \beta_0 + \beta_1 State_i + \beta_2 Post_t + \theta D_{it} + \varepsilon_{it}$$
+suppose the time variable is omitted. Thus the estimating equation is
+$$y_{it} = \beta_0 + \beta_1 State_i + \beta_2 Post_t + \varepsilon_{it}$$
+where $D_{it}= State_i \cdot Time_t$ is the treatment indicator.
+
+(a) Find an algebraic expression for the least squares estimator $\hat\theta$.
+
+(b) Show that $\hat\theta$ is a function only of the treated sub-sample and is not a function of the untreated sub-sample.
+
+(c) Is $\hat\theta$ a difference-in-differences estimator?
+
+(d) Under which assumptions might $\hat\theta$ be an appropriate estimator of the treatment effect?
+
+## Questão 2
+
+
+
+## Questão 3
+
+Take the basic difference-in-differences model
+y i t = θD i t + u i + δ t + ε i t .
+Instead of assuming that D i t and ε i t are independent, assume we have an instrumental variable z i t
+which is independent of ε i t but is correlated with D i t . Describe how to estimate θ.
+Hint: Review Section 17.28.
