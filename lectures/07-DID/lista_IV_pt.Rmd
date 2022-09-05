@@ -13,28 +13,36 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Questão 1
 
-Consider the canonical DID setup with T = 2 and N = 2.
+Considere a configuração canônica do DID com T = 2 e N = 2.
+
 $$y_{it} = \beta_0 + \beta_1 State_i + \beta_2 Post_t + \theta D_{it} + \varepsilon_{it}$$
-suppose the time variable is omitted. Thus the estimating equation is
+
+suponha que a variável de tempo seja omitida. Assim, a equação de estimativa é
+
 $$y_{it} = \beta_0 + \beta_1 State_i + \beta_2 Post_t + \varepsilon_{it}$$
-where $D_{it}= State_i \cdot Time_t$ is the treatment indicator.
 
-(a) Find an algebraic expression for the least squares estimator $\hat\theta$.
+onde $D_{it}= State_i \cdot Time_t$ é o indicador de tratamento.
 
-(b) Show that $\hat\theta$ is a function only of the treated sub-sample and is not a function of the untreated sub-sample.
+(a) Encontre uma expressão algébrica para o estimador de mínimos quadrados $\hat\theta$.
 
-(c) Is $\hat\theta$ a difference-in-differences estimator?
+(b) Mostre que $\hat\theta$ é função apenas da subamostra tratada e não da subamostra não tratada.
 
-(d) Under which assumptions might $\hat\theta$ be an appropriate estimator of the treatment effect?
+(c) $\hat\theta$ é um estimador de diferença-em-diferenças?
+
+(d) Sob quais premissas $\hat\theta$ pode ser um estimador apropriado do efeito do tratamento?
 
 ## Questão 2
 
+Condidere o modelo básico de efeito fixo em duas vias
+$$y_{it} = \theta D_{it} + u_i + \delta_t + \varepsilon_{it}.$$
+
+Em vez de assumir que $D_{it}$ e $\varepsilon_{it}$ são independentes, assuma que temos uma variável instrumental $z_{it}$ que é independente de $\varepsilon_{it}$ mas está correlacionada com $D_ {it}$. Descreva como estimar $\theta$.
 
 
 ## Questão 3
 
-Take the basic difference-in-differences model
-y i t = θD i t + u i + δ t + ε i t .
-Instead of assuming that D i t and ε i t are independent, assume we have an instrumental variable z i t
-which is independent of ε i t but is correlated with D i t . Describe how to estimate θ.
-Hint: Review Section 17.28.
+MOSTRAR NA PRÁTICA A EQUIVALENCIA ENTRE DID 2X2 E TWFE
+
+## Questão 4
+
+SIMULAR TRATAMENTO ESCALONADO E MOSTRAR COMO TWFE É VIESADO
