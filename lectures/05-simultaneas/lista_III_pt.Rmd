@@ -1,6 +1,6 @@
 ---
-title: "Dados em Painel"
-subtitle: "Lista de Exercícios IV"
+title: "Sistema de Equações Simultâneas"
+subtitle: "Lista de Exercícios III"
 author: "Rafael Bressan"
 date: "UDESC/Esag </br> `r Sys.Date()`"
 output: html_document
@@ -12,3 +12,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## Questão 1
+

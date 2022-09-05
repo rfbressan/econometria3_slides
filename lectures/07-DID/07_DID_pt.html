@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-09-04
+### Esag </br> 2022-09-05
 ]
 
 ---
@@ -69,6 +69,11 @@ layout: true
 
 * Design de inferência causal mais amplamente utilizado em econometria aplicada
 ---
+
+
+```r
+knitr::include_graphics("../../img/photos/quasi_experimental_methods.png")
+```
 
 &lt;img src="../../img/photos/quasi_experimental_methods.png" height="580px" style="display: block; margin: auto;" /&gt;
 
@@ -214,6 +219,12 @@ ck1994_df &lt;- njmin
 --
 
 .pull-right[
+
+```r
+ck1994_df %&gt;%
+  select(sheet,chain,state,observation,empft,emppt) %&gt;%
+  head()
+```
 
 ```
 ## # A tibble: 6 × 6
@@ -712,7 +723,7 @@ background-position: 9% 19%
 
 # ATÉ A PRÓXIMA AULA!
 
-Com a Lista 4 feita! ✅
+Com a Lista 5 feita! ✅
 
 .footnote[
 [1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
@@ -723,7 +734,7 @@ Com a Lista 4 feita! ✅
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
 | &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
-| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_IV_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_V_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios V |
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

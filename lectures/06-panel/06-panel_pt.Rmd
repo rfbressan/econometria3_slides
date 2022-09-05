@@ -704,5 +704,5 @@ Com a Lista 1 feita! `r emo::ji("white_check_mark")`
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
 | <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
-| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |
+| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_IV_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios IV |
 

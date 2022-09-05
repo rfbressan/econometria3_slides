@@ -12,7 +12,7 @@
 <meta name="author" content="Rafael Bressan" />
 
 
-<title>Diferenças em diferenças</title>
+<title>Variáveis Instrumentais</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -362,49 +362,125 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Diferenças em diferenças</h1>
-<h3 class="subtitle">Lista de Exercícios IV</h3>
+<h1 class="title toc-ignore">Variáveis Instrumentais</h1>
+<h3 class="subtitle">Lista de Exercícios II</h3>
 <h4 class="author">Rafael Bressan</h4>
-<h4 class="date">UDESC/Esag </br> 2022-09-03</h4>
+<h4 class="date">UDESC/Esag </br> 2022-09-05</h4>
 
 </div>
 
 
 <div id="questão-1" class="section level2">
 <h2>Questão 1</h2>
-<p>Considere a configuração canônica do DID com T = 2 e N = 2.</p>
-<p><span class="math display">\[y_{it} = \beta_0 + \beta_1 State_i +
-\beta_2 Post_t + \theta D_{it} + \varepsilon_{it}\]</span></p>
-<p>suponha que a variável de tempo seja omitida. Assim, a equação de
-estimativa é</p>
-<p><span class="math display">\[y_{it} = \beta_0 + \beta_1 State_i +
-\beta_2 Post_t + \varepsilon_{it}\]</span></p>
-<p>onde <span class="math inline">\(D_{it}= State_i \cdot
-Time_t\)</span> é o indicador de tratamento.</p>
+<p>Suponha que temos um modelo <span class="math inline">\(y=\beta_0 +
+\beta_1 x + u\)</span>, onde <span class="math inline">\(E\left[x_i
+u_i\right]\neq 0\)</span>. Você obtém uma variável <span class="math inline">\(Z\)</span> tal que <span class="math inline">\(E\left[z_i u_i\right] = 0\)</span>.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Encontre uma expressão algébrica para o estimador de mínimos
-quadrados <span class="math inline">\(\hat\theta\)</span>.</p></li>
-<li><p>Mostre que <span class="math inline">\(\hat\theta\)</span> é
-função apenas da subamostra tratada e não da subamostra não
-tratada.</p></li>
-<li><p><span class="math inline">\(\hat\theta\)</span> é um estimador de
-diferença-em-diferenças?</p></li>
-<li><p>Sob quais premissas <span class="math inline">\(\hat\theta\)</span> pode ser um estimador
-apropriado do efeito do tratamento?</p></li>
+<li><p>Utilize a expressão <span class="math inline">\(Cov(z_i, u_i) =
+0\)</span> para deduzir a forma do parâmetro <span class="math inline">\(\beta_1\)</span> nesse modelo.</p></li>
+<li><p>Na letra (a), uma das hipóteses necessárias é “há correlação
+entre as variáveis X e Z”. Como isso aparece na forma estimada acima?
+Explique, intuitivamente, o sentido econômico dessa hipótese. Procure
+usar exemplos de um problema real.</p></li>
+<li><p>Utilizando os análogos amostrais de (a), proponha um estimador
+para o parâmetro populacional. Chame esse estimador de <span class="math inline">\(\hat\beta_{1,IV}\)</span>.</p></li>
+<li><p>Outra forma de calcular <span class="math inline">\(\hat\beta_{1,IV}\)</span> é via MQ2E. Explique
+quais são os dois estágios da regressão.</p></li>
+<li><p>Assuma agora que <span class="math inline">\(y = X\beta +
+u\)</span>, onde <span class="math inline">\(E\left[X&#39; u\right] \neq
+0\)</span> e <span class="math inline">\(X\)</span> tenha dimensão <span class="math inline">\(k &gt; 1\)</span>. Você obtém um conjunto de <span class="math inline">\(g \leq k\)</span> variáveis <span class="math inline">\(Z\)</span> tal que <span class="math inline">\(E\left[Z&#39;u\right] = 0\)</span>. Perceba que X
+pode conter, por exemplo, apenas uma variável tal que <span class="math inline">\(E\left[x_k u\right] \neq 0\)</span> (endógena), o
+que já tornaria o modelo inválido. Dê uma intuição para o motivo do
+número de variáveis instrumentais ser necessariamente maior ou igual ao
+número de variáveis explicativas em <span class="math inline">\(X\)</span> que são correlacionadas com o termo de
+erro. O que acontece quando o número de variáveis instrumentais é
+estritamente maior que o número de variáveis endógenas?</p></li>
 </ol>
 </div>
 <div id="questão-2" class="section level2">
 <h2>Questão 2</h2>
+<p>Um dos problemas mais simples de variáveis instrumentais é o caso
+onde <span class="math inline">\(y_i=\alpha+\beta x_i+u_i\)</span> ,
+<span class="math inline">\(E\left[x_i u_i\right] \neq 0\)</span>, e
+você obtém um instrumento binário (dummy) <span class="math inline">\(z_i\)</span>, com <span class="math inline">\(E\left[z_i u_i\right] = 0\)</span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Mostre que o estimador de IV pode ser escrito como <span class="math display">\[
+b_{Wald}=\frac{\bar{y}_1 - \bar{y}_0}{\bar{x}_1 - \bar{x}_0}
+\]</span> Onde <span class="math inline">\(\bar{y}_0\)</span> e <span class="math inline">\(\bar{x}_0\)</span> são as médias amostrais de
+<span class="math inline">\(x_i\)</span> e <span class="math inline">\(y_i\)</span> considerando apenas a parte da
+amostra com <span class="math inline">\(z_i = 0\)</span>, e que <span class="math inline">\(\bar{y}_1\)</span> e <span class="math inline">\(\bar{x}_1\)</span> são as médias amostrais
+considerando apenas a amostra com <span class="math inline">\(z_i =
+1\)</span>. Esse estimador, conhecido como estimador de Wald, foi
+proposto pelo próprio em 1940.</p></li>
+<li><p>Pense no caso onde <span class="math inline">\(x_i\)</span> é uma
+variável dummy indicando um tratamento (por exemplo, <span class="math inline">\(x_i = 1\)</span> se o indivı́duo aplicou para um
+programa de retreinamento fornecido pelo governo). Interprete
+intuitivamente o estimador acima, lembrando que a média de uma variável
+dummy é a proporção de observações cujo valor de <span class="math inline">\(x_i\)</span> é igual à 1. Para ajudar na resposta,
+note que o estimador da letra (a) requer que <span class="math inline">\(\bar{x}_1 - \bar{x}_0 \neq 0\)</span>.</p></li>
+</ol>
 </div>
 <div id="questão-3" class="section level2">
 <h2>Questão 3</h2>
-<p>Condidere o modelo básico de efeito fixo em duas vias <span class="math display">\[y_{it} = \theta D_{it} + u_i + \delta_t +
-\varepsilon_{it}.\]</span></p>
-<p>Em vez de assumir que <span class="math inline">\(D_{it}\)</span> e
-<span class="math inline">\(\varepsilon_{it}\)</span> são independentes,
-assuma que temos uma variável instrumental <span class="math inline">\(z_{it}\)</span> que é independente de <span class="math inline">\(\varepsilon_{it}\)</span> mas está correlacionada
-com <span class="math inline">\(D_ {it}\)</span>. Descreva como estimar
-<span class="math inline">\(\theta\)</span>.</p>
+<p>Suponha que você está interessado em estimar <span class="math display">\[y_i = \alpha + \beta x_i + u_i\]</span> onde
+<span class="math inline">\(x_i\)</span> é um escalar e <span class="math inline">\(E\left[x_i u_i\right] \neq 0\)</span>. Você
+observa uma variável aleatória <span class="math inline">\(z_i\)</span>,
+relevante no sentido de que <span class="math inline">\(E\left[z_i
+x_i\right] \neq 0\)</span>, mas não não tem certeza se ela é válida como
+instrumento, ou seja, não é garantindo que <span class="math inline">\(E\left[z_i u_i\right] = 0\)</span>. Você decide
+estimar o modelo por OLS e IV, usando os estimadores</p>
+<p><span class="math display">\[b_{MQO}=\frac{\sum(x_i-\bar x)(y_i-\bar
+y)}{\sum (x_i-\bar x)^2} \text{ e } b_{VI}=\frac{\sum(z_i-\bar
+z)(y_i-\bar y)}{\sum (z_i-\bar z)(x_i-\bar x)}\]</span> Nesse exercício,
+queremos deduzir condições para as quais o estimador de MQO é uma opção
+melhor que o estimador de VI.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Mostre que o viés assintótico do MQO é igual à</li>
+</ol>
+<p><span class="math display">\[plim(b_{MQO}) − \beta = \text{corr}(x_i,
+u_i)\frac{\sigma_u}{\sigma_x}\]</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Mostre que o viés assintótico do IV é igual à</li>
+</ol>
+<p><span class="math display">\[plim(b_{VI}) − \beta =
+\frac{\text{corr}(z_i, u_i)}{\text{corr}(z_i,
+x_i)}\frac{\sigma_u}{\sigma_x}\]</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Use os resultados acima para deduzir quando o estimador de MQO é
+preferı́ve ao de VI, em termos de viés.</p></li>
+<li><p>Você sabe o que são “instrumentos fracos”. Relacione a discussão
+sobre instrumentos fracos, isso é, um instrumento tal que <span class="math inline">\(E\left[x_i z_i\right]\)</span> tem um valor baixo,
+com o resultado da letra (c).</p></li>
+</ol>
+</div>
+<div id="questão-4" class="section level2">
+<h2>Questão 4</h2>
+<p>O objetivo deste exercı́cio é comparar as estimativas e erros padrão
+corretamente obtidos usando MQ2E com aqueles obtidos usando
+procedimentos inadequados. Use a base WAGE2.dta para esse exercı́cio.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Estime a equação abaixo usando MQ2E <span class="math display">\[\log(wage) = \beta_0 + \beta_1 educ + \beta_2
+exper + \beta_3 tenure + \beta_4 black + u,\]</span></li>
+</ol>
+<p>onde <code>sibs</code> é uma variável instrumental para
+<code>educ</code>. Reporte os resultados.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Agora, execute manualmente o MQ2E. Ou seja, primeiro faça a
+regressão de <span class="math inline">\(educ_i\)</span> em <span class="math inline">\(sibs_i\)</span>, <span class="math inline">\(exper_i\)</span>, <span class="math inline">\(tenure_i\)</span> e <span class="math inline">\(black_i\)</span> e obtenha os valores ajustados,
+<span class="math inline">\(\widehat{educ}_i\)</span> <span class="math inline">\(i = 1, \ldots , n\)</span>. Em seguida, execute a
+regressão de segundo estágio <span class="math inline">\(\log(wage_i)\)</span> em <span class="math inline">\(\widehat{educ}_i\)</span>, <span class="math inline">\(exper_i\)</span>, <span class="math inline">\(tenure_i\)</span> e <span class="math inline">\(black_i\)</span>. Verifique se os <span class="math inline">\(\beta_j\)</span> são idênticos aos obtidos no item
+a) e os erros padrão são um pouco diferentes. Os erros padrão obtidos da
+regressão do segundo estágio ao realizar manualmente MQ2E são
+inadequados.</p></li>
+<li><p>Agora, use o seguinte procedimento de duas etapas, que geralmente
+produz estimativas inconsistentes de <span class="math inline">\(\beta_j\)</span>, e não apenas erros padrão
+incorretos. Na etapa um, regresse <span class="math inline">\(educ_i\)</span> em <span class="math inline">\(sibs_i\)</span> apenas e obtenha os valores
+ajustados, digamos <span class="math inline">\(\widetilde{educ}_i\)</span>. (Observe que esta é
+uma regressão de primeiro estágio incorreta). Em seguida, na segunda
+etapa, execute a regressão de <span class="math inline">\(\log(wage)\)</span> em <span class="math inline">\(\widetilde{educ}_i\)</span>, <span class="math inline">\(exper_i\)</span> , <span class="math inline">\(tenure_i\)</span> e <span class="math inline">\(black_i\)</span>. Como a estimativa desse
+procedimento incorreto de duas etapas se compara à estimativa correta de
+MQ2E do retorno à educação?</p></li>
+</ol>
 </div>
 
 

@@ -638,7 +638,7 @@ layout: true
 
 ---
 
-# DID in Regression Form
+# DID em Forma de Regressão
 
 __Variável dummy de tratamento__
 $$
@@ -1158,7 +1158,7 @@ background-position: 9% 19%
 
 # ATÉ A PRÓXIMA AULA!
 
-Com a Lista 4 feita! `r emo::ji("white_check_mark")`
+Com a Lista 5 feita! `r emo::ji("white_check_mark")`
 
 .footnote[
 [1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
@@ -1169,5 +1169,5 @@ Com a Lista 4 feita! `r emo::ji("white_check_mark")`
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
 | <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
-| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_IV_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |
+| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_V_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios V |
 

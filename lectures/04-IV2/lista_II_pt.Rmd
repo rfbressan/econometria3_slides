@@ -1,5 +1,5 @@
 ---
-title: "Equações Simultâneas e Variáveis Instrumentais"
+title: "Variáveis Instrumentais"
 subtitle: "Lista de Exercícios II"
 author: "Rafael Bressan"
 date: "UDESC/Esag </br> `r Sys.Date()`"
