@@ -1,0 +1,86 @@
+---
+title: "Modelos de Escolha Qualitativa"
+subtitle: "Lista de Exercícios I"
+author: "Rafael Bressan"
+date: "UDESC/Esag </br> `r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Questão 1
+
+Considere o modelo de probabilidade linear $Y_{i}=\beta_{0}+\beta_{1} X_{i}+u_{i}$, em que $\operatorname{Pr}\left(Y_{i}=1 \mid X_{i}\right)=\beta_{0}+\beta_{1} X_{i}$
+
+a) Mostre que $\mathbb{E}\left[u_{i} \mid X_{i}\right]=0$
+
+b) Mostre que $\operatorname{Var}\left(u_{i} \mid X_{i}\right)=\left(\beta_{0}+\beta_{1} X_{i}\right)\left[1-\left(\beta_{0}+\beta_{1} X_{i}\right)\right]$
+
+c) O erro é homocedástico?
+
+d) Escreva a função de máxima verossimilhança e descreva os passos para a estimação dos parâmetros.
+
+## Questão 2
+
+Considere um modelo de probabilidade linear dado por $Y_{i}=\beta_{0}+\beta_{1} X_{1 i}+\cdots+$ $\beta_{k} X_{k i}+u_{i}$ e um modelo não linear do tipo:
+
+$$
+\operatorname{Pr}\left(Y_{i}=1\right)=G(Z)
+$$
+
+sendo $Z=\beta_{0}+\beta_{1} X_{1 i}+\cdots+\beta_{k} X_{k i}$ e $0 \leq G(Z) \leq 1$.
+
+a) Discorra sobre a diferença na interpretação dos coeficientes nos modelos de probabilidade Linear e não Linear (Probit ou Logit).
+
+b) Apresente a forma dos efeito marginais nos modelos não lineares (obs: eles diferem nos casos contínuo, discreto e para dummies).
+
+## Questão 3
+
+Assinale se as alternativas são verdadeiras (V) ou falsas (F). Fundamente sua resposta:
+
+3.1 Sobre o modelo de probabilidade linear (MPL) $y=\beta_{0}+\beta_{1} x_{1}+\beta_{2} x_{2}+$ $\ldots+\beta_{k} x_{k}+u$, onde y é uma variável binária assumindo somente os valores 0 e 1, é correto afirmar que:
+
+a) A probabilidade de sucesso $P(Y=1 \mid X)$ é igual à esperança condicional de $y, E(Y \mid X)$, sendo a probabilidade de resposta linear nos parâmetros.
+
+b) $\beta_{j}$ pode ser interpretado como a mudança em $y$ devido ao aumento de uma unidade de $x_{j}$, mantendo os demais fatores fixos.
+
+c) O modelo de probabilidade linear, em geral, será homoscedástico.
+
+d) Uma das limitações do modelo de probabilidade linear é que as probabilidades previstas pelo modelo podem estar abaixo de zero ou acima de 1 .
+
+e) O $R^{2}$ é uma boa medida de ajuste para modelos de probabilidade lineares.
+
+3.2 Com relação aos modelos logit e probit de resposta binária, podemos afirmar que:
+
+f) Eles evitam as limitações do MPL ao proporem modelos em que a probabilidade de resposta são funções não lineares dos parâmetros, que assumem valores apenas no intervalo de zero a um. No modelo logit, a função utilizada é a logística. Já no modelo probit, utiliza-se a função de distribuição acumulada da normal.
+
+g) Utilizamos o método de mínimos quadrados ordinários na estimação desses tipos de modelo de resposta binária.
+
+h) O efeito marginal das variáveis explicativas independe do valor em que estamos avaliando essas variáveis.
+
+## Questão 4
+
+Para esse exercício, usaremos a base WAGE2.dta. Primeiro, crie uma variável dummy que seja igual a 1 se educ for maior que 12, 0 caso contrário. Queremos avaliar se brancos e negros divergem na probabilidade de entrar na faculdade. 
+
+a) Estime, usando OLS, o seguinte modelo:
+
+$$
+\text{college}=\beta_{0}+\beta_{1} \text{black}+\beta_{2} \text{meduc}
+$$
+
+O que você conclui dessa estimação? Como podemos interpretar $\beta_{1}$ e $\beta_{2}$ ?
+
+b) Analise os valores preditos de college. Eles estão entre 0 e 1 ?
+
+c) Estime agora um modelo probit, usando os mesmos regressores. Qual a interpretação possível para os coeficientes encontrados?
+
+d) Com base no modelo probit estimado, qual é a probabilidade de um negro cuja mãe tem 12 anos de educação ter entrado na faculdade?
+
+e) Com base no modelo probit estimado, qual é a probabilidade de um negro cuja mãe tem 15 anos de educação ter entrado na faculdade?
+
+f) Repita (d) e (e) para um branco.
+
+g) O efeito marginal da educação da mãe na probabilidade do indivíduo ir para a faculdade depende de raça? No caso do OLS, estimado no item (a), esse efeito marginal dependia de raça?
