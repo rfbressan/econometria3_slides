@@ -1,0 +1,62 @@
+---
+title: "Econometria III"
+subtitle: |
+    | Modelos de Escolha Qualitativa
+    | Questões de Prova
+author: "Rafael Bressan"
+date: "`r Sys.Date()`"
+output: 
+    pdf_document:
+        latex_engine: lualatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Orientações:**
+
+- A prova tem duração de 1 hora e 30 minutos
+- As respostas devem ser escritas a caneta (azul ou preta)
+- A interpretação dos enunciados faz parte da prova
+- Os cálculos devem estar completos, legíveis e serem apresentados junto com as respostas
+- Colou, zerou
+- DICA: Respire fundo e não entre em pânico
+
+## Questão 1
+
+Seja $\mathbf{z_1}$ um vetor de variáveis, $z_2$ uma variável contínua e seja $y$ e $d_1$ variáveis binárias. 
+
+No modelo $P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)$
+
+a) Como você estimaria este modelo? Por que?
+
+b) Encontre o efeito parcial de $z_2$ na probabilidade de resposta.
+
+No modelo $P(y=1|\mathbf{z_1}, z_2, d_1)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2d_1+\gamma_3z_2d_1)$
+
+c) Como você mediria o efeito de $d_1$ na probabilidade de resposta? 
+
+Suponha que tenhamos uma amostra de tamanho $N$. Após estimar os parâmetros pelo método mais adequado:
+
+d) Como você calcularia o efeito parcial médio (APE) de $z_2$ no modelo $P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)$? Escreva a equação e explique-a.
+
+## Questão 2
+
+Um modelo de variável dependente binária pode ser racionalizado através de um modelo de variável latente. Seja $y_i^*=\beta_0 + \beta_1 x_i+e_i$ uma variável latente (não observada) e $y_i=\mathbb{1}\{y_i^* > 0\}$ a variável observada. Considere que a distribuição do erro $e$ seja $G$, simétrica ao redor de zero. 
+
+a) Mostre que $P(y=1|x)=G(\beta_0 + \beta_1 x_i)$. Ou seja, a variável observada $y_i$ segue um modelo binomial. DICA: use o fato que para distribuições simétricas ao redor de zero $1-G(-z)=G(z)$, $z\in\mathbb{R}$.
+
+Suponha agora que $e|x,c \sim N(0,1)$ e exista uma variável explicativa não-observável que é **independente** de $x$. O modelo estrutural correto seria este
+
+$$P(y_i=1|x_i, c_i)=\Phi(\beta_0 + \beta_1 x_i + \gamma c_i)$$
+
+este problema é conhecido como heterogeneidade negligenciada. Considere que $c\sim N(0,\tau^2)$ e independente de ambos $x$ e $e$.
+
+b) Escreva o problema na forma de variável latente. Uma expressão para $y^*$ e outra para $y$.
+
+c) Qual a distribuição do erro composto $\gamma c + e$? Tipo, média e variância.
+
+d) Mostre que neste caso, o que estimamos é $P(y_i=1|x_i)=\Phi((\beta_0 + \beta_1 x_i)/\sigma)$, onde $\sigma^2$ é a variância do erro composto.
+
+e) Interprete o resultado do item anterior quanto a viés de estimação de $\beta_1$.
