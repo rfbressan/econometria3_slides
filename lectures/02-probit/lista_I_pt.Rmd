@@ -25,7 +25,7 @@ d) Escreva a função de máxima verossimilhança e descreva os passos para a es
 
 ## Questão 2
 
-Considere um modelo de probabilidade linear dado por $Y_{i}=\beta_{0}+\beta_{1} X_{1 i}+\cdots+$ $\beta_{k} X_{k i}+u_{i}$ e um modelo não linear do tipo:
+Considere um modelo de probabilidade linear dado por $Y_{i}=\beta_{0}+\beta_{1} X_{1 i}+\cdots + \beta_{k} X_{k i}+u_{i}$ e um modelo não linear do tipo:
 
 $$
 \operatorname{Pr}\left(Y_{i}=1\right)=G(Z)
@@ -49,13 +49,13 @@ b) $\beta_{j}$ pode ser interpretado como a mudança em $y$ devido ao aumento de
 
 c) O modelo de probabilidade linear, em geral, será homoscedástico.
 
-d) Uma das limitações do modelo de probabilidade linear é que as probabilidades previstas pelo modelo podem estar abaixo de zero ou acima de 1 .
+d) Uma das limitações do modelo de probabilidade linear é que as probabilidades previstas pelo modelo podem estar abaixo de zero ou acima de 1.
 
 e) O $R^{2}$ é uma boa medida de ajuste para modelos de probabilidade lineares.
 
 3.2 Com relação aos modelos logit e probit de resposta binária, podemos afirmar que:
 
-f) Eles evitam as limitações do MPL ao proporem modelos em que a probabilidade de resposta são funções não lineares dos parâmetros, que assumem valores apenas no intervalo de zero a um. No modelo logit, a função utilizada é a logística. Já no modelo probit, utiliza-se a função de distribuição acumulada da normal.
+f) Eles evitam as limitações do MPL ao proporem modelos em que a probabilidade de resposta são funções não lineares dos parâmetros, que assumem valores apenas no intervalo de zero a um. No modelo logit, a função utilizada é a logística. Já no modelo probit, utiliza-se a função de distribuição   Normal.
 
 g) Utilizamos o método de mínimos quadrados ordinários na estimação desses tipos de modelo de resposta binária.
 

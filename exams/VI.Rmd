@@ -1,0 +1,74 @@
+---
+title: "Econometria III"
+subtitle: |
+    | Variáveis Instrumentais
+    | Questões de Prova
+author: "Rafael Bressan"
+date: "`r Sys.Date()`"
+output: 
+    pdf_document:
+        latex_engine: lualatex
+        keep_tex: true
+        includes: 
+          in_header: exam_preamble.tex
+geometry: "top=4cm, headheight=2cm"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r loads}
+library(ISLR2)
+library(modelsummary)
+library(kableExtra)
+library(dplyr)
+```
+
+```{r setup-modelsummary}
+g_map <- c("nobs", "adj.r2")
+```
+
+
+**Orientações:**
+
+- A prova tem duração de 1 hora e 30 minutos
+- As respostas devem ser escritas a caneta (azul ou preta)
+- A interpretação dos enunciados faz parte da prova
+- Os cálculos devem estar completos, legíveis e serem apresentados junto com as respostas
+- Colou, zerou
+- DICA: Respire fundo e não entre em pânico
+
+## Questão 1
+
+Considere um modelo para a saúde de um indivíduo:
+
+$$saude=\beta_0+\beta_1 idade+\beta_2 peso+\beta_3 altura+\beta_4 masculino+\beta_5 trabalho+\beta_6 exercicio+u_1$$
+
+onde `saude` é alguma medida quantitativa da saúde da pessoa; `idade`, `peso`, `altura` e `masculino` são autoexplicativos; `trabalho` é horas semanais trabalhadas; e `exercicio` são as horas de exercício por semana.
+
+a) Por que você poderia se preocupar com o fato de o exercício estar correlacionado com o termo de erro $u_1$? Que problema esta correlação provocaria no seu estimador de MQO?
+
+b) Suponha que você possa coletar dados sobre duas variáveis adicionais, `distcasa` e `distrab`, as distâncias de casa e do trabalho até a academia mais próxima. Discuta se estas variáveis seriam bons instrumentos para `exercicio`. Quais as condições que elas devem atender? Explique em detalhes.
+
+c) Agora suponha que `distcasa` e `distrab` não estejam de fato correlacionados com $u_1$, assim como todas as variáveis na equação acima com exceção de `exercicio`. Escreva a forma reduzida para `exercicio`.
+
+d) Como a suposição de identificação na parte b) pode ser testada?
+
+## Questão 2
+
+Assinale **V**erdadeiro ou **F**also:
+
+- [ ] Variáveis instrumentais (VI) não são mais utilizadas para estimar modelos de equações simultâneas (SEMs).
+
+- [ ] Considere o modelo $y = \alpha + \beta x + u$, onde $x$ é uma covariável endógena. Se $z$ é um instrumento válido para $x$, deve ser que $z$ influencie $x$ e que também influencie $y$, independentemente de $x$.
+
+- [ ] Para calcular os erros padrão corretos para os coeficientes estimados através do MQ2E é altamente recomendado o uso das rotinas de estimativa do MQ2E disponíveis em pacotes estatísticos ao invés de produzir essas estimativas manualmente.
+
+- [ ] Quando todas as suposições de identificação são válidas, podemos confiar que o estimador de variáveis instrumentais (VI) será consistente.
+
+- [ ] Considere o modelo $y = \alpha + \beta x + u$, onde $x$ é uma covariável endógena e $z$ é um candidato a instrumento para $x$. Se houver correlação entre $z$ e $u$, mas for menor que a correlação entre $x$ e $u$, será sempre melhor usar a estimativa VI do que a estimativa OLS, porque VI deve ter menor viés.
+
+- [ ] Instrumentos fracos podem inflar os erros padrão produzidos por VI, mas não induzem viés de amostra finita.

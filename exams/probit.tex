@@ -1,0 +1,431 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[top=4cm, headheight=2cm]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Preamble to UDESC/Esag exams
+
+\usepackage{fancyhdr}
+
+%..This section controls the header-footer layout of the document
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[height=2cm]{UdescEsag.jpeg}}
+\fancyhead[R]{\textit{Prova de Econometria 3\\xx de setembro de 2022}}
+
+% \fancyfoot[L]{}
+
+\fancypagestyle{plain}{\pagestyle{fancy}}
+% End of exam_preamble --------------------------------
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{siunitx}
+\newcolumntype{d}{S[input-symbols = ()]}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Econometria III},
+  pdfauthor={Rafael Bressan},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Econometria III}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Modelos de Escolha Qualitativa\\
+Questões de Prova}
+\author{Rafael Bressan}
+\date{2022-09-08}
+
+\begin{document}
+\maketitle
+
+\textbf{Orientações:}
+
+\begin{itemize}
+\tightlist
+\item
+  A prova tem duração de 1 hora e 30 minutos
+\item
+  As respostas devem ser escritas a caneta (azul ou preta)
+\item
+  A interpretação dos enunciados faz parte da prova
+\item
+  Os cálculos devem estar completos, legíveis e serem apresentados junto
+  com as respostas
+\item
+  Colou, zerou
+\item
+  DICA: Respire fundo e não entre em pânico
+\end{itemize}
+
+\hypertarget{questuxe3o-1}{%
+\subsection{Questão 1}\label{questuxe3o-1}}
+
+Em um modelo de regressão logística estamos interessados em estimar a
+probabilidade de resposta positiva, ou seja:
+
+\[E[Y|\symbf{x}]=p(\symbf{x})=\frac{\exp(\symbf{x\beta})}{1+\exp(\symbf{x\beta})}\]
+onde \(\symbf{x\beta}\) é a notação vetorial para uma combinação linear
+dos elementos de um vetor \(\symbf{x}\) que contém a unidade como seu
+primeiro elemento.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Mostre que a especificação não-linear do logit para a probabilidade de
+  resposta positiva implica em um modelo \textbf{linear} para
+  \emph{log-odds ratio} (razão entre probabilidades de sucesso e
+  fracasso em logarítimo),
+  \(\log\left(\frac{p(\symbf{x})}{1-p(\symbf{x})}\right)\).
+\end{enumerate}
+
+\hypertarget{questuxe3o-1-1}{%
+\subsection{Questão 1}\label{questuxe3o-1-1}}
+
+Suponha que coletamos dados para um grupo de alunos em uma aula de
+econometria 3 com variáveis \(x_1\) = horas estudadas, \(x_2\) = nota
+final em econometria 1 e \(y\) = nota acima de 9,0 (conceito A).
+Ajustamos uma regressão logística e os coeficientes estimados são,
+\(\beta_0\) = −6, \(\beta_1\) = 0,05 e \(\beta_2\) = 0,5.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Estime a probabilidade de um estudante que estuda 40 horas e teve 7,0
+  como nota de econometria 1 de receber um A.
+\item
+  Quantas horas o aluno da parte a) precisaria estudar para ter 50\% de
+  chance de tirar A na disciplina?
+\end{enumerate}
+
+\hypertarget{questuxe3o-1-2}{%
+\subsection{Questão 1}\label{questuxe3o-1-2}}
+
+Seja \(\mathbf{z_1}\) um vetor de variáveis, \(z_2\) uma variável
+contínua e seja \(y\) e \(d_1\) variáveis binárias.
+
+No modelo
+\(P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)\)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Como você estimaria este modelo? Por que?
+\item
+  Encontre o efeito parcial de \(z_2\) na probabilidade de resposta.
+\end{enumerate}
+
+No modelo
+\(P(y=1|\mathbf{z_1}, z_2, d_1)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2d_1+\gamma_3z_2d_1)\)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Como você mediria o efeito de \(d_1\) na probabilidade de resposta?
+\end{enumerate}
+
+Suponha que tenhamos uma amostra de tamanho \(N\). Após estimar os
+parâmetros pelo método mais adequado:
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Como você calcularia o efeito parcial médio (APE) de \(z_2\) no modelo
+  \(P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)\)?
+  Escreva a equação e explique-a.
+\end{enumerate}
+
+\hypertarget{questuxe3o-2}{%
+\subsection{Questão 2}\label{questuxe3o-2}}
+
+Um modelo de variável dependente binária pode ser racionalizado através
+de um modelo de variável latente. Seja
+\(y_i^*=\beta_0 + \beta_1 x_i+e_i\) uma variável latente (não observada)
+e \(y_i=\mathbb{1}\{y_i^* > 0\}\) a variável observada. Considere que a
+distribuição do erro \(e\) seja \(G\), simétrica ao redor de zero.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Mostre que \(P(y=1|x)=G(\beta_0 + \beta_1 x_i)\). Ou seja, a variável
+  observada \(y_i\) segue um modelo binomial. DICA: use o fato que para
+  distribuições simétricas ao redor de zero \(1-G(-z)=G(z)\),
+  \(z\in\mathbb{R}\).
+\end{enumerate}
+
+Suponha agora que \(e|x,c \sim N(0,1)\) e exista uma variável
+explicativa não-observável que é \textbf{independente} de \(x\). O
+modelo estrutural correto seria este
+
+\[P(y_i=1|x_i, c_i)=\Phi(\beta_0 + \beta_1 x_i + \gamma c_i)\]
+
+este problema é conhecido como heterogeneidade negligenciada. Considere
+que \(c\sim N(0,\tau^2)\) e independente de ambos \(x\) e \(e\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\item
+  Escreva o problema na forma de variável latente. Uma expressão para
+  \(y^*\) e outra para \(y\).
+\item
+  Qual a distribuição do erro composto \(\gamma c + e\)? Tipo, média e
+  variância.
+\item
+  Mostre que neste caso, o que estimamos é
+  \(P(y_i=1|x_i)=\Phi((\beta_0 + \beta_1 x_i)/\sigma)\), onde
+  \(\sigma^2\) é a variância do erro composto.
+\item
+  Interprete o resultado do item anterior quanto a viés de estimação de
+  \(\beta_1\).
+\end{enumerate}
+
+\hypertarget{questuxe3o-3}{%
+\subsection{Questão 3}\label{questuxe3o-3}}
+
+Temos acesso aos dados de inadimplência de cartão de crédito de 5.000
+pessoas e gostaríamos de modelar a probabilidade de inadimplência como
+função do saldo em aberto no cartão. Para tanto, recorremos ao modelo de
+probabilidades lineares (MPL) e ao modelo Logit. Os resultados da
+regressão são apresentados na Tabela abaixo:
+
+\begin{table}
+\centering
+\begin{tabular}[t]{lcc}
+\toprule
+  & MPL & Logit\\
+\midrule
+(Intercept) & \num{-0.072} & \num{-10.475}\\
+ & (\num{0.005}) & (\num{0.502})\\
+balance1K & \num{0.126} & \num{5.397}\\
+ & (\num{0.005}) & (\num{0.307})\\
+\midrule
+Num.Obs. & \num{5000} & \num{5000}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}Erro-padrão entre parênteses.}\\
+\end{tabular}
+\end{table}
+
+onde a variável dependente é a situção devedora (1 = está inadimplente)
+e \texttt{balance1K} é o saldo do cartão em milhares de Reais.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  O saldo do cartão parece ser relevante para determinar a situação de
+  inadimplência? Qual a direção da previsão?
+\item
+  no modelo MPL, a partir de qual valor de saldo a previsão de
+  probabilidade passa a ser negativa?
+\item
+  Sabendo que a média dos saldos e o percentil 75\% são respectivamente
+  de, 0.8313723 e 1.1635191, calcule o efeito do aumento de R\$ 1.000 na
+  probabilidade de inadimplência, tanto para MPL quanto para Logit,
+  nestes pontos da distribuição. DICA: a distribuição logística é
+  \(\Lambda(z)=\frac{\exp(z)}{1+\exp(z)}\)
+\item
+  Com base na matriz de confusão apresentada abaixo calcule o percentual
+  cometido de erros do tipo I e II e responda, qual modelo você prefere
+  utilizar e por que?
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{MPL} & \multicolumn{2}{c}{Logit} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & FALSE & TRUE & FALSE & TRUE\\
+\midrule
+FALSE & 4836 & 0 & 4819 & 17\\
+TRUE & 164 & 0 & 118 & 46\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{questuxe3o-4}{%
+\subsection{Questão 4}\label{questuxe3o-4}}
+
+Quando nossa variável dependente é oriunda de um processo de contagem,
+ou seja, é inteira não negativa (\(y_i \in \mathbb{Z_+}\)), costuma-se
+utilizar a regressão de Poisson. A distribuição de Poisson é assim
+definida:
+
+\[P(Y=k)=\frac{e^{-\lambda}\lambda^k}{k!}, \qquad k\in\mathbb{Z_+}\]
+onde o parâmetro \(\lambda\) é o valor esperado de \(Y\),
+\(E[Y]=\lambda\). Na prática, sempre supomos que esta média é
+condicional a variáveis explanatórias e considerando que a variável
+dependente nunca assume valores negativos, uma parametrização para a sua
+média condicional é:
+
+\[E[y|x]=\exp(\beta x).\]
+
+Suponha que temos uma amostra aleatória de \(N\) observações
+independentes, \(\{(y_i, x_i)\}_{i=1}^N\), onde \(y_i\) é um processo de
+contagem.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Com base nas informações acima, monte a função de verossimilhança de
+  uma regressão de Poisson.
+\item
+  Derive a função \emph{score} da maximização da log-verossimilhança. É
+  possível resolver analiticamente esta equação?
+\end{enumerate}
+
+Agora ajustamos um modelo de regressão de Poisson ao conjunto de dados
+\texttt{Bikeshare}. As variáveis explicativas para o número de ciclistas
+são:
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \texttt{workingday}, variável dummy para dia de trabalho;
+\item
+  \texttt{temp}, temperatura \emph{normalizada}. Normalização é
+  \((t-t_{min})/(t_{max}-t_{min})\), com \(t_{min}=-8^oC\) e
+  \(t_{max}=39^oC\);
+\item
+  \texttt{weathersit}, variável categórica da condição climática. As
+  categorias de clima são \texttt{clear}, \texttt{cloudy/misty},
+  \texttt{light\ rain/snow} e \texttt{heavy\ rain/snow}.
+\end{enumerate}
+
+Os resultados são mostrados na Tabela abaixo.
+
+\begin{table}
+\centering
+\begin{tabular}[t]{lc}
+\toprule
+  & Model 1\\
+\midrule
+(Intercept) & \num{3.885}\\
+ & (\num{0.003})\\
+workingday & \num{-0.009}\\
+ & \vphantom{1} (\num{0.002})\\
+temp & \num{2.129}\\
+ & (\num{0.005})\\
+weathersitcloudy/misty & \num{-0.042}\\
+ & (\num{0.002})\\
+weathersitlight rain/snow & \num{-0.432}\\
+ & (\num{0.004})\\
+weathersitheavy rain/snow & \num{-0.761}\\
+ & (\num{0.167})\\
+\midrule
+Num.Obs. & \num{8645}\\
+Log.Lik. & \num{-434895.777}\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}Erro-padrão entre parênteses.}\\
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\item
+  Qual o efeito parcial de uma variação marginal na temperatura no
+  número de ciclistas (\(PE_t\))? Encontre uma expressão analítica e
+  responda se este efeito é constante. DICA:
+  \(PE_t=\partial E[y|\symbf{x}]/\partial x_t\)
+\item
+  Qual o valor de \(PE_t\) se for um dia claro, de trabalho e com
+  temperatura normalizada de 0,5?
+\item
+  Qual o valor do efeito de uma mudança climática, de dia claro para
+  chuva forte, em um dia de descanso com a menor temperatura registrada
+  nos dados?
+\end{enumerate}
+
+\hypertarget{questuxe3o-5}{%
+\subsection{Questão 5}\label{questuxe3o-5}}
+
+Demonstre que, para um modelo de regressão linear simples,
+
+\[y_i=\beta_0+\beta_1 x_i+u_i\]
+
+considerando que \(u_i\sim N(0, \sigma^2)\), os estimadores de Máxima
+Verossimilhança são iguais aos estimadores de MQO. DICA: a função
+densidade da normal é
+
+\[
+{\displaystyle f(z)={\frac {1}{\sigma {\sqrt {2\pi }}}}e^{-{\frac {1}{2}}\left({\frac {z-\mu }{\sigma }}\right)^{2}}}
+\]
+
+\end{document}

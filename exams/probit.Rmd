@@ -8,11 +8,31 @@ date: "`r Sys.Date()`"
 output: 
     pdf_document:
         latex_engine: lualatex
+        keep_tex: true
+        includes: 
+          in_header: exam_preamble.tex
+geometry: "top=4cm, headheight=2cm"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
 ```
+
+```{r loads}
+library(ISLR2)
+library(modelsummary)
+library(kableExtra)
+library(dplyr)
+library(caret)
+```
+
+```{r setup-modelsummary}
+g_map <- c("nobs", "logLik")
+```
+
+<!-- \addtolength{\headheight}{1.0cm} -->
 
 **Orientações:**
 
@@ -24,6 +44,40 @@ knitr::opts_chunk$set(echo = TRUE)
 - DICA: Respire fundo e não entre em pânico
 
 ## Questão 1
+
+Em um modelo de regressão logística estamos interessados em estimar a probabilidade de resposta positiva, ou seja:
+
+$$E[Y|\symbf{x}]=p(\symbf{x})=\frac{\exp(\symbf{x\beta})}{1+\exp(\symbf{x\beta})}$$
+onde $\symbf{x\beta}$ é a notação vetorial para uma combinação linear dos elementos de um vetor $\symbf{x}$ que contém a unidade como seu primeiro elemento.
+
+a) Mostre que a especificação não-linear do logit para a probabilidade de resposta positiva implica em um modelo **linear** para _log-odds ratio_ (razão entre probabilidades de sucesso e fracasso em logarítimo), $\log\left(\frac{p(\symbf{x})}{1-p(\symbf{x})}\right)$.
+
+
+## Questão 1
+
+Suponha que coletamos dados para um grupo de alunos em uma aula de econometria 3 com variáveis $x_1$ = horas estudadas, $x_2$ = nota final em econometria 1 e $y$ = nota acima de 9,0 (conceito A). Ajustamos uma regressão logística e os coeficientes estimados são, $\beta_0$ = −6, $\beta_1$ = 0,05 e $\beta_2$ = 0,5.
+
+a) Estime a probabilidade de um estudante que estuda 40 horas e teve 7,0 como nota de econometria 1 de receber um A.
+
+```{r}
+b0 <- -6
+b1 <- 0.05
+b2 <- 0.5
+x1 <- 40
+x2 <- 7
+
+p <- exp(b0+b1*x1+b2*x2)/(1+exp(b0+b1*x1+b2*x2))
+```
+
+b) Quantas horas o aluno da parte a) precisaria estudar para ter 50% de chance de tirar A na disciplina?
+
+```{r}
+p <- 0.5
+l_odds <- log(p/(1-p))
+x1 <- (l_odds - b0 - b2*x2)/b1
+```
+
+## Questão 2
 
 Seja $\mathbf{z_1}$ um vetor de variáveis, $z_2$ uma variável contínua e seja $y$ e $d_1$ variáveis binárias. 
 
@@ -43,6 +97,29 @@ d) Como você calcularia o efeito parcial médio (APE) de $z_2$ no modelo $P(y=1
 
 ## Questão 2
 
+Considere o modelo de probabilidade linear $Y_{i}=\beta_{0}+\beta_{1} X_{i}+u_{i}$, em que $\operatorname{Pr}\left(Y_{i}=1 \mid X_{i}\right)=\beta_{0}+\beta_{1} X_{i}$.
+
+a) Mostre que $\operatorname{Var}\left(u_{i} \mid X_{i}\right)=\left(\beta_{0}+\beta_{1} X_{i}\right)\left[1-\left(\beta_{0}+\beta_{1} X_{i}\right)\right]$
+
+b) Qual das hipóteses do teorema de Gauss-Markov esta variância fere? Qual o problema gerado?
+
+c) Descreva como você faria para corrigir este problema. (em no máximo 6 linhas)
+
+## Questão 2
+
+Considere que uma variável aleatória X tenha uma função de distribuição exponencial dada por:
+
+$$f(x)=\frac{1}{\theta}\exp(-x/\theta)$$
+você observou uma amostra $\{x_i\}_{i=1}^N$.
+
+a) Escreva a função de log-verossimilhança para estimar o parâmetro $\theta$.
+
+b) Derive o estimador MLE de $\theta$, $\hat\theta$.
+
+c) Derive o estimador de variância de $\hat\theta$.
+
+## Questão 3
+
 Um modelo de variável dependente binária pode ser racionalizado através de um modelo de variável latente. Seja $y_i^*=\beta_0 + \beta_1 x_i+e_i$ uma variável latente (não observada) e $y_i=\mathbb{1}\{y_i^* > 0\}$ a variável observada. Considere que a distribuição do erro $e$ seja $G$, simétrica ao redor de zero. 
 
 a) Mostre que $P(y=1|x)=G(\beta_0 + \beta_1 x_i)$. Ou seja, a variável observada $y_i$ segue um modelo binomial. DICA: use o fato que para distribuições simétricas ao redor de zero $1-G(-z)=G(z)$, $z\in\mathbb{R}$.
@@ -60,3 +137,137 @@ c) Qual a distribuição do erro composto $\gamma c + e$? Tipo, média e variân
 d) Mostre que neste caso, o que estimamos é $P(y_i=1|x_i)=\Phi((\beta_0 + \beta_1 x_i)/\sigma)$, onde $\sigma^2$ é a variância do erro composto.
 
 e) Interprete o resultado do item anterior quanto a viés de estimação de $\beta_1$.
+
+## Questão 3
+
+```{r load-data}
+data("Default")
+
+# Make balance in thousand
+Default$balance1K = Default$balance / 1000
+# Make default logical (for lm)
+Default$default <- Default$default == "Yes"
+# Get a random subsample
+df <- Default[sample(nrow(Default), 5000), ]
+mpl <- lm(default~balance1K, data = df)
+logit <- glm(default~balance1K, data = df, family = binomial())
+tbl <- modelsummary::msummary(list(MPL = mpl, Logit = logit), 
+                              gof_map = "nobs",
+                              notes = "Erro-padrão entre parênteses.")
+mean_x <- mean(df$balance1K)
+q75_x <- quantile(df$balance1K, 0.75)
+n_default <- sum(df$default)
+```
+
+Temos acesso aos dados de inadimplência de cartão de crédito de 5.000 pessoas e gostaríamos de modelar a probabilidade de inadimplência como função do saldo em aberto no cartão. Para tanto, recorremos ao modelo de probabilidades lineares (MPL) e ao modelo Logit. Os resultados da regressão são apresentados na Tabela abaixo:
+
+```{r tabela, results='asis'}
+tbl
+```
+
+onde a variável dependente é a situção devedora (1 = está inadimplente) e `balance1K` é o saldo do cartão em milhares de Reais.
+
+a) O saldo do cartão parece ser relevante para determinar a situação de inadimplência? Qual a direção da previsão?
+
+b) no modelo MPL, a partir de qual valor de saldo a previsão de probabilidade passa a ser negativa?
+
+c) Sabendo que a média dos saldos e o percentil 75% são respectivamente de, `r mean_x` e `r q75_x`, calcule o efeito do aumento de R\$ 1.000 na probabilidade de inadimplência, tanto para MPL quanto para Logit, nestes pontos da distribuição. DICA: a distribuição logística é $\Lambda(z)=\frac{\exp(z)}{1+\exp(z)}$
+
+d) Com base na matriz de confusão apresentada abaixo calcule o percentual cometido de erros do tipo I e II e responda, qual modelo você prefere utilizar e por que?
+
+```{r confusao, results='asis'}
+actual <- as.factor(df$default)
+pred_mpl <- factor(predict(mpl) > 0.5, 
+                   levels = levels(actual))
+pred_logit <- factor(predict(logit, type = "response") > 0.5, 
+                     levels = levels(actual))
+
+conf_mpl <- confusionMatrix(actual, pred_mpl, positive = "TRUE")
+conf_logit <- confusionMatrix(actual, pred_logit, positive = "TRUE")
+
+tbl <- cbind(conf_mpl$table, conf_logit$table)
+
+kbl(tbl, booktabs = TRUE) |> 
+    kable_classic(latex_options = c("HOLD_position")) |> 
+    add_header_above(c(" " = 1,
+                                   "MPL" = 2,
+                                   "Logit" = 2)) # |> 
+    # footnote(sprintf("Acurácia do modelo MPL é %s e do modelo Logit é %s", 
+    #                              conf_mpl$overall["Accuracy"], 
+    #                              conf_logit$overall["Accuracy"]))
+```
+
+## Questão 3
+
+Quando nossa variável dependente é oriunda de um processo de contagem, ou seja, é inteira não negativa ($y_i \in \mathbb{Z_+}$), costuma-se utilizar a regressão de Poisson. A distribuição de Poisson é assim definida:
+
+$$P(Y=k)=\frac{e^{-\lambda}\lambda^k}{k!}, \qquad k\in\mathbb{Z_+}$$
+onde o parâmetro $\lambda$ é o valor esperado de $Y$, $E[Y]=\lambda$. Na prática, sempre supomos que esta média é condicional a variáveis explanatórias e considerando que a variável dependente nunca assume valores negativos, uma parametrização para a sua média condicional é:
+
+$$E[y|x]=\exp(\beta x).$$
+
+Suponha que temos uma amostra aleatória de $N$ observações independentes, $\{(y_i, x_i)\}_{i=1}^N$, onde $y_i$ é um processo de contagem.
+
+a) Com base nas informações acima, monte a função de verossimilhança de uma regressão de Poisson.
+
+b) Derive a função _score_ da maximização da log-verossimilhança. É possível resolver analiticamente esta equação?
+
+Agora ajustamos um modelo de regressão de Poisson ao conjunto de dados `Bikeshare`. As variáveis explicativas para o número de ciclistas são: 
+
+i) `workingday`, variável dummy para dia de trabalho;
+ii) `temp`, temperatura _normalizada_. Normalização é $(t-t_{min})/(t_{max}-t_{min})$, com $t_{min}=-8^oC$ e $t_{max}=39^oC$;
+iii) `weathersit`, variável categórica da condição climática. As categorias de clima são `clear`, `cloudy/misty`, `light rain/snow` e `heavy rain/snow`.
+
+Os resultados são mostrados na Tabela abaixo.
+
+```{r bike, results='asis'}
+data("Bikeshare")
+poi_reg <- glm(bikers~workingday+temp+weathersit,
+               data = Bikeshare,
+               family = poisson)
+
+msummary(poi_reg, 
+         gof_map = c("nobs", "logLik"),
+         notes = "Erro-padrão entre parênteses.")
+```
+
+c) Qual o efeito parcial de uma variação marginal na temperatura no número de ciclistas ($PE_t$)? Encontre uma expressão analítica e responda se este efeito é constante. DICA: $PE_t=\partial E[y|\symbf{x}]/\partial x_t$
+
+d) Qual o valor de $PE_t$ se for um dia claro, de trabalho e com temperatura normalizada de 0,5?
+
+```{r poi-pre}
+prediction <- predict(poi_reg, 
+                      newdata = list(workingday = 1, 
+                                     temp = 0.5, 
+                                     weathersit = "clear"))
+beta_temp <- coef(poi_reg)["temp"]
+pe_t <- prediction*beta_temp
+```
+
+e) Qual o valor do efeito de uma mudança climática, de dia claro para chuva forte, em um dia de descanso com a menor temperatura registrada nos dados?
+
+```{r poi-pre2}
+pred1 <- predict(poi_reg,
+                 newdata = list(workingday = 0,
+                                temp = 0,
+                                weathersit = "heavy rain/snow"))
+
+pred2 <- predict(poi_reg,
+                 newdata = list(workingday = 0,
+                                temp = 0,
+                                weathersit = "clear"))
+delta <- pred1 - pred2
+```
+
+
+## Questão 3
+
+Demonstre que, para um modelo de regressão linear simples,
+
+$$y_i=\beta_0+\beta_1 x_i+u_i$$
+
+considerando que $u_i\sim N(0, \sigma^2)$, os estimadores de Máxima Verossimilhança são iguais aos estimadores de MQO. DICA: a função densidade da normal é 
+
+$$
+{\displaystyle f(z)={\frac {1}{\sigma {\sqrt {2\pi }}}}e^{-{\frac {1}{2}}\left({\frac {z-\mu }{\sigma }}\right)^{2}}}
+$$

@@ -62,6 +62,25 @@ d) Você sabe o que são “instrumentos fracos”. Relacione a discussão sobre
 
 ## Questão 4
 
+Neste problema você deve estabelecer a equivalência algébrica entre MQ2E, a razão entre estimativas MQO em forma reduzida e o estimador de VI. Considere um modelo com uma única (suspeito) variável endógena (variáveis já em desvio):
+
+\begin{align}
+y_1&=\alpha_1 y_2 + u_1\\
+y_1&=\pi_1 z + v_1\\
+y_2&=\pi_2 z + v_2
+\end{align}
+
+Para maior clareza de notação, usamos $y_2$ como a variável endógena suspeita e $z$ como a variável exógena que serve como instrumento para $y_2$. A segunda e terceira equações são a forma reduzida para $y_1$ e $y_2$, respectivamente.
+
+Sabemos que um estimador de $\alpha_1$ é o estimador MQ2E usando o instrumento z. Considere um estimador alternativo de $\alpha_1$: (i estimar a forma reduzida de $y_1$ e $y_2$ por MQO; (ii $\hat\alpha_1^{alt}=\hat\pi_1/\hat\pi_2$
+
+a) Mostre a equivalência numérica entre $\hat\alpha_1^{2E}$ e $\hat\alpha_1^{alt}$
+
+b) Mostre a equivalência numérica entre $\hat\alpha_1^{VI}$ e $\hat\alpha_1^{alt}$
+
+
+## Questão 5
+
 O objetivo deste exercı́cio é comparar as estimativas e erros padrão corretamente obtidos usando MQ2E com aqueles obtidos usando procedimentos inadequados. Use a base WAGE2.dta para esse exercı́cio.
 
 a) Estime a equação abaixo usando MQ2E
