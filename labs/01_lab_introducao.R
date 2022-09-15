@@ -1,4 +1,8 @@
-#' # Estruturas básicas no R
+#' ---
+#' title: Aula de laboratório - Estruturas básicas no R
+#' author: Rafael Bressan
+#' ---
+#' 
 #' 
 #' Aula baseada no livro: [Introdução ao R](http://www.lampada.uerj.br/introducaoaor)
 #' capítulo 3. É sugerida a leitura do livro para um maior aprofundamento na 

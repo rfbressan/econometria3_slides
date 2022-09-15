@@ -72,3 +72,137 @@ Assinale **V**erdadeiro ou **F**also:
 - [ ] Considere o modelo $y = \alpha + \beta x + u$, onde $x$ é uma covariável endógena e $z$ é um candidato a instrumento para $x$. Se houver correlação entre $z$ e $u$, mas for menor que a correlação entre $x$ e $u$, será sempre melhor usar a estimativa VI do que a estimativa OLS, porque VI deve ter menor viés.
 
 - [ ] Instrumentos fracos podem inflar os erros padrão produzidos por VI, mas não induzem viés de amostra finita.
+
+## Questão 3
+
+Considere um modelo de estimação através de regressão de variáveis instrumentais
+
+$$y_i=\beta_0+\beta_1 x_i+\beta_2w_i+u_i$$
+onde temos uma amostra independente das variáveis aleatórias Y, X, W e Z. Suponha que X é um regressor endógeno, equanto W é exógeno. Z é um instrumento válido para X.
+
+Escolha a alternativa correta
+
+
+3.1) A regra de bolso para verificar se há instrumentos fracos é a seguinte: para o caso de um
+único regressor endógeno,
+ 
+a) um primeiro estágio F deve ser estatisticamente significativo para indicar um instrumento forte.
+b) um primeiro estágio F > 1,96 indica que os instrumentos são fracos.
+c) a estatística t em cada um dos instrumentos deve exceder pelo menos 1,64.
+d) um primeiro estágio F < 10 indica que os instrumentos são fracos.
+e) tudo o que precede
+ 
+ 
+3.2) A distinção entre variáveis endógenas e exógenas é
+ 
+a) que as variáveis exógenas são determinadas dentro do modelo e as variáveis endógenas são
+determinadas fora do modelo
+b) dependente do tamanho da amostra: para n > 100, as variáveis endógenas tornam-se exógenas
+c) depende da distribuição das variáveis: quando são normalmente distribuídas, são
+exógenas, caso contrário são endógenas
+d) se as variáveis estão ou não correlacionadas com o termo de erro $u$
+e) tudo o que precede
+ 
+ 
+3.3) O estimador MQ2E é
+ 
+a) consistente e tem uma distribuição normal em grandes amostras.
+b) imparcial.
+c) eficiente em pequenas amostras.
+d) F-distribuído.
+e) tudo o que precede
+ 
+ 
+3.4) Instrumentos fracos são um problema porque
+ 
+a) o estimador MQ2E pode não ser normalmente distribuído, mesmo em grandes amostras.
+b) fazem com que os instrumentos não sejam exógenos.
+c) o estimador MQ2E não pode ser calculado.
+d) você não pode mais prever as variáveis endógenas no primeiro estágio.
+e) tudo o que precede
+ 
+ 
+
+3.6) Sejam $W$ as variáveis exógenas incluídas em uma função de regressão que também tem
+regressores endógenos $X$. As variáveis $W$ podem
+ 
+a) ser variáveis de controle
+b) tem a propriedade $E(u_i|W_i) = 0$
+c) fazer um instrumento exógeno para a sua regressão
+d) não ser incluídas na regressão de primeiro estágio
+e) tudo o que precede
+ 
+ 
+3.7) A lógica das variáveis de controle em regressões de VI
+ 
+a) é similar a lógica das variáveis de controle no MQO
+b) só se aplica no caso de erros homocedásticos no primeiro estágio do MQ2E
+c) é substancialmente diferente da lógica das variáveis de controle no MQO, uma vez que existem duas etapas na estimativa
+d) implica que o MQ2E é eficiente
+e) tudo o que precede
+ 
+ 
+3.8) Para que $W$ seja uma variável de controle efetiva na estimativa de VI, onde $Z$ é o instrumento, a seguinte condição deve valer
+ 
+a) $E(u_i) = 0$
+b) $E(u_i|Z_i, W_i) = E(u_i|W_i)$
+c) $E(u_iu_j) \neq 0$
+d) deve haver um intercepto na regressão
+e) tudo o que precede
+ 
+ 
+3.9) O estimador VI pode ser usado para eliminar potencialmente o viés resultante de
+ 
+a) multicolinearidade
+b) correlação serial
+c) erros de medida nas variáveis
+d) heterocedasticidade
+e) tudo o que precede
+
+ 
+3.10) A regressão de variáveis instrumentais usa instrumentos para
+ 
+a) estabelecer o Efeito Mozart
+b) para aumentar o R2 da regressão
+c) para eliminar a correlação serial
+d) isolar movimentos em $X$ que não estão correlacionados com $u$
+e) tudo o que precede
+
+## Questão 4
+
+
+
+## Questão 5
+
+Uma das consequências de uma crise econômica é que muitas famílias possam ter dificuldades para pagar suas hipotecas. Como resultado, muitas delas podem ser despejadas de suas casas sem ter uma alternativa segura de moradia, com todas as consequências negativas que isso pode levar. Como formulador de políticas, você decide implementar um programa que oferece mediação legal e de execução hipotecária como apoio a famílias com problemas para pagarem as suas hipotecas e tentar evitar que percam suas casas. No entanto, antes de expandir o programa para todo o país, primeiro você deseja verificar que o programa é eficaz para ajudar as pessoas a manter suas casas. Para fazer isso, você monta um experimento no qual, entre 1.000 famílias elegíveis, você aleatoriamente designa 500 delas para participar deste novo programa, deixando as 500 restantes com o apoio habitual dos serviços sociais (portanto, sem acesso a mediação de encerramento). Suponha que você tenha as seguintes informações para todas as 1.000 famílias elegíveis antes de o programa ser implementado:
+
+* $Assign_i$: se a família foi designada para o programa de mediação ($Assign_i= 1$) ou grupo controle ($Assign_i = 0$)
+
+* $Famsize_i$: número de membros da família
+
+* $Kids_i$: se há crianças na casa ($Kids_i= 1$) ou não ($Kids_i= 0$)
+
+* $Empl_i$: se há alguém empregado no domicílio ($Empl_i= 1$) ou não ($Empl_i= 0$)
+
+* $Price_i$: o valor de mercado da casa
+
+* $Debt_i$: a dívida hipotecária pendente
+
+
+E as seguintes informações referentes a um ano após a implantação do programa:
+
+* $Particip_i$: se a família realmente participou do programa de mediação ($Particip_i = 1$) ou não ($Particip_i= 0$)
+
+* $Home_i$: número de meses que a família conseguiu manter sua casa.
+
+a) Usando as informações a disposição antes do início do programa, como você testaria se a aleatorização foi bem sucedida? Isto é, como você testaria que $Assign_i$ é independente das características observáveis? Descreva a regressão usada (se alguma), as hipóteses de teste e a estatística a ser utilizada.
+
+Se a aleatorização funcionou e todas as famílias designadas ao tratamento efetivamente participaram do programa de mediação, então em uma regressão da variável de interesse ($Home_i$) na designação de tratamento ($Assign_i$), esta designação de tratamento será exógena e, portanto, seu coeficiente pode ser interpretado causalmente. 
+
+b) Como você testaria se o novo programa de mediação foi eficaz em ajudar as famílias a manter suas casas por mais tempo? Escreva o modelo de regressão, o teste de hipótese e a estatística que você usaria para a inferência.
+
+c) Suponha agora que a atribuição inicial das famílias ao programa tenha sido de fato aleatória. Após serem convidadas a participar do novo programa de mediação, 20% das famílias do grupo tratamento decidiram não participar[^atrito]. Isso significa que o tratamento efetivo para 20% das famílias do grupo do programa ($Assign_i= 1$) foi zero ($Particip_i= 0$). Explique por que, nessas circunstâncias, regredir apenas o número de meses que uma família manteve sua casa ($Home_i$) no tratamento **real** da família ($Particip_i$) pode não levar a uma estimativa consistente do efeito causal do programa no tempo em que uma família a mantém em casa.
+
+[^atrito]: Este problema é conhecido como atrito (do inglês _attrition_), quando nem todos os indíduos designados ao tratamento efetivamente o recebem.
+
+d) Tendo em vista os dados de que dispõe, proponha uma estratégia de estimativa alternativa que, nas circunstâncias descritas na questão c), permita obter o efeito causal do programa ($Particip_i$) no tempo que uma família mantém a sua casa ($Home_i$). Explique porque esta estratégia seria não-viesada.
