@@ -206,3 +206,7 @@ c) Suponha agora que a atribuição inicial das famílias ao programa tenha sido
 [^atrito]: Este problema é conhecido como atrito (do inglês _attrition_), quando nem todos os indíduos designados ao tratamento efetivamente o recebem.
 
 d) Tendo em vista os dados de que dispõe, proponha uma estratégia de estimativa alternativa que, nas circunstâncias descritas na questão c), permita obter o efeito causal do programa ($Particip_i$) no tempo que uma família mantém a sua casa ($Home_i$). Explique porque esta estratégia seria não-viesada.
+
+```{r tex, results='asis'}
+
+```
