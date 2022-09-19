@@ -20,20 +20,20 @@ Continuamos com nossa abordagem prática para aprender Econometria e `R`. Conhec
 
 Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
-Lecture 1: Causalidade. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/01-causalidade/01-causality_pt.html)]
+Aula 1: Causalidade. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/01-causalidade/01-causality_pt.html)]
 
-Lecture 2: Modelos de Escolha Qualitativa.  [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/02-probit_pt.html)]
+Aula 2: Modelos de Escolha Qualitativa.  [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/02-probit_pt.html)]
 
 
-Lecture 3: Variáveis Instrumentais e Causalidade - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/03-IV/03-IV_pt.html)]
+Aula 3: Variáveis Instrumentais e Causalidade - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/03-IV/03-IV_pt.html)]
 
-Lecture 4: Variáveis Instrumentais e Causalidade - Parte II. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/04-IV2.html)]
+Aula 4: Variáveis Instrumentais e Causalidade - Parte II. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/04-IV2.html)]
 
-Lecture 5: Modelos de Equações Simultâneas. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-simultaneas/05-eq_simultaneas.html)]
+Aula 5: Modelos de Equações Simultâneas. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-simultaneas/05-eq_simultaneas.html)]
 
-Lecture 6: Dados em Painel - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/06-panel_pt.html)]
+Aula 6: Dados em Painel - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/06-panel_pt.html)]
 
-Lecture 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)]
+Aula 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)]
 
 
 ## Bibliografia Recomendada
