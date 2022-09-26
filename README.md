@@ -66,6 +66,10 @@ Aula 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githac
 
 * WICKHAM, Hadley; GROLEMUND, Garrett. R for data science: import, tidy, transform, visualize, and model data. O'Reilly Media, Inc., 2016. URL: https://r4ds.had.co.nz/
 
+## Outros Recursos
+
+* [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) by Brady Neal
+
 
 ## Legal
 

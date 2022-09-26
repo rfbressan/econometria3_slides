@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-09-05
+### Esag </br> 2022-09-26
 ]
 
 ---
@@ -734,6 +734,107 @@ abline(0, 1, lty = 2, col = "red")
 * ROC sempre acima da linha de 45 graus. Melhor do que atribuição aleatória (jogar uma moeda)! Sim!
 
 ]
+
+---
+# Estimação de Máxima Verossimilhança
+
+* Ao invés de usar média e variância condicionais, usaremos a distribuição condicional completa
+
+* Amostra *iid* `\(\lbrace y_i, x_i \rbrace_{i=1}^N\)`. Queremos estimar a distribuição `\(f(y|x)\)`
+
+* **Hipótese:** esta distribuição é conhecida, a não ser por um número finito de parâmetros fixos.
+    + Impomos um modelo paramétrico para a densidade condicional
+    
+---
+
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit
+
+.pull-left[
+* `\(y_i^*=x_i\theta + \varepsilon_i\)`, sendo `\(\varepsilon_i\sim N(0,1)\)`
+
+* Não observamos `\(y_i^*\)`, apenas `\(y_i\)`
+]
+
+--
+
+.pull-right[
+`$$\begin{equation*}
+y_i = \begin{cases}
+1 \text{ se } y_i^* &gt; 0\\ 
+0 \text{ se } y_i^* \leq 0
+\end{cases}
+\end{equation*}$$`
+]
+
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit
+
+* Dadas as especificações acima:
+
+.pull-left[
+`$$\begin{align*}
+P(y_i=1|x_i)&amp;=P(y_i* &gt; 0|x_i)\\
+&amp;=P(\varepsilon_i &gt; -x_i\theta |x_i)\\
+&amp;=1-\Phi(-x_i\theta)\\
+&amp;=\Phi(x_i\theta)
+\end{align*}$$`
+]
+--
+.pull-right[
+`$$\begin{align*}
+P(y_i=0|x_i)&amp;=P(y_i* \leq 0|x_i)\\
+&amp;=P(\varepsilon_i \leq -x_i\theta |x_i)\\
+&amp;=\Phi(-x_i\theta)\\
+&amp;=1-\Phi(x_i\theta)
+\end{align*}$$`
+]
+
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit
+
+* A densidade condicional pode ser escrita como:
+
+`$$f(y_i|x_i)=\Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$`
+--
+
+* Esta é a probabilidade de ocorrência de um ponto `\((x_i, y_i)\)`. Para o conjunto de dados observados temos a ***função de verossimilhança***
+
+`$$\ell(\theta)=\Pi_{i=1}^N \Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$`
+
+--
+
+* Máxima Verossimilhança consiste em ***maximizar a função de verossimilhança*** em relação aos parâmetros, `\(\theta\)`.
+
+* Podemos maximizar a ***log-verossimilhança*** por praticidade. `\(\mathcal{L}(\theta)=\log(\ell(\theta))=\sum_{i=1}^N y_i\log(\Phi(x_i\theta))+(1-y_i)\log(1-\Phi(x_i\theta))\)`
+
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit
+
+`$$\hat\theta = \arg \max_{\theta} \mathcal{L}(\theta)$$`
+
+* O vetor de ***score*** é dado pela derivada da log-verossimilhança em relação a cada um dos parâmetros
+
+`$$s(\theta)=\nabla_\theta \mathcal{L}(\theta)=\left[\frac{\partial\mathcal{L}(\theta)}{\partial\theta_1}, \ldots, \frac{\partial\mathcal{L}(\theta)}{\partial\theta_k}\right]^{\prime}$$`
+* A Hessiana é a matriz de segundas derivadas
+
+`$$H(\theta)=\nabla^2_\theta \mathcal{L}(\theta)$$`
+
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit
+
+Exercício: Calcule o _score_ do modelo probit.
+
+R.: `$$s(\theta)=\sum_{i}\frac{\phi(x_i\theta)}{\Phi(x_i\theta)[1-\Phi(x_i\theta)]}(y_i-\Phi(x_i\theta))x_i$$`
 
 ---
 

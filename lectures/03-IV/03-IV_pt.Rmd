@@ -44,25 +44,6 @@ library(ggdag)
 library(dplyr)
 ```
 
-exclude: true
-
-```{r the-toc, include=FALSE, eval=TRUE}
-infile <- knitr::current_input()
-outfile <- "the-TOC.Rmd"
-outline_heading <- "# Plano de Aula"
-update_TOC <- TRUE
-source("../child_TOC.R")
-```
-
----
-
-class: inverse
-name: the-toc
-
-```{r child = "the-TOC.Rmd"}
-```
-
-
 # Preparando a cena
 
 .pull-left[
@@ -105,200 +86,29 @@ name: the-toc
 .pull-right[
 
 ```{r dag1,fig.height = 6,echo = FALSE}
-dag = dagify(y ~ x1,
-            y ~ x2,
-            y ~ x3,
-            x1 ~ x2,
-            x3 ~ x2,
-       coords = list(x = c("x2" = 0,"x1" = 1,"x3" = 1.0,"y" = 2),
-                     y = c("x2" = 0,"x1" = 0.5,"x3" = -0.5,"y" = 0)))
-p2 = dag %>%
-  tidy_dagitty() %>%
-      mutate(linetype = if_else(name == "x2", "dashed","solid")) %>% 
-    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
-    geom_dag_point() + 
-      geom_dag_text(col = "white") +
-    geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) + 
-    theme_dag()
-p2
+# dag = dagify(y ~ x1,
+#             y ~ x2,
+#             y ~ x3,
+#             x1 ~ x2,
+#             x3 ~ x2,
+#        coords = list(x = c("x2" = 0,"x1" = 1,"x3" = 1.0,"y" = 2),
+#                      y = c("x2" = 0,"x1" = 0.5,"x3" = -0.5,"y" = 0)))
+# p2 = dag %>%
+#   tidy_dagitty() %>%
+#       mutate(linetype = if_else(name == "x2", "dashed","solid")) %>% 
+#     ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+#     geom_dag_point() + 
+#       geom_dag_text(col = "white") +
+#     geom_dag_edges(aes(edge_linetype = linetype), show.legend = FALSE) + 
+#     theme_dag()
+# p2
+knitr::include_graphics("../../img/IV_ovb_dag.png")
 ```
 ]
 
 --
 
 .center[**VI** fornece uma solução para VVO.]
-
----
-background-image: url(../../img/Kensington_slums_large.jpg)
-background-size: cover
-class: middle
-
-# Bem-vindo a Londres em 1850
-
-## .white[(Favela em Kensington)]
-
----
-
-# O (não) Experimento de John Snow: Cólera atinge a cidade
-
-.pull-left[
-
-* John Snow era médico em Londres por volta de 1850, quando o cólera explodiu várias vezes na cidade.
-
-* Houve uma disputa na época sobre como a doença é transmitida: pelo ar ou pela água?
-
-]
-
-.pull-right[
-```{r, fig.width=6,echo = FALSE}
-knitr::include_graphics("../../img/father-thames.jpg")
-```
-]
-
----
-background-image: url(../../img/slum.jpg)
-background-size: cover
-
-.pull-right[
-<br>
-<br>
-<br>
-.red[
-## Em 1850:
-
-
-* Desconhecido que os germes podem causar doenças.
-
-* Microscópios existiam, mas funcionavam com resolução bastante baixa.
-
-* A maioria dos patógenos humanos não é visível a olho nu.
-
-* A chamada *teoria da infecção* (ou seja, infecção via *germes*) tem alguns adeptos,
-
-* mas a ideia dominante é que a doença, em geral, resulta de [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
-]
-]
-
-
----
-
-# Trabalho de detetive de Snow
-
-.pull-left[
-
-* Snow coletou muitos dados.
-
-* Ele mapeou pela primeira vez a localização dos mortos durante o surto de 1854.
-
-* Este foi o notório *Broadstreet Pump Outbreak*
-
-]
-
---
-
-.pull-right[
-```{r snow-map,echo = FALSE}
-knitr::include_graphics("../../img/snow-map.jpg")
-```
-]
-
----
-
-# O pacote `cholera`
-
-.pull-left[
-* O pacote `cholera` tem alguns recursos interessantes.
-
-* Por exemplo, uma versão R do mapa de Snow:
-]
-
-.pull-right[
-```{r}
-cholera::snowMap()
-```
-]
-
----
-
-# `cholera`
-
-.pull-left[
-...ou o caminho a pé do caso número 15 nos dados de Snow:
-
-```{r,echo = FALSE,fig.height = 5}
-plot(cholera::walkingPath(15))
-```
-]
-
---
-
-.pull-right[
-...ou estime os [polígonos de Voronoi](https://pt.wikipedia.org/wiki/Diagrama_de_Voronoy) para vizinhança das bombas:
-```{r,echo = FALSE,fig.height = 5}
-# compute vertices of Voronoi tiles
-vertices <- cholera::voronoiPolygons(sites = cholera::pumps, rw.data = cholera::roads)
-
-# define colors
-snow.colors <- grDevices::adjustcolor(cholera::snowColors(), alpha.f = 1/3)
-
-# plot map and color coded tiles
-cholera::snowMap(add.cases = FALSE)
-invisible(lapply(seq_along(vertices), function(i) {
-  polygon(vertices[[i]], col = snow.colors[[i]])
-}))
-```
-]
-
----
-
-# Remoção da bomba Broad Street?
-
-.pull-left[
-* Snow identificou a Broad Street Pump como culpada.
-
-* Ele implorou para que sua alça fosse removida.
-
-* Ele estava cético por esta ter sido a razão pela qual a epidemia terminou.
-
-]
-.pull-right[
-```{r,echo = FALSE}
-plot(cholera::timeSeries())
-```
-]
-
----
-
-# Mapeamento do abastecimento de água de Londres
-
-
-* O abastecimento de água veio do rio Tâmisa
-
-* Diferentes empresas fornecedoras tinham pontos de entrada diferentes
-
-* As companhias de água Southwark e Vauxhall recolheram água sob uma grande descarga de esgoto.
-
-* A água de Lambeth não.
-
----
-
-# Conclusão de Snow
-
-* Snow coletou os seguintes dados:
-
-```{r,echo = FALSE}
-st9 <- data.frame(area = c("Southwark and Vauxhall","Lambeth","Rest of London"),
-                  numhouses = c(40046,26107,256423), 
-                  deaths = c(1263,98,1422),
-                  death1000 = c(315,37,59))
-knitr::kable(st9)
-```
-
-* E concluiu
-
->que se as companhias de água de Southwark e Vauxhall tivessem movido suas tomadas de água rio acima para onde a água de Lambeth estava sendo abastecida, cerca de 1.000 vidas poderiam ter sido salvas.
-
-* Para os defensores da teoria do miasma, isso ainda não era evidência suficiente, porque também havia muitos fatores que levavam à má qualidade do ar nessas áreas.
 
 ---
 
@@ -339,7 +149,7 @@ $$
 
 .pull-left[
 
-* John Snow poderia ter usado seus dados e avaliar a correlação entre beber água pura e a incidência de cólera.
+* John Snow poderia ter usado seus dados e avaliar a correlação entre beber água impura e a incidência de cólera.
 
 * medida $Cor(c_i,w_i)$
 
@@ -353,21 +163,19 @@ Não é bem assim. Angus Deaton disse:
 
 > As pessoas que bebiam água impura também eram mais propensas a serem pobres e a viver em um ambiente contaminado de várias maneiras, principalmente pelos “miasmas venenosos” que eram então considerados a causa da cólera.
 
-️
-
 ]
 ---
 
 # A coisa simples
 
 
-* Não faz sentido comparar alguém que bebe água pura com alguém com água impura.
+* Não faz sentido comparar alguém que bebe água pura com alguém que bebe água impura.
 
 * porque *tudo o mais não é igual*: a água impura está correlacionada com ser pobre, morar em área ruim, má qualidade do ar e assim por diante - todos os fatores que encontramos em $u_i$.
 
 * Isso viola a suposição crucial de ortogonalidade para estimativas MQO válidas, $E[u_i | w_i]=0$ neste contexto.
 
-* Outra maneira de dizer isso é que $Cov(w_i, u_i) \neq 0$, implicando que $w_i$ é *endógeno*.
+* Outra maneira de dizer isso é que $Cov(w_i, u_i) \neq 0$, implicando que $w_i$ é ***endógeno***.
 
 * Existem fatores em $u_i$ que afetam tanto $w_i$ quanto $c_i$
 
@@ -376,7 +184,7 @@ Não é bem assim. Angus Deaton disse:
 # Modelo de Snow e um pouco de álgebra
 
 Lembre-se do nosso modelo simples:
-$$c_i = \alpha + \delta + u_i$$
+$$c_i = \alpha + \delta w_i + u_i$$
 Agora vamos condicionar os dois valores de $w$:
 \begin{align}
 E[c_i | w_i = 1] &= \alpha + \delta + E[u_i | w_i = 1] \\
@@ -410,21 +218,9 @@ layout: true
 
 ---
 
-# John Snow diz
-
-> [...] a mistura da oferta é do tipo mais íntimo. Os tubos de cada Companhia descem por todas as ruas e por quase todos os pátios e vielas. [...] O experimento, também, está em grande escala. Nada menos que trezentas mil pessoas de ambos os sexos, de todas as idades e profissões, e de todas as classes e posições, desde os nobres até os muito pobres, foram divididas em dois grupos sem sua escolha e, na maioria dos casos, sem seu conhecimento; um grupo abastecido com água contendo o esgoto de Londres, e entre eles, o que poderia ter vindo dos pacientes de cólera, o outro grupo tendo água totalmente livre de tal impureza.
-
----
-background-image: url("../../img/snow-supply.jpg")
-background-size: cover
-
-# Suprimento de Água em Londres
-
----
-
 # Propondo uma VI
 
-* Snow está propondo uma **variável instrumental** $z_i$, a *identidade da empresa fornecedora de água* para o domicílio $i$:
+* Snow propõe uma **variável instrumental** $z_i$, a *identidade da empresa fornecedora de água* para o domicílio $i$:
 
 Mais formalmente, vamos definir o instrumento da seguinte forma:
 
@@ -432,7 +228,7 @@ Mais formalmente, vamos definir o instrumento da seguinte forma:
 z_i &= \begin{cases}
                      1 & \text{se água fornecida por Lambeth} \\
                      0 & \text{se água fornecida por Southwark ou Vauxhall.} \\
-                  \end{cases} \\
+       \end{cases} \\
 \end{align*}
 
 * $z_i$ está altamente correlacionado com a pureza da água $w_i$.
@@ -450,7 +246,6 @@ background-position: 60% 50%
 ---
 
 # Definindo a VI de Snow Formalmente
-
 
 
 --
@@ -540,7 +335,6 @@ background-position: 9% 19%
 
 # ATÉ A PRÓXIMA AULA!
 
-Com a Lista 1 feita! `r emo::ji("white_check_mark")`
 
 .footnote[
 [1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
@@ -553,4 +347,6 @@ Com a Lista 1 feita! `r emo::ji("white_check_mark")`
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | <a href="https://github.com/rfbressan/econometria3_slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
 | <a href="http://github.com/rfbressan">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @rfbressan                      |
-| <a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV/lista_I_pt.html">.ScPored[<i class="fa fa-list fa-fw"></i>] | Lista de Exercícios I |
+
+
+

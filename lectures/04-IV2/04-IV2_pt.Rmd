@@ -951,6 +951,78 @@ tbl
 
 ---
 
+# Tópicos Especiais VI
+
+## Experimentos Aleatorizados
+
+* Experimento aleatorizado (RCT ou A/B testing)
+
+--
+* Atribui indíviduos para grupos Controle ou Tratado, mas não obriga
+
+--
+* Existe _noncompliance_. Tratamento efetivo $T_i \neq Z_i$ designação
+
+--
+* **Atribuição ao tratamento** $Z_i$ serve como **instrumento** para o efetivo status $T_i$
+
+---
+
+# Tópicos Especiais VI
+
+## Experimentos Aleatorizados
+
+* Duas medidas de tratamento
+    + Intention-to-treat (**ITT**): forma reduzida $Y_i=\pi Z_i+v_i$
+    + Local Average Treatment Effect (**LATE**): variável instrumental (MQ2E)
+
+--
+* Para validade do experimento, checa-se o balanço de covariadas entre grupo controle e tratamento
+* Bom balanço $\implies$ aleatorização bem feita. (Imbens e Rubin, 2015)
+
+---
+
+# Tópicos Especiais VI
+
+## Instrumentos de Bartik
+
+> A ideia por trás de um instrumento de Bartik é medir variações locais a partir de um choque nacional (regional)
+
+
+--
+* Também conhecidos como ***Shift-Share design***
+
+--
+
+* Comuns na literatura de comércio internacional (Autor, Dorn, e Hanson, 2013), imigração (Card, 2009) e trabalho (Bound e Holzer, 2000)
+
+--
+
+* ***Bartik Instruments: What, When, Why, and How***. Goldsmith-Pinkham, et al. (2020)
+
+---
+
+# Tópicos Especiais VI
+
+## Instrumentos de Bartik
+
+* Um choque nacional (_**shifter**_), em diferentes indústrias, é "espalhado" localmente de forma diferente entre as localidades através de uma matriz de exposições (_**shares**_)
+
+--
+* Crescimento do salário em razão do crescimento no emprego, em uma localidade $l$
+
+$$y_l=\rho+\beta_1x_l+\epsilon_l$$
+--
+* Crescimento do emprego é *produto interno* da fração de cada indústria $k$ no emprego com o crescimento desta indústria. $x_l=\sum_kz_{lk}g_{lk}$
+
+--
+* Crescimento da indústria local é decomposto: $g_{lk}=g_k+\tilde{g}_{lk}$
+
+--
+
+* O ***Instrumento de Bartik*** é: $$Z_l=\sum_k z_{lk}g_k$$
+---
+
 # Leitura Recomendada
 
 * WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
@@ -959,7 +1031,9 @@ tbl
 
 * ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009. Chapter 4 Instrumental Variables in Action.
 
+* IMBENS, Guido W.; RUBIN, Donald B. Causal inference in statistics, social, and biomedical sciences. Cambridge University Press, 2015.
 
+* GOLDSMITH-PINKHAM, Paul; SORKIN, Isaac; SWIFT, Henry. Bartik instruments: What, when, why, and how. American Economic Review, v. 110, n. 8, p. 2586-2624, 2020.
 ---
 
 layout: false

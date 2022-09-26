@@ -4,10 +4,12 @@ subtitle: "Lista de Exercícios II"
 author: "Rafael Bressan"
 date: "UDESC/Esag </br> `r Sys.Date()`"
 output: html_document
+params:
+    solutions: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
@@ -26,6 +28,18 @@ d) Outra forma de calcular $\hat\beta_{1,IV}$ é via MQ2E. Explique quais são o
 
 e) Assuma agora que $y = X\beta + u$, onde $E\left[X' u\right] \neq 0$ e $X$ tenha dimensão $k > 1$.
 Você obtém um conjunto de $g \leq k$ variáveis $Z$ tal que $E\left[Z'u\right] = 0$. Perceba que X pode conter, por exemplo, apenas uma variável tal que $E\left[x_k u\right] \neq 0$ (endógena), o que já tornaria o modelo inválido. Dê uma intuição para o motivo do número de variáveis instrumentais ser necessariamente maior ou igual ao número de variáveis explicativas em $X$ que são correlacionadas com o termo de erro. O que acontece quando o número de variáveis instrumentais é estritamente maior que o número de variáveis endógenas?
+
+```{r, results='asis', include=!params$solutions}
+cat("\\begin{comment}")
+```
+
+## Solução
+
+Lista 06 Econometria I da EESP
+
+```{r, results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
 
 ## Questão 2
 
