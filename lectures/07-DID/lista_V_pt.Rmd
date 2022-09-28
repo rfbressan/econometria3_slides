@@ -2,7 +2,7 @@
 title: "Diferenças em diferenças"
 subtitle: "Lista de Exercícios V"
 author: "Rafael Bressan"
-date: "UDESC/Esag </br> `r Sys.Date()`"
+date: "UDESC/Esag </br> Data devida: 09/12/2022"
 output: html_document
 ---
 

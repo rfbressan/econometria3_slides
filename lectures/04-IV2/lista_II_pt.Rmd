@@ -2,10 +2,10 @@
 title: "Variáveis Instrumentais"
 subtitle: "Lista de Exercícios II"
 author: "Rafael Bressan"
-date: "UDESC/Esag </br> `r Sys.Date()`"
+date: "UDESC/Esag </br> Data devida: 14/10/2022"
 output: html_document
 params:
-    solutions: true
+    solutions: false
 ---
 
 ```{r setup, include=FALSE}

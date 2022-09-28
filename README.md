@@ -20,20 +20,15 @@ Continuamos com nossa abordagem prática para aprender Econometria e `R`. Conhec
 
 Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
-Aula 1: Causalidade. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/01-causalidade/01-causality_pt.html)]
-
-Aula 2: Modelos de Escolha Qualitativa.  [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/02-probit_pt.html)]
-
-
-Aula 3: Variáveis Instrumentais e Causalidade - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/03-IV/03-IV_pt.html)]
-
-Aula 4: Variáveis Instrumentais e Causalidade - Parte II. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/04-IV2.html)]
-
-Aula 5: Modelos de Equações Simultâneas. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-simultaneas/05-eq_simultaneas.html)]
-
-Aula 6: Dados em Painel - Parte I. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/06-panel_pt.html)]
-
-Aula 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)]
+| Tópico                                                   | Slides                                                                                                              | Lista                                                                                                   |
+|----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| Aula 1: Causalidade                                      | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/01-causalidade/01-causality_pt.html)   |                                                                                                         |
+| Aula 2: Modelos de Escolha Qualitativa                   | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/02-probit_pt.html)           | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/02-probit/lista_I_pt.html) |
+| Aula 3: Variáveis Instrumentais e Causalidade - Parte I  | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/03-IV/03-IV_pt.html)                   |                                                                                                         |
+| Aula 4: Variáveis Instrumentais e Causalidade - Parte II | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/04-IV2.html)                    | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/04-IV2/lista_II_pt.html)   |
+| Aula 5: Modelos de Equações Simultâneas                  | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-simultaneas/05-eq_simultaneas.html) |                                                                                                         |
+| Aula 6: Dados em Painel - Parte I                        | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/06-panel_pt.html)             |                                                                                                         |
+| Aula 7: Dados em Painel - Diferenças em Diferenças       | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/07-DID_pt.html)                 | [HTML](https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/07-DID/lista_V_pt.html)    |
 
 
 ## Bibliografia Recomendada
@@ -70,6 +65,15 @@ Aula 7: Dados em Painel - Diferenças em Diferenças. [[HTML](https://raw.githac
 
 * [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) by Brady Neal
 
+## Avaliação
+
+O sistema de avaliação da disciplina se dará da seguinte maneira:
+
+- 4 listas de exercícios a serem entregues no Moodle em formato eletrônico (arquivo PDF). Cada lista conta 5% na nota antes do exame.
+
+- 3 Provas escritas, presenciais, com os seguintes pesos: 20%, 25% e 35%.
+
+- É obrigatória a frequência em no mínimo 75% das aulas para aprovação.
 
 ## Legal
 
