@@ -5,7 +5,7 @@ author: "Rafael Bressan"
 date: "UDESC/Esag </br> Data devida: 14/10/2022"
 output: html_document
 params:
-    solutions: false
+    solutions: true
 ---
 
 ```{r setup, include=FALSE}
@@ -35,7 +35,39 @@ cat("\\begin{comment}")
 
 ## Solução
 
-Lista 06 Econometria I da EESP
+a) 
+
+$$
+\begin{aligned}
+\operatorname{Cov}\left(z_{i}, u_{i}\right)=0 & \Longrightarrow \operatorname{Cov}\left(z_{i}, y_{i}-\beta_{0}-\beta_{1} x_{i}\right)=0 \Longrightarrow \operatorname{Cov}\left(z_{i}, y_{i}\right)-\operatorname{Cov}\left(z_{i}, \beta_{1} x_{i}\right)=0 \\
+& \Longrightarrow \operatorname{Cov}\left(z_{i}, y_{i}\right)=\beta_{1} \operatorname{Cov}\left(z_{i}, x_{i}\right) \Longrightarrow \beta_{1}=\frac{\operatorname{Cov}\left(z_{i}, y_{i}\right)}{\operatorname{Cov}\left(z_{i}, x_{i}\right)}
+\end{aligned}
+$$
+
+b) Aparece no denominador da expressão de $\beta_{1}$, ou seja, $\operatorname{Cov}\left(z_{i}, x_{i}\right) \neq 0$. Lembremse que, em uma regressão, estamos tentando usar a variação em uma variável $X$ para explicar a variação em outra variável, $Y$. Se acreditamos que há uma variação "ruim" em $X$, ou seja, uma endogeneidade de alguma forma, precisamos obter uma variação "limpa" para identificar apropriadamente os parâmetros. Portanto, precisamos que os instrumentos $Z$ induzam essa variação "limpa" em $X$. Para isso, deve haver alguma forma de relação entre $Z$ e $X$. No caso da convocação do Vietnã, em que tinhamos um instrumento binário, essa hipótese significa que as pessoas convocadas precisam ter uma probabilidade maior de ir para a guerra do que as pessoas não convocadas, ou seja, é necessário que ir para a guerra seja correlacionado com ser convocado.
+
+c) Propomos o estimador baseado nos análogos amostrais das covariâncias populacionais.
+
+$$
+\hat{b}_{I V}=\frac{\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)\left(z_{i}-\bar{z}\right)}{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(z_{i}-\bar{z}\right)}
+$$
+
+d) O primeiro estágio é a regressão de $X$ em $Z$, com isso decompomos $X$ em duas partes, uma parte que é correlacionada com o erro da regressão, e outra parte não correlacionada com o erro. A regressão do primeiro estágio é
+
+$$
+X_{i}=\pi_{0}+\pi_{1} Z_{i}+\nu_{i}
+$$
+
+Com isso obtemos os valores preditos $\hat{X}_{i}=\hat{\pi}_{0}+\hat{\pi}_{1} Z_{i}$, que é o componente de $X$ não correlacionado com o erro. O segundo estágio consiste em usar esses valores preditos e regredir $Y$ neles
+
+$$
+Y_{i}=\beta_{0}+\beta_{1} \hat{X}_{i}+u_{i}
+$$
+
+Com isso obtemos $\beta_{0}^{2 S L S}, \beta_{1}^{2 S L S}$, os estimadores de MQO em dois estágios (2SLS)
+
+e) Para que possamos eliminar o problema da endogeneidade é necessário que haja no mínimo um instrumento para cada variável endógena. Para ser possível identificar e consequentemente estimar os valores preditos $\hat{x}_{k}$ para os $m$ parâmetros endógenos, é necessário ter no mínimo $m$ variáveis instrumentais. Caso contrário, o primeiro estágio não é factível. Quando temos mais instrumentos do que variáveis endógenas, é necessário utilizar o estimador 2SLS, uma vez que $Z^{\prime} X$ não será invertível. Devemos então usar a projeção de $X$ em $Z$ como mostrado no item anterior. Dessa forma, garantimos que $\hat{X}^{\prime} \hat{X}$ é invertível.
+
 
 ```{r, results='asis', include=!params$solutions}
 cat("\\end{comment}")
@@ -52,6 +84,80 @@ $$
 Onde $\bar{y}_0$ e $\bar{x}_0$ são as médias amostrais de $x_i$ e $y_i$ considerando apenas a parte da amostra com $z_i = 0$, e que $\bar{y}_1$ e $\bar{x}_1$ são as médias amostrais considerando apenas a amostra com $z_i = 1$. Esse estimador, conhecido como estimador de Wald, foi proposto pelo próprio em 1940.
 
 b) Pense no caso onde $x_i$ é uma variável dummy indicando um tratamento (por exemplo, $x_i = 1$ se o indivı́duo aplicou para um programa de retreinamento fornecido pelo governo). Interprete intuitivamente o estimador acima, lembrando que a média de uma variável dummy é a proporção de observações cujo valor de $x_i$ é igual à 1. Para ajudar na resposta, note que o estimador da letra (a) requer que $\bar{x}_1 - \bar{x}_0 \neq 0$.
+
+
+```{r, results='asis', include=!params$solutions}
+cat("\\begin{comment}")
+```
+
+## Solução
+
+a) Primeiro vamos relembrar do estimador de IV no caso univariado com constante, onde
+
+$$
+\beta_{I V}=\frac{\operatorname{Cov}(z, y)}{\operatorname{Cov}(z, x)}=\frac{\mathbb{E}[Z Y]-\mathbb{E}[Z] \mathbb{E}[Y]}{\mathbb{E}[Z X]-\mathbb{E}[Z] \mathbb{E}[X]}
+$$
+
+Vamos assumir que a variável Z binária assume valor 1 com probabilidade $\mathrm{p}$ e valor zero com probabilidade (1-p). Nesse caso $\mathbb{E}[Z]=p$. Assim, nós temos que
+
+$\mathbb{E}[Z Y]=\mathbb{E}[\mathbb{E}[Z Y \mid Z]]=\mathbb{E}[Z \mathbb{E}[Y \mid Z]]=p \cdot 1 \cdot \mathbb{E}[Y \mid Z=1]+(1-p) \cdot 0 \cdot \mathbb{E}[Y \mid Z=0]=p \mathbb{E}[Y \mid z=1]$
+
+Além disso, nós também temos que
+
+$$
+\mathbb{E}[Y]=\mathbb{E}[\mathbb{E}[Y \mid Z]]=p \cdot \mathbb{E}[Y \mid Z=1]+(1-p) \cdot E[Y \mid Z=0]
+$$
+
+Então
+
+$$
+\operatorname{Cov}(Z, Y)=p \cdot E[Y \mid Z=1]-p \cdot(p \cdot E[Y \mid Z=1]+(1-p) \cdot \mathbb{E}[Y \mid z=0])
+$$
+
+Analogamente
+
+$$
+\operatorname{Cov}(Z, X)=p \cdot E[X \mid Z=1]-p \cdot(p \cdot E[X \mid Z=1]+(1-p) \cdot \mathbb{E}[X \mid z=0])
+$$
+
+Portanto,
+
+$$
+\begin{gathered}
+\beta_{I V}=\frac{p \mathbb{E}[Y \mid Z=1]-\not p(p \cdot \mathbb{E}[Y \mid Z=1]+(1-p) \cdot \mathbb{E}[Y \mid Z=0])}{p \mathbb{E}[X \mid Z=1]-\not p(p \cdot \mathbb{E}[X \mid Z=1]+(1-p) \cdot \mathbb{E}[X \mid Z=0])} \\
+=\frac{(1-p) \cdot(\mathbb{E}[Y \mid Z=1]-\mathbb{E}[Y \mid Z=0])}{(1-p) \cdot(\mathbb{E}[X \mid Z=1]-\mathbb{E}[X \mid Z=0])}=\frac{\mathbb{E}[Y \mid Z=1]-\mathbb{E}[Y \mid Z=0]}{\mathbb{E}[X \mid Z=1]-\mathbb{E}[X \mid Z=0]}
+\end{gathered}
+$$
+
+No caso amostral nós temos que
+
+$$
+b_{I V}=\frac{\mathbb{E}[\widehat{Y \mid Z}=1]-\mathbb{E}[Y \widehat{\mid Z=}])}{\mathbb{E}[\widehat{X \mid Z}=1]-\mathbb{E}[X \widehat{X \mid Z}=0])}
+$$
+
+Em que
+
+$$
+\begin{aligned}
+&\mathbb{E}[Y \widehat{\mid Z=} 1]=\bar{y}_{1}=\frac{1}{n_{1}} \sum_{i=1}^{N} y_{i} \\
+&\mathbb{E}[Y \widehat{\mid Z=} 0]=\bar{y}_{0}=\frac{1}{n_{0}} \sum_{i=1}^{N} y_{i} \\
+&\mathbb{E}[X \widehat{\mid Z=} 1]=\bar{x}_{1}=\frac{1}{n_{1}} \sum_{i=1}^{N} x_{i} \\
+&\mathbb{E}[X \widehat{\mid Z=0}]=\bar{x}_{0}=\frac{1}{n_{0}} \sum_{i=1}^{N} x_{i}
+\end{aligned}
+$$
+
+Portanto
+
+$$
+b_{I V}=b_{W a l d}=\frac{\overline{y_{1}}-\overline{y_{0}}}{\overline{x_{1}}-\overline{x_{0}}}
+$$
+
+b) A ideia aqui é que a necessidade de que $\bar{x}_{1}-\bar{x}_{0} \neq 0$ é a mesma coisa que dizer que o instrumento deve "afetar" a proporção de pessoas aderindo ao tratamento. Se observarmos os indivíduos com $z_{i}=1$ e $z_{i}=0$, eles devem ter proporções diferentes de adesão ao tratamento, o que significa que o instrumento está afetando a adesão ao programa. Ou seja, é relevante para aquela decisão.
+
+
+```{r, results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
 
 ## Questão 3
 
@@ -74,6 +180,63 @@ c) Use os resultados acima para deduzir quando o estimador de MQO é preferı́v
 
 d) Você sabe o que são “instrumentos fracos”. Relacione a discussão sobre instrumentos fracos, isso é, um instrumento tal que $E\left[x_i z_i\right]$ tem um valor baixo, com o resultado da letra (c).
 
+
+```{r, results='asis', include=!params$solutions}
+cat("\\begin{comment}")
+```
+
+## Solução
+
+a) Da fórmula do MQO temos que:
+
+$$
+\widehat{\beta}_{O L S}=\beta+\frac{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right) u_{i}}{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)^{2}} \stackrel{p}{\rightarrow} \beta+\frac{\mathbb{C}\left(x_{i}, u_{i}\right)}{\mathbb{V}\left(x_{i}\right)}
+$$
+
+Se $n \rightarrow \infty$. Aqui, sabemos que $\mathbb{C}\left(x_{i}, u_{i}\right) \neq 0$ e usando $\operatorname{corr}\left(x_{i}, u_{i}\right)=\mathbb{C}\left(x_{i}, u_{i}\right) / \sigma_{x} \sigma_{u}$, podemos reescrever este termo como:
+
+$$
+\begin{aligned}
+\operatorname{plim}\left(\widehat{\beta}_{O L S}\right) &=\beta+\frac{\operatorname{corr}\left(x_{i}, u_{i}\right) \sigma_{x} \sigma_{u}}{\sigma_{x}^{2}} \\
+&=\beta+\operatorname{corr}\left(x_{i}, u_{i}\right) \times \frac{\sigma_{u}}{\sigma_{x}}
+\end{aligned}
+$$
+
+b) Da expressão do estimador de $\widehat{\beta}_{I V}$, temos que:
+
+$$
+\begin{aligned}
+\widehat{\beta}_{I V} &=\beta+\frac{\sum_{i=1}^{N}\left(z_{i}-\bar{z}\right) u_{i}}{\sum_{i=1}^{N}\left(z_{i}-\bar{z}\right)\left(x_{i}-\bar{x}\right)} \\
+& \stackrel{p}{\rightarrow} \beta+\frac{\mathbb{C}\left(z_{i}, u_{i}\right)}{\mathbb{C}\left(z_{i}, x_{i}\right)}
+\end{aligned}
+$$
+
+Se $n \rightarrow \infty$. Lembrando que $\mathbb{C}(A, B)=\operatorname{corr}(A, A) \sigma_{A} \sigma_{B}$, com qualquer variável $A$ e $B$,
+
+$$
+\begin{aligned}
+\operatorname{plim}\left(\widehat{\beta}_{I V}\right)-\beta &=\frac{\mathbb{C}\left(z_{i}, u_{i}\right)}{\mathbb{C}\left(z_{i}, x_{i}\right)}=\frac{\operatorname{corr}\left(z_{i}, u_{i}\right) \sigma_{z} \sigma_{u}}{\operatorname{corr}\left(z_{i}, x_{i}\right) \sigma_{z} \sigma_{x}} \\
+&=\frac{\operatorname{corr}\left(z_{i}, u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)} \times \frac{\sigma_{u}}{\sigma_{x}}
+\end{aligned}
+$$
+
+c) Note que o estimador de MQO é preferível em termos de menor viés assintótico quando:
+
+$$
+\begin{aligned}
+&\operatorname{corr}\left(x_{i}, u_{i}\right) \times \frac{\sigma_{u}}{\sigma_{x}} \leq \frac{\operatorname{corr}\left(z_{i}, u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)} \times \frac{\sigma_{u}}{\sigma_{x}} \\
+&\operatorname{corr}\left(x_{i}, u_{i}\right) \leq \frac{\operatorname{corr}\left(z_{i}, u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)}
+\end{aligned}
+$$
+
+d) O resultado acima mostra que quando o instrumento é "fraco", ou cor $\left(x_{i}, z_{i}\right)$ é muito pequena, precisamos que $\operatorname{corr}\left(z_{i}, u_{i}\right)$ também seja pequena o suficiente para justificar o uso do IV. Note que se $\operatorname{corr}\left(x_{i}, z_{i}\right)$ tende a zero, o viés assintótico de IV tende a ser muito grande. 
+
+
+
+```{r, results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
 ## Questão 4
 
 Neste problema você deve estabelecer a equivalência algébrica entre MQ2E, a razão entre estimativas MQO em forma reduzida e o estimador de VI. Considere um modelo com uma única (suspeito) variável endógena (variáveis já em desvio):
@@ -92,6 +255,20 @@ a) Mostre a equivalência numérica entre $\hat\alpha_1^{2E}$ e $\hat\alpha_1^{a
 
 b) Mostre a equivalência numérica entre $\hat\alpha_1^{VI}$ e $\hat\alpha_1^{alt}$
 
+```{r, results='asis', include=!params$solutions}
+cat("\\begin{comment}")
+```
+
+## Solução
+
+
+
+
+
+```{r, results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
 
 ## Questão 5
 
@@ -105,3 +282,18 @@ onde `sibs` é uma variável instrumental para `educ`. Reporte os resultados.
 b) Agora, execute manualmente o MQ2E. Ou seja, primeiro faça a regressão de $educ_i$ em $sibs_i$, $exper_i$, $tenure_i$ e $black_i$ e obtenha os valores ajustados, $\widehat{educ}_i$ $i = 1, \ldots , n$. Em seguida, execute a regressão de segundo estágio $\log(wage_i)$ em $\widehat{educ}_i$, $exper_i$, $tenure_i$ e $black_i$. Verifique se os $\beta_j$ são idênticos aos obtidos no item a) e os erros padrão são um pouco diferentes. Os erros padrão obtidos da regressão do segundo estágio ao realizar manualmente MQ2E são inadequados.
 
 c) Agora, use o seguinte procedimento de duas etapas, que geralmente produz estimativas inconsistentes de $\beta_j$, e não apenas erros padrão incorretos. Na etapa um, regresse $educ_i$ em $sibs_i$ apenas e obtenha os valores ajustados, digamos $\widetilde{educ}_i$. (Observe que esta é uma regressão de primeiro estágio incorreta). Em seguida, na segunda etapa, execute a regressão de $\log(wage)$ em $\widetilde{educ}_i$, $exper_i$ , $tenure_i$ e $black_i$. Como a estimativa desse procedimento incorreto de duas etapas se compara à estimativa correta de MQ2E do retorno à educação?
+
+```{r, results='asis', include=!params$solutions}
+cat("\\begin{comment}")
+```
+
+## Solução
+
+
+
+
+
+```{r, results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
