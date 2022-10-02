@@ -397,76 +397,6 @@ erro. O que acontece quando o número de variáveis instrumentais é
 estritamente maior que o número de variáveis endógenas?</p></li>
 </ol>
 </div>
-<div id="solução" class="section level2">
-<h2>Solução</h2>
-<ol style="list-style-type: lower-alpha">
-<li></li>
-</ol>
-<p><span class="math display">\[
-\begin{aligned}
-\operatorname{Cov}\left(z_{i}, u_{i}\right)=0 &amp; \Longrightarrow
-\operatorname{Cov}\left(z_{i}, y_{i}-\beta_{0}-\beta_{1} x_{i}\right)=0
-\Longrightarrow \operatorname{Cov}\left(z_{i},
-y_{i}\right)-\operatorname{Cov}\left(z_{i}, \beta_{1} x_{i}\right)=0 \\
-&amp; \Longrightarrow \operatorname{Cov}\left(z_{i},
-y_{i}\right)=\beta_{1} \operatorname{Cov}\left(z_{i}, x_{i}\right)
-\Longrightarrow \beta_{1}=\frac{\operatorname{Cov}\left(z_{i},
-y_{i}\right)}{\operatorname{Cov}\left(z_{i}, x_{i}\right)}
-\end{aligned}
-\]</span></p>
-<ol start="2" style="list-style-type: lower-alpha">
-<li><p>Aparece no denominador da expressão de <span class="math inline">\(\beta_{1}\)</span>, ou seja, <span class="math inline">\(\operatorname{Cov}\left(z_{i}, x_{i}\right) \neq
-0\)</span>. Lembremse que, em uma regressão, estamos tentando usar a
-variação em uma variável <span class="math inline">\(X\)</span> para
-explicar a variação em outra variável, <span class="math inline">\(Y\)</span>. Se acreditamos que há uma variação
-“ruim” em <span class="math inline">\(X\)</span>, ou seja, uma
-endogeneidade de alguma forma, precisamos obter uma variação “limpa”
-para identificar apropriadamente os parâmetros. Portanto, precisamos que
-os instrumentos <span class="math inline">\(Z\)</span> induzam essa
-variação “limpa” em <span class="math inline">\(X\)</span>. Para isso,
-deve haver alguma forma de relação entre <span class="math inline">\(Z\)</span> e <span class="math inline">\(X\)</span>. No caso da convocação do Vietnã, em
-que tinhamos um instrumento binário, essa hipótese significa que as
-pessoas convocadas precisam ter uma probabilidade maior de ir para a
-guerra do que as pessoas não convocadas, ou seja, é necessário que ir
-para a guerra seja correlacionado com ser convocado.</p></li>
-<li><p>Propomos o estimador baseado nos análogos amostrais das
-covariâncias populacionais.</p></li>
-</ol>
-<p><span class="math display">\[
-\hat{b}_{I
-V}=\frac{\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)\left(z_{i}-\bar{z}\right)}{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(z_{i}-\bar{z}\right)}
-\]</span></p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>O primeiro estágio é a regressão de <span class="math inline">\(X\)</span> em <span class="math inline">\(Z\)</span>, com isso decompomos <span class="math inline">\(X\)</span> em duas partes, uma parte que é
-correlacionada com o erro da regressão, e outra parte não correlacionada
-com o erro. A regressão do primeiro estágio é</li>
-</ol>
-<p><span class="math display">\[
-X_{i}=\pi_{0}+\pi_{1} Z_{i}+\nu_{i}
-\]</span></p>
-<p>Com isso obtemos os valores preditos <span class="math inline">\(\hat{X}_{i}=\hat{\pi}_{0}+\hat{\pi}_{1}
-Z_{i}\)</span>, que é o componente de <span class="math inline">\(X\)</span> não correlacionado com o erro. O
-segundo estágio consiste em usar esses valores preditos e regredir <span class="math inline">\(Y\)</span> neles</p>
-<p><span class="math display">\[
-Y_{i}=\beta_{0}+\beta_{1} \hat{X}_{i}+u_{i}
-\]</span></p>
-<p>Com isso obtemos <span class="math inline">\(\beta_{0}^{2 S L S},
-\beta_{1}^{2 S L S}\)</span>, os estimadores de MQO em dois estágios
-(2SLS)</p>
-<ol start="5" style="list-style-type: lower-alpha">
-<li>Para que possamos eliminar o problema da endogeneidade é necessário
-que haja no mínimo um instrumento para cada variável endógena. Para ser
-possível identificar e consequentemente estimar os valores preditos
-<span class="math inline">\(\hat{x}_{k}\)</span> para os <span class="math inline">\(m\)</span> parâmetros endógenos, é necessário ter
-no mínimo <span class="math inline">\(m\)</span> variáveis
-instrumentais. Caso contrário, o primeiro estágio não é factível. Quando
-temos mais instrumentos do que variáveis endógenas, é necessário
-utilizar o estimador 2SLS, uma vez que <span class="math inline">\(Z^{\prime} X\)</span> não será invertível. Devemos
-então usar a projeção de <span class="math inline">\(X\)</span> em <span class="math inline">\(Z\)</span> como mostrado no item anterior. Dessa
-forma, garantimos que <span class="math inline">\(\hat{X}^{\prime}
-\hat{X}\)</span> é invertível.</li>
-</ol>
-</div>
 <div id="questão-2" class="section level2">
 <h2>Questão 2</h2>
 <p>Um dos problemas mais simples de variáveis instrumentais é o caso
@@ -488,85 +418,6 @@ programa de retreinamento fornecido pelo governo). Interprete
 intuitivamente o estimador acima, lembrando que a média de uma variável
 dummy é a proporção de observações cujo valor de <span class="math inline">\(x_i\)</span> é igual à 1. Para ajudar na resposta,
 note que o estimador da letra (a) requer que <span class="math inline">\(\bar{x}_1 - \bar{x}_0 \neq 0\)</span>.</p></li>
-</ol>
-</div>
-<div id="solução-1" class="section level2">
-<h2>Solução</h2>
-<ol style="list-style-type: lower-alpha">
-<li>Primeiro vamos relembrar do estimador de IV no caso univariado com
-constante, onde</li>
-</ol>
-<p><span class="math display">\[
-\beta_{I V}=\frac{\operatorname{Cov}(z, y)}{\operatorname{Cov}(z,
-x)}=\frac{\mathbb{E}[Z Y]-\mathbb{E}[Z] \mathbb{E}[Y]}{\mathbb{E}[Z
-X]-\mathbb{E}[Z] \mathbb{E}[X]}
-\]</span></p>
-<p>Vamos assumir que a variável Z binária assume valor 1 com
-probabilidade <span class="math inline">\(\mathrm{p}\)</span> e valor
-zero com probabilidade (1-p). Nesse caso <span class="math inline">\(\mathbb{E}[Z]=p\)</span>. Assim, nós temos que</p>
-<p><span class="math inline">\(\mathbb{E}[Z Y]=\mathbb{E}[\mathbb{E}[Z Y
-\mid Z]]=\mathbb{E}[Z \mathbb{E}[Y \mid Z]]=p \cdot 1 \cdot \mathbb{E}[Y
-\mid Z=1]+(1-p) \cdot 0 \cdot \mathbb{E}[Y \mid Z=0]=p \mathbb{E}[Y \mid
-z=1]\)</span></p>
-<p>Além disso, nós também temos que</p>
-<p><span class="math display">\[
-\mathbb{E}[Y]=\mathbb{E}[\mathbb{E}[Y \mid Z]]=p \cdot \mathbb{E}[Y \mid
-Z=1]+(1-p) \cdot E[Y \mid Z=0]
-\]</span></p>
-<p>Então</p>
-<p><span class="math display">\[
-\operatorname{Cov}(Z, Y)=p \cdot E[Y \mid Z=1]-p \cdot(p \cdot E[Y \mid
-Z=1]+(1-p) \cdot \mathbb{E}[Y \mid z=0])
-\]</span></p>
-<p>Analogamente</p>
-<p><span class="math display">\[
-\operatorname{Cov}(Z, X)=p \cdot E[X \mid Z=1]-p \cdot(p \cdot E[X \mid
-Z=1]+(1-p) \cdot \mathbb{E}[X \mid z=0])
-\]</span></p>
-<p>Portanto,</p>
-<p><span class="math display">\[
-\begin{gathered}
-\beta_{I V}=\frac{p \mathbb{E}[Y \mid Z=1]-\not p(p \cdot \mathbb{E}[Y
-\mid Z=1]+(1-p) \cdot \mathbb{E}[Y \mid Z=0])}{p \mathbb{E}[X \mid
-Z=1]-\not p(p \cdot \mathbb{E}[X \mid Z=1]+(1-p) \cdot \mathbb{E}[X \mid
-Z=0])} \\
-=\frac{(1-p) \cdot(\mathbb{E}[Y \mid Z=1]-\mathbb{E}[Y \mid Z=0])}{(1-p)
-\cdot(\mathbb{E}[X \mid Z=1]-\mathbb{E}[X \mid Z=0])}=\frac{\mathbb{E}[Y
-\mid Z=1]-\mathbb{E}[Y \mid Z=0]}{\mathbb{E}[X \mid Z=1]-\mathbb{E}[X
-\mid Z=0]}
-\end{gathered}
-\]</span></p>
-<p>No caso amostral nós temos que</p>
-<p><span class="math display">\[
-b_{I V}=\frac{\mathbb{E}[\widehat{Y \mid Z}=1]-\mathbb{E}[Y
-\widehat{\mid Z=}])}{\mathbb{E}[\widehat{X \mid Z}=1]-\mathbb{E}[X
-\widehat{X \mid Z}=0])}
-\]</span></p>
-<p>Em que</p>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;\mathbb{E}[Y \widehat{\mid Z=} 1]=\bar{y}_{1}=\frac{1}{n_{1}}
-\sum_{i=1}^{N} y_{i} \\
-&amp;\mathbb{E}[Y \widehat{\mid Z=} 0]=\bar{y}_{0}=\frac{1}{n_{0}}
-\sum_{i=1}^{N} y_{i} \\
-&amp;\mathbb{E}[X \widehat{\mid Z=} 1]=\bar{x}_{1}=\frac{1}{n_{1}}
-\sum_{i=1}^{N} x_{i} \\
-&amp;\mathbb{E}[X \widehat{\mid Z=0}]=\bar{x}_{0}=\frac{1}{n_{0}}
-\sum_{i=1}^{N} x_{i}
-\end{aligned}
-\]</span></p>
-<p>Portanto</p>
-<p><span class="math display">\[
-b_{I V}=b_{W a l
-d}=\frac{\overline{y_{1}}-\overline{y_{0}}}{\overline{x_{1}}-\overline{x_{0}}}
-\]</span></p>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>A ideia aqui é que a necessidade de que <span class="math inline">\(\bar{x}_{1}-\bar{x}_{0} \neq 0\)</span> é a mesma
-coisa que dizer que o instrumento deve “afetar” a proporção de pessoas
-aderindo ao tratamento. Se observarmos os indivíduos com <span class="math inline">\(z_{i}=1\)</span> e <span class="math inline">\(z_{i}=0\)</span>, eles devem ter proporções
-diferentes de adesão ao tratamento, o que significa que o instrumento
-está afetando a adesão ao programa. Ou seja, é relevante para aquela
-decisão.</li>
 </ol>
 </div>
 <div id="questão-3" class="section level2">
@@ -602,86 +453,6 @@ sobre instrumentos fracos, isso é, um instrumento tal que <span class="math inl
 com o resultado da letra (c).</p></li>
 </ol>
 </div>
-<div id="solução-2" class="section level2">
-<h2>Solução</h2>
-<ol style="list-style-type: lower-alpha">
-<li>Da fórmula do MQO temos que:</li>
-</ol>
-<p><span class="math display">\[
-\widehat{\beta}_{O L
-S}=\beta+\frac{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)
-u_{i}}{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)^{2}}
-\stackrel{p}{\rightarrow} \beta+\frac{\mathbb{C}\left(x_{i},
-u_{i}\right)}{\mathbb{V}\left(x_{i}\right)}
-\]</span></p>
-<p>Se <span class="math inline">\(n \rightarrow \infty\)</span>. Aqui,
-sabemos que <span class="math inline">\(\mathbb{C}\left(x_{i},
-u_{i}\right) \neq 0\)</span> e usando <span class="math inline">\(\operatorname{corr}\left(x_{i},
-u_{i}\right)=\mathbb{C}\left(x_{i}, u_{i}\right) / \sigma_{x}
-\sigma_{u}\)</span>, podemos reescrever este termo como:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\operatorname{plim}\left(\widehat{\beta}_{O L S}\right)
-&amp;=\beta+\frac{\operatorname{corr}\left(x_{i}, u_{i}\right)
-\sigma_{x} \sigma_{u}}{\sigma_{x}^{2}} \\
-&amp;=\beta+\operatorname{corr}\left(x_{i}, u_{i}\right) \times
-\frac{\sigma_{u}}{\sigma_{x}}
-\end{aligned}
-\]</span></p>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Da expressão do estimador de <span class="math inline">\(\widehat{\beta}_{I V}\)</span>, temos que:</li>
-</ol>
-<p><span class="math display">\[
-\begin{aligned}
-\widehat{\beta}_{I V}
-&amp;=\beta+\frac{\sum_{i=1}^{N}\left(z_{i}-\bar{z}\right)
-u_{i}}{\sum_{i=1}^{N}\left(z_{i}-\bar{z}\right)\left(x_{i}-\bar{x}\right)}
-\\
-&amp; \stackrel{p}{\rightarrow} \beta+\frac{\mathbb{C}\left(z_{i},
-u_{i}\right)}{\mathbb{C}\left(z_{i}, x_{i}\right)}
-\end{aligned}
-\]</span></p>
-<p>Se <span class="math inline">\(n \rightarrow \infty\)</span>.
-Lembrando que <span class="math inline">\(\mathbb{C}(A,
-B)=\operatorname{corr}(A, A) \sigma_{A} \sigma_{B}\)</span>, com
-qualquer variável <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>,</p>
-<p><span class="math display">\[
-\begin{aligned}
-\operatorname{plim}\left(\widehat{\beta}_{I V}\right)-\beta
-&amp;=\frac{\mathbb{C}\left(z_{i}, u_{i}\right)}{\mathbb{C}\left(z_{i},
-x_{i}\right)}=\frac{\operatorname{corr}\left(z_{i}, u_{i}\right)
-\sigma_{z} \sigma_{u}}{\operatorname{corr}\left(z_{i}, x_{i}\right)
-\sigma_{z} \sigma_{x}} \\
-&amp;=\frac{\operatorname{corr}\left(z_{i},
-u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)} \times
-\frac{\sigma_{u}}{\sigma_{x}}
-\end{aligned}
-\]</span></p>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Note que o estimador de MQO é preferível em termos de menor viés
-assintótico quando:</li>
-</ol>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;\operatorname{corr}\left(x_{i}, u_{i}\right) \times
-\frac{\sigma_{u}}{\sigma_{x}} \leq \frac{\operatorname{corr}\left(z_{i},
-u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)} \times
-\frac{\sigma_{u}}{\sigma_{x}} \\
-&amp;\operatorname{corr}\left(x_{i}, u_{i}\right) \leq
-\frac{\operatorname{corr}\left(z_{i},
-u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)}
-\end{aligned}
-\]</span></p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>O resultado acima mostra que quando o instrumento é “fraco”, ou cor
-<span class="math inline">\(\left(x_{i}, z_{i}\right)\)</span> é muito
-pequena, precisamos que <span class="math inline">\(\operatorname{corr}\left(z_{i},
-u_{i}\right)\)</span> também seja pequena o suficiente para justificar o
-uso do IV. Note que se <span class="math inline">\(\operatorname{corr}\left(x_{i},
-z_{i}\right)\)</span> tende a zero, o viés assintótico de IV tende a ser
-muito grande.</li>
-</ol>
-</div>
 <div id="questão-4" class="section level2">
 <h2>Questão 4</h2>
 <p>Neste problema você deve estabelecer a equivalência algébrica entre
@@ -704,9 +475,6 @@ instrumento z. Considere um estimador alternativo de <span class="math inline">\
 <li><p>Mostre a equivalência numérica entre <span class="math inline">\(\hat\alpha_1^{2E}\)</span> e <span class="math inline">\(\hat\alpha_1^{alt}\)</span></p></li>
 <li><p>Mostre a equivalência numérica entre <span class="math inline">\(\hat\alpha_1^{VI}\)</span> e <span class="math inline">\(\hat\alpha_1^{alt}\)</span></p></li>
 </ol>
-</div>
-<div id="solução-3" class="section level2">
-<h2>Solução</h2>
 </div>
 <div id="questão-5" class="section level2">
 <h2>Questão 5</h2>
@@ -736,9 +504,6 @@ etapa, execute a regressão de <span class="math inline">\(\log(wage)\)</span> e
 procedimento incorreto de duas etapas se compara à estimativa correta de
 MQ2E do retorno à educação?</p></li>
 </ol>
-</div>
-<div id="solução-4" class="section level2">
-<h2>Solução</h2>
 </div>
 
 
