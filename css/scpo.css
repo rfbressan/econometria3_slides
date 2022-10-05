@@ -202,8 +202,8 @@ blockquote {
 /*add logo in footer*/
 .my-footer {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 10px;
+    left: 10px;
     height: 60px;
     width: 100%;
 }

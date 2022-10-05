@@ -26,13 +26,14 @@ layout: true
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-  message = FALSE,
-  warning = FALSE,
-  dev = "svg",
-  cache = TRUE,
-  fig.align = "center"
-  #fig.width = 11,
-  #fig.height = 5
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    dev = "svg",
+    cache = TRUE,
+    fig.align = "center"
+    #fig.width = 11,
+    #fig.height = 5
 )
 
 # define vars
@@ -206,6 +207,10 @@ class: separator, middle
 
 ## Identificação e Inferência
 
+---
+layout: true
+
+<div class="my-footer"><img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/></div> 
 
 ---
 
@@ -274,10 +279,12 @@ cowplot::plot_grid(d1,NULL,d2,nrow = 1
 
 ## Condições para VI
 
-1. **Relevance**: $Cov(z,x) \neq 0$
+1. **Relevância**: $Cov(z,x) \neq 0$
 2. **Exogeneidade**: $Cov(z,u) = 0$
 
 ]
+
+--
 
 .pull-right[
 <br>
@@ -382,7 +389,14 @@ $$Var(\hat{\beta}_{1,IV}) = \frac{\sigma^2}{n \sigma_x^2 \rho_{x,z}^2}$$
 
 1. Quanto maior a correlação entre $z$ e $x$, mais próximo o $\rho_{x,z}^2$ está de 1 e voltamos a variância do MQO.
 
-Portanto, tiverermos um regressor exógeno válido $x$, **não** devemos usar VI $z$ para obter $\hat{\beta}$, pois sua variância será desnecessariamente grande.
+---
+
+# Inferência com Variáveis Instrumentais
+## Variância de VI é sempre maior que MQO
+
+<img align="middle" src="https://media.giphy.com/media/Xg4Lc2tzOXXdNCU4Qc/giphy.gif" width="100"> 
+
+Se tiverermos um regressor exógeno válido $x$, **não** devemos usar VI $z$ para obter $\hat{\beta}$, pois sua variância será desnecessariamente grande.
 
 ---
 # Inferência com Variáveis Instrumentais

@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-09-26
+### Esag </br> 2022-10-05
 ]
 
 ---
@@ -100,11 +100,6 @@ $$
 
 
 .pull-right[
-
-```r
-knitr::include_graphics("../../img/schooling-dag.png")
-```
-
 &lt;img src="../../img/schooling-dag.png" style="display: block; margin: auto;" /&gt;
 ]
 
@@ -204,6 +199,10 @@ class: separator, middle
 
 ## Identificação e Inferência
 
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -239,10 +238,12 @@ onde tememos que `\(Cov(x,u) \neq 0\)`, `\(x\)` seja *endógeno*.
 
 ## Condições para VI
 
-1. **Relevance**: `\(Cov(z,x) \neq 0\)`
+1. **Relevância**: `\(Cov(z,x) \neq 0\)`
 2. **Exogeneidade**: `\(Cov(z,u) = 0\)`
 
 ]
+
+--
 
 .pull-right[
 &lt;br&gt;
@@ -347,7 +348,14 @@ Você pode ver 2 coisas importantes aqui:
 
 1. Quanto maior a correlação entre `\(z\)` e `\(x\)`, mais próximo o `\(\rho_{x,z}^2\)` está de 1 e voltamos a variância do MQO.
 
-Portanto, tiverermos um regressor exógeno válido `\(x\)`, **não** devemos usar VI `\(z\)` para obter `\(\hat{\beta}\)`, pois sua variância será desnecessariamente grande.
+---
+
+# Inferência com Variáveis Instrumentais
+## Variância de VI é sempre maior que MQO
+
+&lt;img align="middle" src="https://media.giphy.com/media/Xg4Lc2tzOXXdNCU4Qc/giphy.gif" width="100"&gt; 
+
+Se tiverermos um regressor exógeno válido `\(x\)`, **não** devemos usar VI `\(z\)` para obter `\(\hat{\beta}\)`, pois sua variância será desnecessariamente grande.
 
 ---
 # Inferência com Variáveis Instrumentais
@@ -462,15 +470,6 @@ layout: true
 # Dados sobre aniversário e salários
 
 Vamos carregar os dados e olhar seu sumário
-
-
-```r
-# remotes::install_github("jrnold/masteringmetrics", 
-#                         subdir = "masteringmetrics")
-data("ak91", package = "masteringmetrics")
-# from the modelsummary package
-datasummary_skim(data.frame(ak91), histogram = TRUE)
-```
 
 &lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
@@ -643,17 +642,6 @@ datasummary_skim(data.frame(ak91), histogram = TRUE)
 * criar versões `factor` de trimestre e ano de nascimento.
 
 
-```r
-ak91 &lt;- mutate(ak91,
-               qob_fct = factor(qob),
-               q4 = as.integer(qob == "4"),
-               yob_fct = factor(yob))
-# get mean wage by year/quarter
-ak91_age &lt;- ak91 %&gt;%
-  group_by(qob, yob) %&gt;%
-  summarise(lnw = mean(lnw), s = mean(s)) %&gt;%
-  mutate(q4 = (qob == 4))
-```
 
 ---
 
@@ -698,15 +686,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
 E quanto aos ganhos para esses grupos?
 
 
-```r
-ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
-  geom_line() +
-  geom_label(mapping = aes(label = qob, color = q4)) +
-  scale_x_continuous("Year of birth", breaks = 1930:1940) +
-  scale_y_continuous("Log weekly wages") +
-  guides(label = FALSE, color = FALSE) +  
-  theme_bw()
-```
 
 ---
 
@@ -744,28 +723,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
 
 .pull-right[
 
-```r
-library(estimatr)
-# create a list of models
-mod &lt;- list()
-
-# standard (biased!) OLS
-mod$ols &lt;- lm(lnw ~ s, data = ak91)
-
-# IV: born in q4 is TRUE?
-# doing IV manually in 2 stages.
-mod$stage_1 &lt;- lm(s ~ q4, data = ak91)
-ak91$shat &lt;- predict(mod$stage_1)  
-mod$stage_2 &lt;- lm(lnw ~ shat, data = ak91)
-
-# run 2SLS
-# doing IV all in one go
-# notice the formula!
-# formula = y ~ x | z
-mod$MQ2E  &lt;- iv_robust(lnw ~ s | q4,
-                       data = ak91,
-                       diagnostics = TRUE)
-```
 ]
 
 ---
@@ -789,28 +746,6 @@ count: false
 
 .pull-right[
 
-```r
-library(estimatr)
-# create a list of models
-mod &lt;- list()
-
-# standard (biased!) OLS
-mod$ols &lt;- lm(lnw ~ s, data = ak91)
-
-# IV: born in q4 is TRUE?
-# doing IV manually in 2 stages.
-mod$stage_1 &lt;- lm(s ~ q4, data = ak91)
-*ak91$shat &lt;- predict(mod$stage_1)
-modmod$stage_2 &lt;- lm(lnw ~ shat, data = ak91)
-
-# run 2SLS
-# doing IV all in one go
-# notice the formula!
-# formula = y ~ x | z
-mod$MQ2E  &lt;- iv_robust(lnw ~ s | q4,
-                       data = ak91,
-                       diagnostics = TRUE)
-```
 ]
 
 ---
@@ -893,18 +828,6 @@ layout: true
 # Variáveis de Controle Adicionais
 
 
-```r
-# we keep adding to our `mod` list:
-mod$ols_yr  &lt;- update(mod$ols, . ~ . + yob_fct)  #  previous OLS model
-
-# add exogenous vars on both sides of the `|` !
-mod$MQ2E_yr &lt;- iv_robust(lnw ~ s  + yob_fct | q4 + yob_fct, 
-                         data = ak91, diagnostics = TRUE ) 
-
-# use all quarters as IVs
-mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct, 
-                          data = ak91, diagnostics = TRUE  )
-```
 
 ---
 
@@ -1042,13 +965,6 @@ Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*),
 
 
 
-```r
-data(bwght, package = "wooldridge")
-mods &lt;- list()
-mods$Estagio_1 &lt;- lm(packs ~ cigprice, data = bwght)
-mods$VI &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
-                               diagnostics = TRUE)
-```
 
 <table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
 <col><col><col><tr>

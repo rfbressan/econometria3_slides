@@ -40,6 +40,7 @@ library(magrittr)
 library(broom)
 library(estimatr)
 library(modelsummary)
+library(ggplot2)
 gm = modelsummary::gof_map
 gm$omit <- TRUE
 gm$omit[gm$clean == "R2"] <- FALSE
