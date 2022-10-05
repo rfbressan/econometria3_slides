@@ -4,6 +4,8 @@ subtitle: "Lista de Exercícios I"
 author: "Rafael Bressan"
 date: "UDESC/Esag </br> Data devida: 28/10/2022"
 output: html_document
+params:
+    solutions: false
 ---
 
 ```{r setup, include=FALSE}
