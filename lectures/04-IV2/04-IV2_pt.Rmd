@@ -26,7 +26,7 @@ layout: true
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-    echo = FALSE,
+    echo = TRUE,
     message = FALSE,
     warning = FALSE,
     dev = "svg",
@@ -37,7 +37,8 @@ knitr::opts_chunk$set(
 )
 
 # define vars
-library(magrittr)
+library(ggdag)
+library(dplyr)
 library(broom)
 library(estimatr)
 library(modelsummary)
@@ -488,7 +489,7 @@ knitr::include_graphics("../../img/schooling-dag3.png")
 
 \begin{align}
 \text{1. Estágio: }s_i &= \alpha_0 + \alpha_1 z_i + \alpha_2 x_i + \eta_i \\
-\text{2. Estágio: }y_i &= \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + u_i
+\text{2. Estágio: }y_i &= \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i
 \end{align}
 
 --
@@ -514,9 +515,8 @@ layout: true
 
 Vamos carregar os dados e olhar seu sumário
 
-```{r ak-data}
-# remotes::install_github("jrnold/masteringmetrics", 
-#                         subdir = "masteringmetrics")
+```{r ak-data, echo=TRUE}
+# remotes::install_github("jrnold/masteringmetrics", subdir = "masteringmetrics")
 data("ak91", package = "masteringmetrics")
 # from the modelsummary package
 datasummary_skim(data.frame(ak91), histogram = TRUE)
@@ -548,7 +548,7 @@ ak91_age <- ak91 %>%
 
 Vamos reproduzir agora a primeira figura de AK91 sobre educação em função do trimestre de nascimento!
 
-```{r,eval = FALSE,echo = TRUE}
+```{r,eval = FALSE}
 ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
   geom_line() + 
   geom_label(mapping = aes(label = qob, color = q4)) +
