@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-06
+### Esag </br> 2022-10-07
 ]
 
 ---
@@ -390,10 +390,58 @@ onde `\(\hat{u}_i=y_i-\hat\beta_0-\hat\beta_{1, IV} x_i\)`
 * ⚠️ Restrição de exclusão é hipótese não testável
     + Pesquisador deve se valer de teoria econômica e arguição lógica
 
+---
+# Mínimos Quadrados Ordinários em 2 Estágios: MQ2E
+
+**Equação estrutural**: `\(y_i=\beta_0+\beta_1 s_i + \beta_2 x_i + u_i\)`
+
 --
-&lt;br&gt;
-&lt;br&gt;
+1. Estimamos um **modelo de primeiro estágio** que usa apenas variáveis exógenas (como `\(z\)`) para explicar nosso regressor endógeno `\(s\)`.
+
+2. Em seguida, usamos a **previsão** do 1º estágio, `\(\hat{s}\)`, no que é chamado de modelo de **segundo estágio**. Esse procedimento deve eliminar qualquer endogeneidade entre `\(\hat{s}\)` e `\(y\)`.
+
+`\begin{align}
+\text{1. Estágio: }s_i &amp;= \alpha_0 + \alpha_1 z_i + \alpha_2 x_i + \eta_i \\
+\text{2. Estágio: }y_i &amp;= \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i
+\end{align}`
+
+--
+**Condições:**
+
+1. Relevância do IV: `\(\alpha_1 \neq 0\)`
+1. Exogeneidade (restrição de exclusão): `\(E[u | z] = 0\)`
+
+---
+# Mínimos Quadrados Ordinários em 2 Estágios: MQ2E
+
+O primeiro estágio isola a endogeneidade no termo de erro `\(\eta_i\)`
+
+`$$s_i=\underbrace{\alpha_0 + \alpha_1 z_i + \alpha_2 x_i}_{\hat{s}_i\text{: parte exógena}} + \eta_i$$`
+--
+E utiliza somente a parte exógena no segundo estágio!
+
+`$$y_i = \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i$$`
+Assim o segundo estágio faz uso somente de ***variações exógenas*** de `\(s_i\)` e, portanto, `\(\hat{\beta}_1\)` será não viesado.
+
+--
+* ⚠️ o primeiro estágio **DEVE** ser linear. Caso contrário, regressão proibida de Hausman! (MHE ch. 4, p. 142)
+
+* Não realizamos manualmente porque os erros padrão no 2º estágio estarão errados
+
+--
+
 .large.center[Vejamos em um exemplo]
+
+---
+layout: false
+class: separator, middle
+
+# Vamos implementar Angrist e Krueger (1991)! 
+
+---
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -438,37 +486,6 @@ onde `\(\hat{u}_i=y_i-\hat\beta_0-\hat\beta_{1, IV} x_i\)`
 
 &lt;img src="../../img/schooling-dag3.png" style="display: block; margin: auto;" /&gt;
 ]
-
----
-
-# Angrist e Krueger (1991)
-## Mínimos Quadrados Ordinários em 2 Estágios: MQ2E
-
-1. Estimamos um **modelo de primeiro estágio** que usa apenas variáveis exógenas (como `\(z\)`) para explicar nosso regressor endógeno `\(s\)`.
-
-2. Em seguida, usamos a **previsão** do 1º estágio, `\(\hat{s}\)` no que é chamado de modelo de **segundo estágio**. A execução desse procedimento deve eliminar qualquer impacto de `\(A\)` na correlação que observamos em nossos dados entre `\(s\)` e `\(y\)`.
-
-`\begin{align}
-\text{1. Estágio: }s_i &amp;= \alpha_0 + \alpha_1 z_i + \alpha_2 x_i + \eta_i \\
-\text{2. Estágio: }y_i &amp;= \beta_0 + \beta_1 \hat{s}_i + \beta_2 x_i + \varepsilon_i
-\end{align}`
-
---
-**Condições:**
-
-1. Relevância do IV: `\(\alpha_1 \neq 0\)`
-1. Exogeneidade (restrição de exclusão): `\(E[u | z] = 0\)`
-
----
-layout: false
-class: separator, middle
-
-# Vamos implementar Angrist e Krueger (1991)! 
-
----
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
