@@ -100,7 +100,7 @@ $$
 
 Vamos assumir que a variável Z binária assume valor 1 com probabilidade $\mathrm{p}$ e valor zero com probabilidade (1-p). Nesse caso $\mathbb{E}[Z]=p$. Assim, nós temos que
 
-$\mathbb{E}[Z Y]=\mathbb{E}[\mathbb{E}[Z Y \mid Z]]=\mathbb{E}[Z \mathbb{E}[Y \mid Z]]=p \cdot 1 \cdot \mathbb{E}[Y \mid Z=1]+(1-p) \cdot 0 \cdot \mathbb{E}[Y \mid Z=0]=p \mathbb{E}[Y \mid z=1]$
+$$\mathbb{E}[Z Y]=\mathbb{E}[\mathbb{E}[Z Y \mid Z]]=\mathbb{E}[Z \mathbb{E}[Y \mid Z]]=p \cdot 1 \cdot \mathbb{E}[Y \mid Z=1]+(1-p) \cdot 0 \cdot \mathbb{E}[Y \mid Z=0]=p \mathbb{E}[Y \mid z=1]$$
 
 Além disso, nós também temos que
 
@@ -132,7 +132,7 @@ $$
 No caso amostral nós temos que
 
 $$
-b_{I V}=\frac{\mathbb{E}[\widehat{Y \mid Z}=1]-\mathbb{E}[Y \widehat{\mid Z=}])}{\mathbb{E}[\widehat{X \mid Z}=1]-\mathbb{E}[X \widehat{X \mid Z}=0])}
+b_{I V}=\frac{\mathbb{E}[\widehat{Y \mid Z}=1]-\mathbb{E}[Y \widehat{\mid Z=0}]}{\mathbb{E}[\widehat{X \mid Z}=1]-\mathbb{E}[\widehat{X \mid Z}=0]}
 $$
 
 Em que

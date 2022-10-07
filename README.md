@@ -65,6 +65,12 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) by Brady Neal
 
+* [Microsoft's Experimentation](https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/)
+
+* [Bookin.datasience](https://booking.ai)
+
+* [Causal AI papers](https://www.causalens.com/causal-ai-papers/)
+
 ## Avaliação
 
 O sistema de avaliação da disciplina se dará da seguinte maneira:
