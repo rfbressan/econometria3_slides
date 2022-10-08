@@ -10,6 +10,10 @@ library(modelsummary)
 library(ggplot2)
 #' ## Modelo de Probabilidade Linear
 #' 
+#' Vamos analizar participação na força de trabalho de mulheres casadas com os dados 
+#' `mroz` do pacote `wooldridge`. Nossa variável dependente será o status de 
+#' participação na força de trabalho, $inlf\in\{0, 1\}$.
+#' 
 #' Se uma variável _dummy_ é usada como variável dependente, nós podemos usar
 #' MQO para estimar a relação desta com os regressores normalmente. A 
 #' probabilidade condicional de ocorrência do evento é:
