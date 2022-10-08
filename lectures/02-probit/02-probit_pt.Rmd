@@ -653,6 +653,101 @@ Exercício: Calcule o _score_ do modelo probit.
 R.: $$s(\theta)=\sum_{i}\frac{\phi(x_i\theta)}{\Phi(x_i\theta)[1-\Phi(x_i\theta)]}(y_i-\Phi(x_i\theta))x_i$$
 
 ---
+# Método dos Momentos Generalizado
+
+## Método dos Momentos (MM)
+
+* Podemos utilizar momentos populacionais para identificar parâmetros
+    + $E[u_i]=0$ é um exemplo
+--
+* De fato, ***tanto MQO quanto VI*** podem ser entendidos como estimadores MM!
+
+* Quais são os momentos utilizados no MQO?
+
+--
+
+* $E[u]=0$ e $E[xu]=0$, que são as equações normais do MQO
+
+* O MM resolve o análogo amostral destas equações
+
+---
+
+# Método dos Momentos Generalizado
+
+## Método dos Momentos (MM)
+
+.left-wide[
+
+* Vamos considerar um _setup_ mais geral:
+* $\theta_0\in\mathbb{R}^p$ é um vetor dos parâmetros da população
+* $m(\theta_0)\equiv E[g(Z_i, \theta_0)]=0$, são as equações de momento
+* $g(Z_i, \theta)$ é uma função vetorial $r\times 1$
+* $Z_i\equiv (X_i, Y_i)$ é uma observação do conjunto de dados 
+* $\theta_0$ é a única solução para a equação de momento
+* MM vai resolver o análogo amostral:
+
+$$\hat{m}(\hat\theta)=\frac{1}{N}\sum_{i=1}^N g(Z_i, \hat\theta)=0$$
+]
+
+--
+
+.right-thin[
+<!-- ![](https://media.giphy.com/media/ghuvaCOI6GOoTX0RmH/giphy.gif) -->
+![](https://media.giphy.com/media/YmnRIWXjSkct9ZZtNZ/giphy.gif)
+]
+---
+
+# Método dos Momentos Generalizado
+
+## Clarificando
+
+.left-wide[
+* Considere o MQO. Podemos escrever duas equação de momento que identificam os parâmetros do modelo
+
+$$\hat{m}(\hat\beta)=\begin{cases}
+\frac{1}{N}\sum_{i=1}^N(y_i-\hat\beta_0-\hat\beta_1 x_i)=0\\
+\frac{1}{N}\sum_{i=1}^Nx_i(y_i-\hat\beta_0-\hat\beta_1 x_i)=0
+\end{cases}$$
+
+* O MM escreve momentos populacionais em termos dos parâmetros e resolve o sistema de equações, simples!
+]
+--
+
+.right-thin[
+.center[![](https://media.giphy.com/media/KU60D6Of7xb4qmFQwT/giphy.gif)]
+]
+
+---
+# Método dos Momentos Generalizado
+
+## GMM
+
+* Podemos generalizar o método dos momentos. Daí o nome ***generalized method of moments*** - **GMM**
+
+* Minimizar a norma ${\displaystyle \|{\hat {m}}(\theta )\|_{W}^{2}={\hat {m}}(\theta )^{\mathsf {T}}\,W{\hat {m}}(\theta)}$
+
+* Onde $W$ é uma matriz positiva definida
+
+* ${\displaystyle {\hat {\theta }}=\operatorname {arg} \min _{\theta \in \Theta }{\bigg (}{\frac {1}{N}}\sum _{i=1}^{N}g(Z_{i},\theta ){\bigg )}^{\mathsf {T}}{W}{\bigg (}{\frac {1}{N}}\sum_{i=1}^{N}g(Z_{i},\theta ){\bigg )}}$
+
+--
+* Especialmente útil quando temos mais equações de momento do que parâmetros
+
+---
+# Método dos Momentos Generalizado
+
+## Aplicações de GMM
+
+* MQO, VI e MLE podem ser obtidos a partir de um GMM
+
+* Aplicações diversas em
+    + _Cross-Section_: modelos não-lineares com variáveis endógenas 
+    + Séries Temporais: correlação serial e heterocedasticidade
+    + Painel: extensões do modelo de efeitos fixos
+
+* Veja mais em [Wooldridge (2001) JEP](https://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.15.4.87)
+
+---
 
 # Leitura Recomendada
 

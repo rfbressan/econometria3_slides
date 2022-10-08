@@ -67,7 +67,7 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Microsoft's Experimentation](https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/)
 
-* [Bookin.datasience](https://booking.ai)
+* [Booking.datasience](https://booking.ai)
 
 * [Causal AI papers](https://www.causalens.com/causal-ai-papers/)
 
