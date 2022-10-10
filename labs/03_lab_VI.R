@@ -13,11 +13,18 @@
 library(wooldridge)
 library(fixest)
 library(ggplot2)
+library(data.table)
+library(modelsummary)
 
 data("mroz")
 
 df <- mroz[!is.na(mroz$wage), ]
 #' 
+#' **Crie uma tabela com as estatíticas descritivas dos dados**
+#' 
+#+ echo=FALSE
+datasummary(All(df)~Ncol+NUnique+Mean+SD+Min+Median+Max,
+                          data = df)
 #' ## Regressão simples
 #' 
 #' Estimamos primeiro um MQO simples com a função `feols` do pacote `fixest`.
@@ -25,8 +32,9 @@ df <- mroz[!is.na(mroz$wage), ]
 s_ols <- feols(lwage~educ, data = df) 
 #' 
 #' Leia a ajuda da função `feols` (?feols) e descubra como especificar um 
-#' modelo de variáveis instrumentais (IVs). Em seguida rode a regressão com `fatheduc`
-#' como instrumento para `educ`.
+#' modelo de variáveis instrumentais (IVs). 
+#' 
+#' **Em seguida rode a regressão com `fatheduc` como instrumento para `educ`.**
 #' 
 #+ echo=FALSE
 iv_ols <- feols(lwage~1 | educ ~ fatheduc, data = df)
@@ -72,7 +80,7 @@ etable(list(OLS = s_ols, MQ2E = stage_2, VI = iv_ols))
 #' Um teste t ou F no coeficiente dos resíduos nos fornecerá evidência sobre a
 #' endogeneidade do regressor caso rejeite-se a hipótese nula.
 #' 
-#' Implemente o teste de Hausman
+#' **Implemente o teste de Hausman**
 #+ echo=FALSE
 mq2e_df$resid_educ <- residuals(stage_1)
 hausman <- feols(lwage~educ+exper+expersq+resid_educ, data = mq2e_df)
@@ -90,13 +98,12 @@ summary(hausman)
 #' 2) Regrida $\hat u_1$ em todas as variáveis exógenas e salve o $R^2$ desta 
 #' regressão
 #' 
-#' 3) Sob a hipótese nula de que todas as VI são exógenas, a estatítica de teste 
+#' 3) Sob a hipótese nula de que todas as VI são exógenas, a estatística de teste 
 #' $n R^2$ é assintoticamente distribuída como uma Qui-quadrado com $q$ graus de
 #' liberdade, onde $q$ é a diferença entre o número de instrumentos e de 
 #' variáveis endógenas.
 #' 
-#' Faça o teste de restrições sobreidentificadoras considerando que a educação
-#' da mãe (`motheduc`) também é um instrumento váldio para educação
+#' **Faça o teste de restrições sobreidentificadoras considerando que a educação da mãe (`motheduc`) também é um instrumento váldio para educação.**
 #+ echo=FALSE
 sobre_iv <- feols(lwage~exper+expersq|educ~fatheduc+motheduc, data = df)
 sobre_df <- df

@@ -25,6 +25,13 @@ library(ggplot2)
 #' MPL sofrem de heterocedasticidade e, portanto, devemos utilizar erros padrão
 #' robustos.
 data("mroz")
+#' **Cheque a estrutura dos dados com uma tabela de estatísticas descritivas. Qual a diferença para a aula de laboratório anterior?**
+#+ echo=FALSE
+datasummary(All(mroz)~Ncol+NUnique+Mean+SD,
+            data = mroz)
+#' Agora faça a regressão da _dummy_ de presença na força de trabalho em relação 
+#' as seguintes variáveis: nwifeinc, educ, exper, exper^2, age, kidslt6, kidsge6
+#+ echo=FALSE
 fml <- inlf~nwifeinc+educ+exper+I(exper^2)+age+kidslt6+kidsge6
 mpl <- feols(fml,
              data = mroz,
@@ -82,7 +89,7 @@ probit <- glm(fml,
 
 msummary(list(Logit = logit, Probit = probit))
 #'
-#' Podemos fazer a de probabilidade das mesmas mulheres anteriores estarem no
+#' Podemos fazer a previsão da probabilidade das mesmas mulheres anteriores estarem no
 #' mercado de trabalho.
 #' 
 predict(logit, newdata = xpred, type = "response")
