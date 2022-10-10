@@ -48,28 +48,13 @@ library(kableExtra)
 
 # Onde estamos?
 
-.pull-left[
 
-**Última vez**
-
-* Estimativa com dados em painel
-
-* O *estimador de efeitos fixos*
-
-* pacote `fixest`
-
-]
-
---
-
-.pull-right[
 **Hoje**
 
 1. Modelos de escolha qualitativa!
 
-2. Outro aplicativo legal! 😎
+2. Um aplicativo legal! 😎
 
-]
 
 ---
 
@@ -204,8 +189,8 @@ plot(factor(inlf) ~ age, data = mroz,
 
 .pull-left[
 ```{r}
-LPM = lm(inlf ~ nwifeinc + educ + exper 
-         + I(exper^2) + age +I(age^2) + kidslt6, mroz)
+LPM <- lm(inlf ~ nwifeinc + educ + exper + I(exper^2) + age +I(age^2) + kidslt6,
+          data = mroz)
 broom::tidy(LPM)
 ```
 ]
@@ -229,7 +214,7 @@ broom::tidy(LPM)
 .pull-left[
 ```{r,echo = FALSE}
 pr = predict(LPM)
-plot(pr[order(pr)],ylab = "p(inlf = 1)")
+plot(pr[order(pr)],ylab = "P(inlf = 1)")
 abline(a = 0, b = 0, col = "red",lw = 3)
 abline(a = 1, b = 0, col = "red",lw = 3)
 ```
@@ -242,7 +227,7 @@ abline(a = 1, b = 0, col = "red",lw = 3)
 
 * Lembre-se: $e \sim D\left(0,\sigma^2\right)$
 
-* aqui, algumass probabilidades menores que zero!
+* aqui, algumas probabilidades menores que zero!
 
 * Particularmente irritante se você quiser *previsões*: O que é probabilidade -0,3? 🤔]
 
