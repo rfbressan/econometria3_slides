@@ -69,7 +69,7 @@ layout: true
 * Design de inferência causal mais amplamente utilizado em econometria aplicada
 ---
 
-```{r quasi-exp, out.height="580px"}
+```{r quasi-exp, out.height="580px", echo=FALSE}
 knitr::include_graphics("../../img/photos/quasi_experimental_methods.png")
 ```
 
@@ -205,7 +205,7 @@ Pensilvânia e Nova Jersey são ***muito semelhantes***: instituições semelhan
 .pull-left[
 Vamos dar uma olhada nos dados
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
 # install package that contains the cleaned data
 remotes::install_github("b-rodrigues/diffindiff")
 library(diffindiff)
@@ -216,48 +216,13 @@ ck1994_df <- njmin
 --
 
 .pull-right[
-```{r}
+```{r, echo=FALSE}
 ck1994_df %>%
   select(sheet,chain,state,observation,empft,emppt) %>%
   head()
 ```
 
 ]
----
-
-class: inverse
-
-# Tarefa 1 (10 minutos)
-
-1. Dê uma olhada no conjunto de dados e liste as variáveis. Verifique as definições de variáveis com `?njmin`.
-
-1. Tabule o número de lojas por `state` e por onda de pesquisa (`observation`). Corresponde ao que está na *Tabela 1* do [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
-
-```{r , echo=FALSE, results='hide'}
-ck1994_df |> 
-    group_by(state, observation) |> 
-    summarise(n())
-```
-
-1. Crie uma variável de funcionários equivalente em tempo integral (FTE) chamada `empfte` igual a `empft` + 0,5*`emppt` + `nmgrs`. `empft` e `emppt` correspondem, respectivamente, a funcionários em tempo integral e meio período. `nmgrs` é o número de gerentes.
-
-```{r , echo=FALSE, eval=FALSE, results='hide'}
-ck1994_df <- ck1994_df %>%
-  mutate(empfte = empft + 0.5*emppt + nmgrs)
-```
-
-1. Calcule o número médio de empregos FTE, porcentagem média de funcionários FT (fora do número de funcionários FTE) e salário inicial médio (`wage_st`) por estado e por onda de pesquisa. Compare seus resultados com a *Tabela 2* do artigo.
-
-```{r , echo=FALSE, eval=FALSE, results='hide'}
-ck1994_df |> 
-    group_by(state, observation) |> 
-    summarise(mean_fte = mean(empfte, na.rm = TRUE),
-              pct_ft = mean(empft/empfte, na.rm = TRUE),
-              mean_st = mean(wage_st, na.rm = TRUE))
-```
-
-5. Quão diferentes são os restaurantes de fast-food de Nova Jersey e da Pensilvânia antes do aumento do salário mínimo?
-
 ---
 
 # Card e Krueger (1994) 
@@ -718,39 +683,6 @@ $\Delta$(NJ - PA) | $\color{#027D83}\beta$ | $\color{#027D83}\beta + \color{#d90
 --
 
 Esta tabela generaliza para outras configurações substituindo *Pensilvânia* por *Controle* e *Nova Jersey* por *Tratamento*
----
-
-class: inverse
-
-# Tarefa 2 (10 minutos)
-
-1. Crie uma variável dummy, `treat`, igual a `FALSE` se `state` é Pensilvânia e `TRUE` se Nova Jersey.
-
-```{r , echo=FALSE, results='hide'}
-ck1994_df <- ck1994_df |> 
-    mutate(treat = state == "New Jersey")
-```
-
-1. Crie uma variável dummy, `post`, igual a `FALSE` se `observation` é fevereiro de 1992 e `TRUE` caso contrário.
-
-```{r , echo=FALSE, results='hide'}
-ck1994_df <- ck1994_df |> 
-    mutate(post = observation != "February 1992")
-```
-
-1. Estime o seguinte modelo de regressão. Você obtém os mesmos resultados do slide 9?
-
-$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$
-
-```{r , echo=FALSE, results='hide'}
-ck1994_df <- ck1994_df |> 
-    mutate(empfte = empft + 0.5*emppt + nmgrs)
-
-reg <- lm(empfte~treat+post+treat:post, data = ck1994_df)
-summary(reg)
-```
-
-
 ---
 
 layout: false

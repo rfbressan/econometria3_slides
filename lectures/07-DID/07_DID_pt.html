@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-09-05
+### Esag </br> 2022-10-10
 ]
 
 ---
@@ -69,11 +69,6 @@ layout: true
 
 * Design de inferência causal mais amplamente utilizado em econometria aplicada
 ---
-
-
-```r
-knitr::include_graphics("../../img/photos/quasi_experimental_methods.png")
-```
 
 &lt;img src="../../img/photos/quasi_experimental_methods.png" height="580px" style="display: block; margin: auto;" /&gt;
 
@@ -208,23 +203,11 @@ Pensilvânia e Nova Jersey são ***muito semelhantes***: instituições semelhan
 Vamos dar uma olhada nos dados
 
 
-```r
-# install package that contains the cleaned data
-remotes::install_github("b-rodrigues/diffindiff")
-library(diffindiff)
-ck1994_df &lt;- njmin
-```
 ]
 
 --
 
 .pull-right[
-
-```r
-ck1994_df %&gt;%
-  select(sheet,chain,state,observation,empft,emppt) %&gt;%
-  head()
-```
 
 ```
 ## # A tibble: 6 × 6
@@ -239,28 +222,6 @@ ck1994_df %&gt;%
 ```
 
 ]
----
-
-class: inverse
-
-# Tarefa 1 (10 minutos)
-
-1. Dê uma olhada no conjunto de dados e liste as variáveis. Verifique as definições de variáveis com `?njmin`.
-
-1. Tabule o número de lojas por `state` e por onda de pesquisa (`observation`). Corresponde ao que está na *Tabela 1* do [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
-
-
-
-1. Crie uma variável de funcionários equivalente em tempo integral (FTE) chamada `empfte` igual a `empft` + 0,5*`emppt` + `nmgrs`. `empft` e `emppt` correspondem, respectivamente, a funcionários em tempo integral e meio período. `nmgrs` é o número de gerentes.
-
-
-
-1. Calcule o número médio de empregos FTE, porcentagem média de funcionários FT (fora do número de funcionários FTE) e salário inicial médio (`wage_st`) por estado e por onda de pesquisa. Compare seus resultados com a *Tabela 2* do artigo.
-
-
-
-5. Quão diferentes são os restaurantes de fast-food de Nova Jersey e da Pensilvânia antes do aumento do salário mínimo?
-
 ---
 
 # Card e Krueger (1994) 
@@ -317,6 +278,24 @@ Vejamos esses resultados graficamente.
 
 # DID graficamente
 
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# DID graficamente
+
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -333,45 +312,27 @@ Vejamos esses resultados graficamente.
 
 ---
 
-# DID graficamente
+# Comparação ingênua depois/antes?
 
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# DID graficamente
+# Comparação ingênua depois/antes?
 
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# DID graficamente
+# Comparação simples NJ/PA?
 
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Comparação ingênua depois/antes?
+# Comparação simples NJ/PA?
 
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Comparação ingênua depois/antes?
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Comparação simples NJ/PA?
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Comparação simples NJ/PA?
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -412,7 +373,7 @@ layout: true
 
 ---
 
-# DID in Regression Form
+# DID em Forma de Regressão
 
 __Variável dummy de tratamento__
 $$
@@ -494,27 +455,6 @@ Nova Jersey (NJ) | `\(\color{#d96502}\alpha + \color{#027D83}\beta\)` | `\(\colo
 Esta tabela generaliza para outras configurações substituindo *Pensilvânia* por *Controle* e *Nova Jersey* por *Tratamento*
 ---
 
-class: inverse
-
-# Tarefa 2 (10 minutos)
-
-1. Crie uma variável dummy, `treat`, igual a `FALSE` se `state` é Pensilvânia e `TRUE` se Nova Jersey.
-
-
-
-1. Crie uma variável dummy, `post`, igual a `FALSE` se `observation` é fevereiro de 1992 e `TRUE` caso contrário.
-
-
-
-1. Estime o seguinte modelo de regressão. Você obtém os mesmos resultados do slide 9?
-
-`$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$`
-
-
-
-
----
-
 layout: false
 class: separator, middle
 
@@ -548,44 +488,44 @@ layout: true
 
 #  Tendências Paralelas: Graficamente
 
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Verificando a hipótese de tendências paralelas
+
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Verificando a hipótese de tendências paralelas
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
+
+&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
+
 &lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Verificando a hipótese de tendências paralelas
-
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-22-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Verificando a hipótese de tendências paralelas
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Hipótese de tendências paralelas `\(\rightarrow\)` Verificada ✅
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-26-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Hipótese de tendências paralelas `\(\rightarrow\)` Não verificada ❌
-
-&lt;img src="07_DID_pt_files/figure-html/unnamed-chunk-27-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
