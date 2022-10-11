@@ -65,6 +65,8 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) by Brady Neal
 
+* [Course in Econometrics - part II](https://www.youtube.com/playlist?list=PLwJRxp3blEvb7P-7po9AxuBwquPv75LjU) by Ben Lambert
+
 * [Microsoft's Experimentation](https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/)
 
 * [Booking.datasience](https://booking.ai)
