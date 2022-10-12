@@ -35,7 +35,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-08-04
+### Esag </br> 2022-10-10
 ]
 
 ---
@@ -49,36 +49,6 @@ layout: true
 
 
 
-
-exclude: true
-
-
-
----
-
-class: inverse
-name: the-toc
-
-
-# Plano de Aula
-
-- Dados de Cortes Transversais
-- Dados em Painel
-- Taxas de Criminalidade e Probabilidade de Prisão
-- Crime vs Prisão em Seção Transversal
-- Variação Intragrupo e Entre-grupos
-- Apresentando o *Efeito Fixo*
-- Estimação de Efeitos Fixos
-- Variável Omitida, VI e Dados em Painel
-- Regressão com Variável _Dummy_
-- Primeira Diferença
-- A Transformação Intragrupo (_Within_)
-- Estimativa de Efeitos Fixos no `R`
-- Transformação Intragrupo Animada!
-- Leitura Recomendada
-- ATÉ A PRÓXIMA AULA!
-
----
 
 # Dados de Cortes Transversais
 
@@ -210,7 +180,7 @@ crime &amp;= \beta_0 + \beta_1 police
 ]
 
 .right-wide[
-&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -313,7 +283,7 @@ Você ouvirá frequentemente os termos variação *intra* (_within_) e *entre* (
 # Variação Intragrupo e Entre-grupos
 
 .left-wide[
-&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -406,7 +376,7 @@ mod$dummy &lt;- lm(crmrte ~ prbarr + factor(county),
 broom::tidy(mod$dummy)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-9">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-8">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -579,7 +549,7 @@ mod$intra &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 
 &gt; se a probabilidade de prisão em `\(i\)` aumentar em 10 pontos percentuais (ou seja, de 0,2 para 0,3) do ano `\(t\)` para `\(t+1\)`, esperamos que os crimes por pessoa caiam de 0.039 para 0.036, ou por -7.69 por cento.
 
-&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-panel_pt_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -609,7 +579,7 @@ mod$FE &lt;- fixest::feols(crmrte ~ prbarr | county, cdata)
 ## use o `fixest` 🙂
 
 .left-wide[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-16">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-15">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">pooled</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">dummy</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">intra</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">FE</th></tr>
 <tr>
@@ -692,7 +662,7 @@ Com a Lista 1 feita! ✅
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
 | &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
 | &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
-| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+| &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/06-panel/lista_IV_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios IV |
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

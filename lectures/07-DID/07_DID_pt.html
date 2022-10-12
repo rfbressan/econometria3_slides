@@ -31,13 +31,13 @@ class: center, middle, inverse, title-slide
 # Econometria III
 ]
 .subtitle[
-## Diferenças-em-Diferenças
+## Efeitos Aleatórios e Diferenças-em-Diferenças
 ]
 .author[
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-10
+### Esag </br> 2022-10-11
 ]
 
 ---
@@ -51,9 +51,155 @@ layout: true
 
 
 
-layout: true
+---
 
-&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
+# Estimador Efeitos Aleatórios
+
+* Começamos com nosso modelo canônico de painel com heterogeneidade não observada
+
+--
+
+`\(y_{it}=\beta_0+\beta_1 x_{it}+\alpha_i+u_{it}\)`
+
+--
+
+* Quando `\(cov(\alpha_i, x_{it})\neq 0\)`, devemos utilizar EF ou PD
+
+* Se `\(cov(\alpha_i, x_{it}) = 0\)`, então MQO não é viesado
+
+--
+
+* ***Por que utilizar EA***?
+
+---
+
+# Estimador Efeitos Aleatórios
+
+`\(y_{it}=\beta_0+\beta_1 x_{it}+\alpha_i+u_{it}\)`
+
+* Vejamos o que ocorre com a ***correlação serial do erro composto*** `\(v_{it}=\alpha_i+u_{it}\)`
+
+--
+
+`\(cov(v_{it}, v_{is})=cov(\alpha_i+u_{it}, \alpha_i+u_{is})=\sigma_\alpha^2\implies corr(v_{it}, v_{is})=\sigma_\alpha^2 / (\sigma_\alpha^2 + \sigma_u^2)\)`
+
+--
+
+* Heterogeneidade não observada, mesmo quando não relacionada com o regressor `\(x\)`, **induz correlação serial** no termo de erro!
+
+* MQO deixa de ser BLUE 😡
+
+--
+
+* **Estimador de EA** será Mínimos Quadrados Generalizados (**MQG**) para corrigir esta correlação serial
+
+---
+
+# Estimador Efeitos Aleatórios
+
+## Como funciona?
+
+* `\(\bar y_{i}=T^{-1}\sum_{t}y_{it}\)`
+
+* Faremos uma centralização **parcial** na média intragrupo
+
+--
+
+* `\(y_{it}-\lambda \bar{y}_{i}=\beta_0(1-\lambda)+\beta_1 (x_{it}-\lambda \bar{x}_i)+v_{it}-\lambda\bar{v}_i\)`
+
+* Por enquanto não sabemos o melhor valor para `\(0\leq\lambda\leq 1\)`
+
+--
+
+* `\(\lambda\rightarrow 0 \implies \hat\beta_1^{EA}\rightarrow\hat\beta_1^{MQO}\)` e  `\(\lambda\rightarrow 1 \implies \hat\beta_1^{EA}\rightarrow\hat\beta_1^{EF}\)`
+
+--
+
+* Se a hipótese de EA for válida, `\(cov(x_{it}, \alpha_i) = 0\)`, então
+    + `\(\hat\beta_1^{EA}\rightarrow \beta_1\)`
+    
+---
+
+# Estimador Efeitos Aleatórios
+
+## Melhor valor de `\(\lambda\)`
+
+* O valor do ponderador `\(\lambda\)` que eliminará a correlação serial em `\(v_{it}-\lambda\bar v_i\)` será:
+
+--
+
+`$$\lambda=1-\left[\frac{\sigma_u^2}{\sigma_u^2+T\sigma_\alpha^2}\right]^{1/2}$$`
+--
+
+* Na prática não conhecemos `\(\lambda\)`, pois, não observamos as variâncias diretamente
+
+* A solução é utilizar um estimador de Mínimos Quadrados Generalizados **Factíveis** (***MQGF***)
+
+--
+
+`$$\hat\lambda=1-\left[\frac{\hat\sigma_u^2}{\hat\sigma_u^2+T\hat\sigma_\alpha^2}\right]^{1/2}$$`
+
+---
+
+# Estimador Efeitos Aleatórios
+
+## MQGF
+
+* MQO também é não viesado. Usado para estimar `\(\hat{v}_{it}\)` e `\(\hat\sigma_v^2\)`
+
+--
+
+* `\(\hat\sigma_\alpha^2\)` é estimado pela covariância entre `\(\hat{v}_{it}\)` e `\(\hat{v}_{is}\)`, com `\(t\neq s\)`
+
+`$$\hat\sigma_\alpha^2=\frac{1}{NT(T-1)/2 - 2}\sum_{i=1}^N\sum_{t=1}^{T-1}\sum_{s=t+1}^T\hat{v}_{it}\hat{v}_{is}$$`
+
+--
+
+* E `\(\hat\sigma_u^2\)` é estimado pela diferença
+
+`$$\hat\sigma_u^2=\hat\sigma_v^2 - \hat\sigma_\alpha^2$$`
+
+---
+
+# Estimador Efeitos Aleatórios
+
+## Limitações
+
+* Principal hipótese de EA é `\(cov(x_{it}, \alpha_i) = 0\)`
+
+--
+
+* Hipótese muito restritiva. Equivalente a MQO.
+
+--
+
+* Deve ser encarada como **exceção** e não regra
+
+--
+
+* Usa-se painel geralmente para explorar heterogeneidade não observada que está correlacionada com os regressores
+
+--
+
+* Somente usado se podemos ***plausivelmente*** presumir que `\(cov(x_{it}, \alpha_i) = 0\)`. Caso contrário, EF é preferível
+
+---
+
+# Estimador Efeitos Aleatórios
+
+## EA ou EF?
+
+* O principal ponto a ser considerado em escolher um modelo de Efeito Fixo ou Efeito Aleatório é a plausibilidade da hipótese `\(cov(x_{it}, \alpha_i) = 0\)`
+
+* Quando a hipótese é verdadeira, **ambos** os estimadores são consistentes
+
+* Se `\(cov(x_{it}, \alpha_i) \neq 0\)`, então **apenas** EF é consistente
+
+--
+
+* Ideia de Hausman: testamos `\(cov(x_{it}, \alpha_i) = 0\)` indiretamente ao testarmos `\(\hat\beta_1^{EA}-\hat\beta_1^{EF}=0\)`
+
+* Uma rejeição da `\(H_0\)` `\((\text{i.e. }\hat\beta_1^{EA}\neq\hat\beta_1^{EF})\)` implica na **escolha do modelo de EF**
 
 ---
 
