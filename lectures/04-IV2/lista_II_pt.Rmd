@@ -64,9 +64,9 @@ $$
 Y_{i}=\beta_{0}+\beta_{1} \hat{X}_{i}+u_{i}
 $$
 
-Com isso obtemos $\beta_{0}^{2 S L S}, \beta_{1}^{2 S L S}$, os estimadores de MQO em dois estágios (2SLS)
+Com isso obtemos $\beta_{0}^{2 S L S}, \beta_{1}^{2 S L S}$, os estimadores de MQO em dois estágios (MQ2E)
 
-e) Para que possamos eliminar o problema da endogeneidade é necessário que haja no mínimo um instrumento para cada variável endógena. Para ser possível identificar e consequentemente estimar os valores preditos $\hat{x}_{k}$ para os $m$ parâmetros endógenos, é necessário ter no mínimo $m$ variáveis instrumentais. Caso contrário, o primeiro estágio não é factível. Quando temos mais instrumentos do que variáveis endógenas, é necessário utilizar o estimador 2SLS, uma vez que $Z^{\prime} X$ não será invertível. Devemos então usar a projeção de $X$ em $Z$ como mostrado no item anterior. Dessa forma, garantimos que $\hat{X}^{\prime} \hat{X}$ é invertível.
+e) Para que possamos eliminar o problema da endogeneidade é necessário que haja no mínimo um instrumento para cada variável endógena. Para ser possível identificar e consequentemente estimar os valores preditos $\hat{x}_{k}$ para os $m$ parâmetros endógenos, é necessário ter no mínimo $m$ variáveis instrumentais. Caso contrário, o primeiro estágio não é factível. Quando temos mais instrumentos do que variáveis endógenas, é necessário utilizar o estimador MQ2E, uma vez que $Z^{\prime} X$ não será inversível. Devemos então usar a projeção de $X$ em $Z$ como mostrado no item anterior. Dessa forma, garantimos que $\hat{X}^{\prime} \hat{X}$ seja inversível.
 
 
 ```{r, results='asis', include=!params$solutions}
@@ -249,7 +249,7 @@ y_2&=\pi_2 z + v_2
 
 Para maior clareza de notação, usamos $y_2$ como a variável endógena suspeita e $z$ como a variável exógena que serve como instrumento para $y_2$. A segunda e terceira equações são a forma reduzida para $y_1$ e $y_2$, respectivamente.
 
-Sabemos que um estimador de $\alpha_1$ é o estimador MQ2E usando o instrumento z. Considere um estimador alternativo de $\alpha_1$: (i estimar a forma reduzida de $y_1$ e $y_2$ por MQO; (ii $\hat\alpha_1^{alt}=\hat\pi_1/\hat\pi_2$
+Sabemos que um estimador de $\alpha_1$ é o estimador MQ2E usando o instrumento z. Considere um estimador alternativo de $\alpha_1$: i) estimar a forma reduzida de $y_1$ e $y_2$ por MQO; ii) $\hat\alpha_1^{alt}=\hat\pi_1/\hat\pi_2$
 
 a) Mostre a equivalência numérica entre $\hat\alpha_1^{2E}$ e $\hat\alpha_1^{alt}$
 
@@ -261,8 +261,29 @@ cat("\\begin{comment}")
 
 ## Solução
 
+a) Começamos com o estimador MQ2E no primeiro estágio. A previsão de $y_2$ será $\hat{y}_2=\hat{\pi}_2z$, onde $\hat{\pi}_2=\frac{\sum z y_2}{\sum z^2}$.
 
+No segundo estágio regredimos $y_1$ contra $\hat{y}_2$ e portanto:
 
+$$
+\begin{align*}
+\hat{\alpha}_1^{2E}&=\frac{\sum \hat{y}_2 y_1}{\sum \hat{y}_2^2}\\
+&=\frac{\sum \hat{\pi}_2z y_1}{\sum (\hat{\pi}_2z)^2}\\
+&=\frac{1}{\hat{\pi}_2}\frac{\sum z y_1}{\sum z^2}\\
+&= \frac{\hat{\pi}_1}{\hat{\pi}_2}
+\end{align*}
+$$
+uma vez que $\frac{\sum z y_1}{\sum z^2}$ é justamente o estimador de $\pi_1$ na forma reduzida de $y_1$.
+
+b) O estimador de VI será:
+
+$$
+\begin{align*}
+\hat{\alpha}_1^{VI}&=\frac{\sum z y_1}{\sum z y_2}\\
+&=\frac{\sum z y_1 / \sum z^2}{\sum z y_2 / \sum z^2}\\
+&=\frac{\hat{\pi}_1}{\hat{\pi}_2}
+\end{align*}
+$$
 
 
 ```{r, results='asis', include=!params$solutions}
@@ -289,8 +310,43 @@ cat("\\begin{comment}")
 
 ## Solução
 
+```{r q5-setup, echo=TRUE}
+library(haven)
+library(fixest)
 
+# Lendo o arquivo de dados
+WAGE2 <- read_dta("WAGE2.dta")
+```
 
+```{r q5-a, echo=TRUE}
+# a)
+mq2e <- feols(log(wage) ~ exper + tenure + black | educ ~ sibs,
+              data = WAGE2)
+etable(mq2e)
+```
+
+```{r q5-b, echo=TRUE}
+# b)
+cpWAGE2 <- WAGE2
+first_stage <- feols(educ ~ sibs + exper + tenure + black,
+                     data = cpWAGE2)
+cpWAGE2$educ_hat <- predict(first_stage)
+
+second_stage <- feols(log(wage) ~ educ_hat + exper + tenure + black,
+              data = cpWAGE2)
+etable(list(VI = mq2e, Manual = second_stage))
+```
+
+```{r q5-c, echo=TRUE}
+# c)
+wrong_1st <- feols(educ ~ sibs,
+                   data = cpWAGE2)
+cpWAGE2$wrong_educ_hat <- predict(wrong_1st)
+
+wrong_2st <- feols(log(wage) ~ wrong_educ_hat + exper + tenure + black,
+              data = cpWAGE2)
+etable(list(VI = mq2e, Manual = second_stage, MQ2E_Errado = wrong_2st ))
+```
 
 
 ```{r, results='asis', include=!params$solutions}
