@@ -8,6 +8,8 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -37,7 +39,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-10
+### Esag </br> 2022-10-22
 ]
 
 ---
@@ -245,7 +247,7 @@ broom::tidy(LPM)
 
 * Lembre-se: `\(e \sim D\left(0,\sigma^2\right)\)`
 
-* aqui, algumass probabilidades menores que zero!
+* aqui, algumas probabilidades menores que zero!
 
 * Particularmente irritante se você quiser *previsões*: O que é probabilidade -0,3? 🤔]
 
@@ -652,13 +654,25 @@ glms$probit0 &lt;- update(glms$probit, formula = . ~ 1)
 
 
 ```r
-kbl(prop.table(table(true = mroz$inlf, pred = round(fitted(glms$probit)))))
+prop_tbl &lt;- prop.table(table(true = mroz$inlf, 
+                             pred = round(fitted(glms$probit)))) |&gt; 
+    as.data.table() |&gt; 
+    dcast(true~pred, value.var = "N")
+kbl(prop_tbl, digits = 4,
+    caption = "Matriz de Confusão") |&gt; 
+    add_header_above(c(" " = 1,
+                       "Pred" = 2))
 ```
 
 &lt;table&gt;
+&lt;caption&gt;Matriz de Confusão&lt;/caption&gt;
  &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Pred&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; true &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; 0 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
   &lt;/tr&gt;
@@ -666,13 +680,13 @@ kbl(prop.table(table(true = mroz$inlf, pred = round(fitted(glms$probit)))))
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1699867 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2616202 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1700 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2616 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1221780 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.4462151 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1222 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4462 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -681,30 +695,158 @@ kbl(prop.table(table(true = mroz$inlf, pred = round(fitted(glms$probit)))))
 
 # Curvas ROC (Receiver Operating Characteristics)
 
+
+
+## [Nomenclatura](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+
+.pull-left[
+**Taxa de Verdadeiros Positivos** (TPR, sensitividade, _recall_): `\(TP/P=\)` 0.7850467  
+
+**Taxa de Falsos Positivos** (FPR): `\(FP/N=\)` 0.6061538
+
+**Acurácia**: `\((TP + TN)/ (P+N)=\)` 0.6162019
+]
+
+
+.pull-right[
+
+
+
+.panelset[
+.panel[.panel-name[TPR]
+&lt;table&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Pred&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; true &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.1700 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.2616 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.1222 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.4462 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+.center[Relacionado a **Poder**]
+]
+
+.panel[.panel-name[FPR]
+&lt;table&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Pred&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; true &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.1700 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.2616 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.1222 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.4462 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+.center[Relacionado a **Erro Tipo I**]
+]
+
+.panel[.panel-name[ACC]
+&lt;table&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Pred&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; true &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.1700 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.2616 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;color: black !important;background-color: white !important;"&gt; 0.1222 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: darkgreen !important;"&gt; 0.4462 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+]
+]
+
+---
+
+# Curvas ROC 
+
 * O corte de 0,5 é arbitrário. E se todas as probabilidades previstas forem `\(&gt; 0,5\)`, mas nos dados houver cerca de 50% de zeros?
 
 * Vamos escolher um *corte arbitrário* `\(c \in (0,1)\)` e verificar a precisão de cada valor. Isso dá uma visão melhor.
---
 
-* Além disso, podemos confrontar a **taxa de verdadeiros positivos** (TPR) com a **taxa de falsos positivos** (FPR).
+---
+# Curvas ROC
+
+
+* Podemos confrontar a **taxa de verdadeiros positivos** (TPR) com a **taxa de falsos positivos** (FPR), para cada valor de corte `\(c\in[0, 1]\)`.
+
      1. TPR: número de mulheres corretamente previstas para trabalhar dividido pelo número de mulheres que trabalham.
+     
      2. FPR: número de mulheres incorretamente previstas para trabalhar dividido pelo número de mulheres não trabalhadoras.
     
 --
-* Plotar FPR vs TPR para cada `\(c\)` define a curva **ROC**.
+
+* Plotar ***FPR vs TPR*** para cada `\(c\)` define a curva **ROC**.
 
 * Um bom modelo tem uma curva ROC no canto superior esquerdo: FPR = 0, TPR = 1.
+
+
 ---
 
-# Curvas ROC (Receiver Operating Characteristics)
+# Curvas ROC 
 
 .left-wide[
 
 ```r
-pred &lt;- prediction(fitted(glms$probit), mroz$inlf)
+pred_prob &lt;- prediction(fitted(glms$probit), mroz$inlf)
 par(mfrow = c(1,2), mar = lowtop)
-plot(performance(pred,"acc"))
-plot(performance(pred,"tpr","fpr"))
+acc &lt;- ROCR::performance(pred_prob,"acc")
+max_acc &lt;- which.max(acc@y.values[[1]])
+plot(acc)
+points(acc@x.values[[1]][max_acc], acc@y.values[[1]][max_acc], col = "darkgreen")
+roc &lt;- ROCR::performance(pred_prob,"tpr","fpr")
+plot(roc)
+points(roc@x.values[[1]][max_acc], roc@y.values[[1]][max_acc], col = "darkgreen")
 abline(0, 1, lty = 2, col = "red")
 ```
 
@@ -714,9 +856,9 @@ abline(0, 1, lty = 2, col = "red")
 .right-thin[
 &lt;br&gt;
 &lt;br&gt;
-* Melhor precisão em torno de `\(c=0,6\)`
+* Melhor precisão em torno de `\(c=0,54\)`
 
-* ROC sempre acima da linha de 45 graus. Melhor do que atribuição aleatória (jogar uma moeda)! Sim!
+* ROC sempre acima da linha de 45 graus. Melhor do que atribuição aleatória (jogar uma moeda)!
 
 ]
 
@@ -754,6 +896,7 @@ y_i = \begin{cases}
 ]
 
 ---
+
 # Estimação de Máxima Verossimilhança
 
 ## Exemplo Probit
