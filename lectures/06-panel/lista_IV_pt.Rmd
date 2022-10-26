@@ -2,7 +2,7 @@
 title: "Dados em Painel"
 subtitle: "Lista de Exercícios IV"
 author: "Rafael Bressan"
-date: "UDESC/Esag </br> `r Sys.Date()`"
+date: "UDESC/Esag </br> Data devida: 24/11/2022"
 output: html_document
 params:
     solutions: false
