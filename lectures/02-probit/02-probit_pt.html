@@ -39,7 +39,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-22
+### Esag </br> 2022-10-29
 ]
 
 ---
@@ -963,6 +963,49 @@ P(y_i=0|x_i)&amp;=P(y_i* \leq 0|x_i)\\
 Exercício: Calcule o _score_ do modelo probit.
 
 R.: `$$s(\theta)=\sum_{i}\frac{\phi(x_i\theta)}{\Phi(x_i\theta)[1-\Phi(x_i\theta)]}(y_i-\Phi(x_i\theta))x_i$$`
+
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Exponencial
+
+- Suponha que tenhamos um conjunto simples de dados `\(\{x_i\}_{i=1}^N\)` `\(iid\)` e queremos ajustar uma distribuição exponencial
+
+--
+
+- `\(x_i\sim Exp(\lambda)\)`. `\(f(x; \lambda)=\frac{1}{\lambda}e^{-x_i/\lambda}\)`. `\(x_i\geq 0\)`.
+
+-- 
+
+- Qual é a função de log-verossimilhança?
+- Encontre o estimador de máxima verossimilhança `\(\hat\lambda_{mle}\)`
+
+---
+
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Exponencial
+
+- Função de verossimilhança: `\(L(\lambda)=\Pi_{i=1}^N f(x_i; \lambda)=\Pi_{i=1}^N \frac{1}{\lambda}e^{-x_i/\lambda}\)`
+
+--
+
+- Log-verossimilhança: `\(\mathcal{L}(\lambda)=\sum_{i=1}^N \log \frac{1}{\lambda}e^{-x_i/\lambda}\)`
+
+--
+
+- Ao final encontramos ...
+
+.pull-left[
+`$$\hat\lambda_{mle}=\frac{1}{N}\sum_{i=1}^N x_i$$`
+]
+
+.pull-right[
+.center[
+&lt;img src="https://media.giphy.com/media/Jlirxn597uSeW7kPAQ/giphy.gif", height="250" /&gt;
+]
+]
+
 
 ---
 # Método dos Momentos Generalizado
