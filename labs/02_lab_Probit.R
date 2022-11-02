@@ -26,12 +26,12 @@ library(ggplot2)
 #' robustos.
 data("mroz")
 #' **Cheque a estrutura dos dados com uma tabela de estatísticas descritivas. Qual a diferença para a aula de laboratório anterior?**
-#+ echo=FALSE
+#+ echo=TRUE
 datasummary(All(mroz)~Ncol+NUnique+Mean+SD,
             data = mroz)
 #' Agora faça a regressão da _dummy_ de presença na força de trabalho em relação 
 #' as seguintes variáveis: nwifeinc, educ, exper, exper^2, age, kidslt6, kidsge6
-#+ echo=FALSE
+#+ echo=TRUE
 fml <- inlf~nwifeinc+educ+exper+I(exper^2)+age+kidslt6+kidsge6
 mpl <- feols(fml,
              data = mroz,
@@ -49,7 +49,7 @@ msummary(mpl)
 #' 
 #' **Faça a previsão de probabilidade de estarem no mercado de trabalho para
 #' ambas hipotéticas mulheres.**
-#+ echo=FALSE 
+#+ echo=TRUE 
 xpred <- data.frame(nwifeinc = c(100, 0),
                     educ = c(5, 17),
                     exper = c(0, 30),
@@ -105,7 +105,7 @@ predict(probit, newdata = xpred, type = "link")
 #'
 #' **Simule valores para o índice linear entre -5 e 5 e plote qual seriam as 
 #' respostas em probabilidades dos modelos logit e probit.**
-#+ echo=FALSE
+#+ echo=TRUE
 index <- seq(-5, 5, by = 0.5)
 logit_response <- plogis(index)
 probit_response <- pnorm(index)
@@ -145,7 +145,7 @@ ggplot(df, aes(x = index)) +
 #' * Efeito Parcial Médio (APE): $APE(X_j)=\frac{1}{n} \sum_{i=1}^N g(x_i \beta) \beta_j$
 #' 
 #' **Calcule manualmente o PEA do modelo logit**
-#+ echo=FALSE
+#+ echo=TRUE
 # Ponto médio dos regressores
 regressors <- c("nwifeinc", "educ", "exper", "age", "kidslt6", "kidsge6")
 x_mean <- mroz[, regressors] |> 
@@ -163,7 +163,7 @@ dlogis(index_mean) * betas
 mfx::logitmfx(fml, data = mroz, atmean = TRUE)
 #'
 #' **Calcule manualmente o APE do modelo logit**
-#+ echo=FALSE
+#+ echo=TRUE
 g_mean <- predict(logit) |> 
     dlogis() |> 
     mean()

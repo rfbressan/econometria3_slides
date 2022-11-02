@@ -387,6 +387,70 @@ X_{i}\right)\right]\)</span></p></li>
 para a estimação dos parâmetros.</p></li>
 </ol>
 </div>
+<div id="solução" class="section level2">
+<h2>Solução</h2>
+<ol style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<p><span class="math display">\[
+\begin{align*}
+E[u_i | X_i ] &amp;= E[Y_i − \beta_0 − \beta_1 X_i | X_i ]\\
+&amp;= E[Y_i | X_i ] − \beta_0 − \beta_1 X_i\\
+&amp;= 1\cdot P(Y_i = 1 | X_i ) + 0 \cdot P(Y_i = 0 | X_i ) − \beta_0 −
+\beta_1 X i\\
+&amp;= 1(\beta_0 + \beta_1 X_i ) − \beta_0 − \beta_1 X_i = 0\\
+\end{align*}
+\]</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<p><span class="math display">\[
+\begin{align*}
+Var\left(u_i \mid X_i\right) &amp;=E\left[u_i^2 \mid X_i\right] \\
+&amp;=E\left[\left(Y_i-\beta_0-\beta_1 X_i\right)^2 \mid X_i\right] \\
+&amp;=E\left[Y_i^2-2\left(\beta_0+\beta_1 X_i\right)
+Y_i+\left(\beta_0+\beta_1 X_i\right)^2 \mid X_i\right] \\
+&amp;=E\left[Y_i^2 \mid X_i\right]-2\left(\beta_0+\beta_1 X_i\right)
+E\left[Y_i \mid X_i\right]+\left(\beta_0+\beta_1 X_i\right)^2 \\
+&amp;=1^2 \cdot \operatorname{Pr}\left(Y_i=1 \mid X_i\right)+0^2 \cdot
+\operatorname{Pr}\left(Y_i=0 \mid X_i\right)-2\left(\beta_0+\beta_1
+X_i\right) \operatorname{Pr}\left(Y_i=1 \mid
+X_i\right)+\left(\beta_0+\beta_1 X_i\right)^2 \\
+&amp;=\beta_0+\beta_1 X_i-2\left(\beta_0+\beta_1
+X_i\right)\left(\beta_0+\beta_1 X_i\right)+\left(\beta_0+\beta_1
+X_i\right)^2 \\
+&amp;=\beta_0+\beta_1 X_i-\left(\beta_0+\beta_1 X_i\right)^2 \\
+&amp;=\left(\beta_0+\beta_1 X_i\right)\left[1-\left(\beta_0+\beta_1
+X_i\right)\right]
+\end{align*}
+\]</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Como visto no item acima, a variância de <span class="math inline">\(u_i\)</span> depende de <span class="math inline">\(X_i\)</span> . Portanto, assumindo que <span class="math inline">\(X_i\)</span> varia entre os indivı́duos (condição
+necessária para conseguir estimar os coeficientes), os erros
+necessariamente serão heteroscedásticos.</p></li>
+<li><p>Precisamos de uma expressão para a distribuição conjunta dos
+dados, isto é, precisamos de <span class="math inline">\(\operatorname{P}\left(Y_1=y_1, \ldots, Y_n=y_n
+\mid X_1, \ldots, X_n\right)=\operatorname{P}\left(Y_1=y_1 \mid
+X_1\right) \times\)</span> <span class="math inline">\(\ldots \times
+\operatorname{P}\left(Y_n=y_n \mid X_n\right)=\prod_{i=1}^n
+\operatorname{P}\left(Y_i=y_i \mid X_i\right)\)</span>. Como <span class="math inline">\(Y\)</span> tem uma distribuição Bernoulli com
+<span class="math inline">\(\operatorname{P}\left(Y_i=1 \mid
+X_i\right)=\beta_0+\beta_1 X_i\)</span> e <span class="math inline">\(\operatorname{P}\left(Y_i=0 \mid
+X_i\right)=1-\beta_0-\beta_1 X_i\)</span>, a função de verossimilhança
+será:</p></li>
+</ol>
+<p><span class="math display">\[
+\ell(\beta)=\prod_{i=1}^n \operatorname{P}\left(Y_i=y_i \mid
+X_i\right)=\prod_{i=1}^n\left(\beta_0+\beta_1 X_i\right)^{y_i}
+\times\left(1-\beta_0-\beta_1 X_i\right)^{1-y_i}
+\]</span> Para estimar esses parâmetros, nós primeiros calculamos a
+função log-verossimilhança <span class="math inline">\(\mathcal{L}(\beta)\)</span> (lembre que maximar
+uma função ou o <span class="math inline">\(\log\)</span> dessa função
+resulta no mesmo ponto de máximo). Então procedemos fazendo a
+maximização de <span class="math inline">\(\mathcal{L}(\beta)\)</span>
+com respeito à <span class="math inline">\(\beta_0,
+\beta_1\)</span>.</p>
+</div>
 <div id="questão-2" class="section level2">
 <h2>Questão 2</h2>
 <p>Considere um modelo de probabilidade linear dado por <span class="math inline">\(Y_{i}=\beta_{0}+\beta_{1} X_{1 i}+\cdots +
@@ -403,6 +467,37 @@ modelos de probabilidade Linear e não Linear (Probit ou Logit).</p></li>
 <li><p>Apresente a forma dos efeito marginais nos modelos não lineares
 (obs: eles diferem nos casos contínuo, discreto e para
 dummies).</p></li>
+</ol>
+</div>
+<div id="solução-1" class="section level2">
+<h2>Solução</h2>
+<ol style="list-style-type: lower-alpha">
+<li><p>No modelo de probabilidade linear o coeficiente estimado pode ser
+interpretado diretamente como a mudança marginal na probabilidade de um
+evento ocorrer dada uma mudança em <span class="math inline">\(\mathbf{X}\)</span>. Contudo, o mesmo nao ocorre
+com os modelos Logit e Probit. Nestes modelos apenas o sinal do
+coeficiente pode ser considerado, ou seja, ele dará um indicativo da
+direção do efeito: como <span class="math inline">\(G(z)\)</span> é
+sempre positivo e crescente em z – dado que tanto para o logit como para
+o probit é uma função de probabilidade acumulada – <span class="math inline">\(\beta\)</span> positivo implica em sinal positivo
+do efeito marginal. No entanto, a magnitude do efeito marginal dependerá
+do valor do vetor <span class="math inline">\(\mathbf{X}\)</span>.</p></li>
+<li></li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li><p>Para o caso de variáveis contínuas: <span class="math display">\[
+\operatorname{P}\left(y_i=1 \mid X\right)=G\left(\beta_0+\beta X\right)
+\]</span> Derivando em relação a <span class="math inline">\(X_i\)</span>, temos: <span class="math display">\[
+\frac{\partial G(.)}{\partial X_i}=g(X_0) \hat\beta_i
+\]</span> onde <span class="math inline">\(g( )\)</span> é uma função
+densidade de probabilidade que dependendo da hipótese sobre a
+distribuição do termo de erro pode ser logística ou normal.</p></li>
+<li><p>Para o caso de variável dummy, <span class="math inline">\(X_i\in\{0,1\}\)</span>: <span class="math display">\[
+P(y_i=1|X_i=1)-P(y_i=1|X_i=0)=G\left(\hat{\beta}_0+\hat{\beta}_1\right)-G\left(\hat{\beta}_0\right)
+\]</span></p></li>
+<li><p>Para o caso discreto onde <span class="math inline">\(X_i=c\)</span>: <span class="math display">\[
+P(y_i=1|X_i=c+1)-P(y_i=1|X_i=c)=G\left(\hat{\beta}_0+\hat{\beta}_1(c+1)\right)-G\left(\hat{\beta}_0+\hat{\beta}_1(c)\right)
+\]</span></p></li>
 </ol>
 </div>
 <div id="questão-3" class="section level2">
@@ -443,6 +538,40 @@ desses tipos de modelo de resposta binária.</p></li>
 em que estamos avaliando essas variáveis.</p></li>
 </ol>
 </div>
+<div id="solução-2" class="section level2">
+<h2>Solução</h2>
+<ol style="list-style-type: lower-alpha">
+<li><p>VERDADEIRO. O valor esperado de uma variável binária é a sua
+probabilidade de ser igual a 1, ou seja, <span class="math inline">\(E[Y|X]=p(X)\)</span>. Como temos um modelo para
+<span class="math inline">\(Y\)</span> também podemos calcular <span class="math inline">\(E[Y|X]=\beta_0+\beta_1X\)</span>. Portanto, <span class="math inline">\(p(X)=\beta_0+\beta_1X\)</span> é linear nos
+parâmetros <span class="math inline">\(\beta\)</span>.</p></li>
+<li><p>FALSO. No modelo de probabilidade linear, <span class="math inline">\(\beta_j\)</span> mede a mudança prevista na
+probabilidade de sucesso quando <span class="math inline">\(x_j\)</span>
+muda, mantendo os demais fatores fixos.</p></li>
+<li><p>FALSO. Quando <span class="math inline">\(y\)</span> é uma
+variável binária, a variância condicional em <span class="math inline">\(x\)</span> é dada por <span class="math inline">\(Var(y | x) = p(x)[1 − p (x)]\)</span>, onde <span class="math inline">\(p(x)\)</span> é a probabilidade de sucesso: <span class="math inline">\(P(y = 1 | x)\)</span>. Assim, exceto no caso onde
+a probabilidade independe das variáveis explicativas, haverá
+heteroscedasticidade no modelo de probabilidade linear.</p></li>
+<li><p>VERDADEIRO. Uma das hipóteses do modelo é que <span class="math inline">\(0 \leq E[Y | X] \leq 1\)</span>. No entanto, isso
+nem sempre é satisfeito quando estamos lidando com os dados.</p></li>
+<li><p>FALSO. Se <span class="math inline">\(X\)</span> não for uma
+variável também binária, não existe a possibilidade de todos os dados
+estarem localizados exatamente na linha de regressão, isto é, termos o
+<span class="math inline">\(R^2 = 1\)</span>. Portanto, o <span class="math inline">\(R^2\)</span> não é uma estatı́stica muito útil no
+caso de modelos de probabilidade lineares.</p></li>
+<li><p>VERDADEIRO. A função de ligação <span class="math inline">\(G()\)</span> nestes modelos garante que as
+previsões de probabilidade de reposta positiva estarão entre 0 e
+1.</p></li>
+<li><p>FALSO. Devido à natureza não-linear desses modelos, não é
+possı́vel a utilização do método de mı́nimos quadrados ordinários.
+Podemos, entretanto, utilizar outros métodos de estimação que
+possibilitem a incorporação dessas não-linearidades, como <em>Mínimos
+Quadrados Não-Lineares</em> (MQNL) ou o estimador de máxima
+verossimilhança.</p></li>
+<li><p>FALSO. Os efeitos marginais no caso dos modelos logit e probit
+vão depender do ponto onde se está avaliando o efeito.</p></li>
+</ol>
+</div>
 <div id="questão-4" class="section level2">
 <h2>Questão 4</h2>
 <p>Para esse exercício, usaremos a base WAGE2.dta. Primeiro, crie uma
@@ -472,6 +601,119 @@ faculdade?</p></li>
 indivíduo ir para a faculdade depende de raça? No caso do OLS, estimado
 no item (a), esse efeito marginal dependia de raça?</p></li>
 </ol>
+</div>
+<div id="solução-3" class="section level2">
+<h2>Solução</h2>
+<p>⚠️ <strong>ATENÇÃO:</strong> Este é um exemplo apenas para
+demonstração de como estimar e fazer inferência em modelos de escolha
+qualitativa. Não tentem interpretar excessivamente os resultados
+apresentados pois, o modelo possivelmente sofre de viés!</p>
+<pre class="r"><code>library(fixest)
+library(haven)</code></pre>
+<pre class="r"><code>wage2 &lt;- read_dta(&quot;data/WAGE2.DTA&quot;)
+# Criando a dummy
+wage2$college &lt;- wage2$educ &gt; 12</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>ols &lt;- feols(college~black+meduc,
+             data = wage2,
+             vcov = &quot;hetero&quot;)
+etable(ols)</code></pre>
+<pre><code>##                                ols
+## Dependent Var.:            college
+##                                   
+## (Intercept)      -0.1062. (0.0612)
+## black            -0.0911. (0.0492)
+## meduc           0.0582*** (0.0053)
+## _______________ __________________
+## S.E. type       Heteroskedas.-rob.
+## Observations                   857
+## R2                         0.12191
+## Adj. R2                    0.11986
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Analisando a tabela acima, temos que, mantendo fixa a educação da
+mãe, ser negro diminui em 9% a probabilidade de entrar na faculdade (a
+10% de significância). Por outro lado, controlando por raça, cada ano de
+escolaridade da mãe aumenta em 5.8% a probabilidade do indivíduo entrar
+na faculdade (a 5% de significância). É importante notar que a estimação
+de <span class="math inline">\(\beta_1\)</span> não é evidência
+suficiente para dizer que existe um efeito causal de raça na
+probabilidade de entrar na faculdade. Outras variáveis omitidas estão
+correlacionadas com raça e com educação, como por exemplo a renda dos
+pais na época que a pessoa decidiu continuar os estudos (negros tendem a
+ter níveis menores de renda, de forma que ao completar o ensino básico
+eles podem ter mais incentivos a começar a trabalhar, ao invés de
+continuar os estudos).</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Temos valores menores do que 0, isto é, probabilidades negativas dos
+indivíduos ingressarem na faculdade, o que não faz sentido nenhum. Por
+isso vamos usar o modelo probit no próximo item.</li>
+</ol>
+<pre class="r"><code>summary(predict(ols))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.1062  0.3596  0.5925  0.5053  0.5925  0.9418</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Assim como no item a, o <span class="math inline">\(\beta_1\)</span>
+é negativo e significativo a 10%, enquanto <span class="math inline">\(\beta_2\)</span> é positivo e significante. No
+entanto, não é possível falar nada de efeito marginal apenas olhando
+esses coeficientes. Apenas sinal e significância estatística. Os efeitos
+marginais serão calculados nos próximos itens.</li>
+</ol>
+<pre class="r"><code>probit &lt;- feglm(college~black+meduc,
+                family = binomial(link = &quot;probit&quot;),
+                data = wage2)
+etable(probit)</code></pre>
+<pre><code>##                             probit
+## Dependent Var.:            college
+##                                   
+## (Intercept)     -1.723*** (0.2007)
+## black            -0.2575. (0.1474)
+## meduc           0.1650*** (0.0178)
+## _______________ __________________
+## S.E. type                      IID
+## Observations                   857
+## Squared Cor.               0.12593
+## Pseudo R2                  0.09471
+## BIC                        1,095.7
+## ---
+## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>A probabilidade de um negro cuja mãe tem 12 anos de educação entrar
+na faculdade é dada por:</li>
+</ol>
+<pre class="r"><code>predict(probit, newdata = data.frame(black = 1, meduc = 12))</code></pre>
+<pre><code>## [1] 0.4997972</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Já a probabilidade de um negro cuja mãe tem 15 anos de educação
+entrar na faculdade é dada por:</li>
+</ol>
+<pre class="r"><code>predict(probit, newdata = data.frame(black = 1, meduc = 15))</code></pre>
+<pre><code>## [1] 0.6895541</code></pre>
+<ol start="6" style="list-style-type: lower-alpha">
+<li></li>
+</ol>
+<pre class="r"><code>predict(probit, newdata = data.frame(black = c(0, 0), meduc = c(12, 15)))</code></pre>
+<pre><code>## [1] 0.6013949 0.7739908</code></pre>
+<ol start="7" style="list-style-type: lower-alpha">
+<li>O efeito marginal de um ano a mais de educação da mãe para um negro
+é (avaliando no ponto meduc = 12):</li>
+</ol>
+<pre class="r"><code>predict(probit, newdata = data.frame(black = c(1, 1), meduc = c(12, 13))) |&gt; 
+    diff()</code></pre>
+<pre><code>## [1] 0.06554322</code></pre>
+<p>Para um branco esta diferença é:</p>
+<pre class="r"><code>predict(probit, newdata = data.frame(black = c(0, 0), meduc = c(12, 13))) |&gt; 
+    diff()</code></pre>
+<pre><code>## [1] 0.06208931</code></pre>
+<p>Isto é, o efeito marginal da educação da mãe é maior para negros do
+que para brancos Isso acontece porque, no probit, o efeito marginal
+depende do nível de probabilidade. Como brancos têm uma probabilidade
+maior de ir para a faculdade do que os negros, o efeito marginal da
+escolaridade da mãe também será diferente. Esse resultado é bem
+diferente do obtido pelo modelo de probabilidade linear, em que o efeito
+marginal de escolaridade da mãe é constante e independe da raça.</p>
 </div>
 
 
