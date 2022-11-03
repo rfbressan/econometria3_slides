@@ -5,7 +5,7 @@ author: "Rafael Bressan"
 date: "UDESC/Esag </br> Data devida: 03/11/2022"
 output: html_document
 params:
-    solutions: true
+    solutions: false
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +26,7 @@ c) O erro é homocedástico?
 d) Escreva a função de máxima verossimilhança e descreva os passos para a estimação dos parâmetros.
 
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\begin{comment}")
 ```
 
@@ -69,7 +69,7 @@ $$
 Para estimar esses parâmetros, nós primeiros calculamos a função log-verossimilhança $\mathcal{L}(\beta)$ (lembre que maximar uma função ou o $\log$ dessa função resulta no mesmo ponto de máximo). Então procedemos fazendo a maximização de $\mathcal{L}(\beta)$ com respeito à $\beta_0, \beta_1$.
 
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\end{comment}")
 ```
 
@@ -89,7 +89,7 @@ a) Discorra sobre a diferença na interpretação dos coeficientes nos modelos d
 b) Apresente a forma dos efeito marginais nos modelos não lineares (obs: eles diferem nos casos contínuo, discreto e para dummies).
 
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\begin{comment}")
 ```
 
@@ -121,7 +121,7 @@ $$
 
 
 ```{r, results='asis', include=!params$solutions}
-cat("\\end{comment}")
+cat("\\end{comment}", echo=FALSE)
 ```
 
 ## Questão 3
@@ -148,7 +148,7 @@ g) Utilizamos o método de mínimos quadrados ordinários na estimação desses 
 
 h) O efeito marginal das variáveis explicativas independe do valor em que estamos avaliando essas variáveis.
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\begin{comment}")
 ```
 
@@ -173,7 +173,7 @@ g) FALSO. Devido à natureza não-linear desses modelos, não é possı́vel a u
 
 h) FALSO. Os efeitos marginais no caso dos modelos logit e probit vão depender do ponto onde se está avaliando o efeito.
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\end{comment}")
 ```
 
@@ -203,7 +203,7 @@ f) Repita (d) e (e) para um branco.
 g) O efeito marginal da educação da mãe na probabilidade do indivíduo ir para a faculdade depende de raça? No caso do OLS, estimado no item (a), esse efeito marginal dependia de raça?
 
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\begin{comment}")
 ```
 
@@ -282,6 +282,6 @@ predict(probit, newdata = data.frame(black = c(0, 0), meduc = c(12, 13))) |>
 
 Isto é, o efeito marginal da educação da mãe é maior para negros do que para brancos Isso acontece porque, no probit, o efeito marginal depende do nível de probabilidade. Como brancos têm uma probabilidade maior de ir para a faculdade do que os negros, o efeito marginal da escolaridade da mãe também será diferente. Esse resultado é bem diferente do obtido pelo modelo de probabilidade linear, em que o efeito marginal de escolaridade da mãe é constante e independe da raça.
 
-```{r, results='asis', include=!params$solutions}
+```{r, results='asis', include=!params$solutions, echo=FALSE}
 cat("\\end{comment}")
 ```
