@@ -243,7 +243,7 @@ xsection_p = round(predict(xsection,
 
 * Aumento de 10 p.p. na probabilidade de prisão (por exemplo, `prbarr` passa de 0,2 para 0,3) ...
 
-* ... está associado a um aumento na taxa de criminalidade de `r xsection_p[1]` para `r xsection_p[2]`, ou um `r round(100 * diff(xsection_p) / xsection_p[1],2)` percentual de aumento na taxa de criminalidade.
+* ... está associado a um aumento na taxa de criminalidade de `r xsection_p[1]` para `r xsection_p[2]`, ou `r round(100 * diff(xsection_p) / xsection_p[1],2)` por cento de aumento na taxa de criminalidade.
 
 ]
 
@@ -485,7 +485,7 @@ $$\bar{x}_i = \frac{1}{T} \sum_{t=1}^T x_{it}$$
 
 1. para todas as variáveis, calcule sua média no tempo para cada grupo $i$: $\bar{x}_i,\bar{y}_i$ etc.
 1. para cada **observação**, subtraia essa média de tempo do valor real e defina $\ddot{x}_{it}=x_{it} - \bar{x}_i$ e $\ddot{y}_{it}=y_{it}-\bar{y}_i$
-1. Por fim, regresse $\ddot{x}_{it}$ em $\ddot{y}_{it}$
+1. Por fim, regresse $\ddot{y}_{it}$ em $\ddot{x}_{it}$
 ]
 
 ---
