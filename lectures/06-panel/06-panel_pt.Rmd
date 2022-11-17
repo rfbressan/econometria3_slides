@@ -492,6 +492,52 @@ $$\bar{x}_i = \frac{1}{T} \sum_{t=1}^T x_{it}$$
 
 # A Transformação Intragrupo (_Within_)
 
+- Se $y_{it} = \beta_1 x_{it} + c_i + u_{it}$, então
+
+--
+$$
+\begin{align*}
+\bar{y}_i&=\frac{1}{T}\sum_t y_{it}\\
+&=\frac{1}{T}\left[ \beta_1\sum_t x_{it}+\sum_t c_{i}+\sum_t u_{it}\right]\\
+&=\beta_1\bar{x}_i+c_i+\bar{u}_i
+\end{align*}
+$$
+Logo,
+
+$$
+\begin{align*}
+\ddot{y}_{it}&=y_{it}-\bar{y}_i\\
+&=\beta_1 x_{it} + c_i + u_{it} - \left(\beta_1\bar{x}_i+c_i+\bar{u}_i\right)\\
+&=\beta_1\ddot{x}_{it} + \ddot{u}_{it}
+\end{align*}
+$$
+---
+
+# A Transformação Intragrupo (_Within_)
+## Graus de liberdade
+
+- $\ddot{y}_{it}=\beta_1\ddot{x}_{1,it} + \beta_2\ddot{x}_{2,it} + \ldots + \beta_k\ddot{x}_{k,it} + \ddot{u}_{it}$
+
+- A princípio temos $NT - k$ graus de liberdade
+
+--
+
+- `r emo::ji("warning")` Isso não é verdade!!
+
+--
+
+- Tivemos de calcular $N$ **médias intragrupo**. Perdemos esses graus de liberdade
+
+- _gl_: $NT-N-k=N(T-1)-k$
+
+--
+
+- Quanto mais efeitos fixos adicionarmos na regressão, mais ***gl*** iremos perder 
+
+---
+
+# A Transformação Intragrupo (_Within_)
+
 ## Solução Manual no `R`
 
 Isso *funciona* para o nosso problema com o efeito fixo $c_i$ porque $c_i$ não varia no tempo por suposição! A média de uma constante é elas mesma, $\bar c_i = c_i$

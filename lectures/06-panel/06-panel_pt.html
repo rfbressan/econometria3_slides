@@ -35,7 +35,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-11-09
+### Esag </br> 2022-11-17
 ]
 
 ---
@@ -451,6 +451,52 @@ lm(deltay ~ deltax, diff_data)
 1. para cada **observação**, subtraia essa média de tempo do valor real e defina `\(\ddot{x}_{it}=x_{it} - \bar{x}_i\)` e `\(\ddot{y}_{it}=y_{it}-\bar{y}_i\)`
 1. Por fim, regresse `\(\ddot{y}_{it}\)` em `\(\ddot{x}_{it}\)`
 ]
+
+---
+
+# A Transformação Intragrupo (_Within_)
+
+- Se `\(y_{it} = \beta_1 x_{it} + c_i + u_{it}\)`, então
+
+--
+$$
+`\begin{align*}
+\bar{y}_i&amp;=\frac{1}{T}\sum_t y_{it}\\
+&amp;=\frac{1}{T}\left[ \beta_1\sum_t x_{it}+\sum_t c_{i}+\sum_t u_{it}\right]\\
+&amp;=\beta_1\bar{x}_i+c_i+\bar{u}_i
+\end{align*}`
+$$
+Logo,
+
+$$
+`\begin{align*}
+\ddot{y}_{it}&amp;=y_{it}-\bar{y}_i\\
+&amp;=\beta_1 x_{it} + c_i + u_{it} - \left(\beta_1\bar{x}_i+c_i+\bar{u}_i\right)\\
+&amp;=\beta_1\ddot{x}_{it} + \ddot{u}_{it}
+\end{align*}`
+$$
+---
+
+# A Transformação Intragrupo (_Within_)
+## Graus de liberdade
+
+- `\(\ddot{y}_{it}=\beta_1\ddot{x}_{1,it} + \beta_2\ddot{x}_{2,it} + \ldots + \beta_k\ddot{x}_{k,it} + \ddot{u}_{it}\)`
+
+- A princípio temos `\(NT - k\)` graus de liberdade
+
+--
+
+- ⚠️ Isso não é verdade!!
+
+--
+
+- Tivemos de calcular `\(N\)` **médias intragrupo**. Perdemos esses graus de liberdade
+
+- _gl_: `\(NT-N-k=N(T-1)-k\)`
+
+--
+
+- Quanto mais efeitos fixos adicionarmos na regressão, mais ***gl*** iremos perder 
 
 ---
 
