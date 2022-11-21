@@ -70,6 +70,30 @@ Considere o seguinte modelo em painel com $i=1, \ldots , N$ e $t=1, \ldots , T$.
 $$y_{it}=\beta_1 x1_{it}+\ldots +\beta_k xk_{it}+a_i+u_{it}.$$
 Se os erros idiossincráticos $u_{it}$ forem serialmente **não** correlacionados com variância constante $\sigma_u^2$, mostre que o estimador de primeira diferença irá induzir um correlação de $\Delta u_{i,t}$ com $\Delta u_{i,t+1}$ de $-0,5$.
 
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+Comece escrevendo o modelo em primeira diferença:
+
+$\Delta y_{it}=\beta_1 \Delta x1_{it}+\ldots +\beta_k \Delta xk_{it}+\Delta u_{it}$
+
+A variância $Var(\Delta u_{it})$ é $E[(\Delta u_{it})^2]=E[u_{i,t}^2-2u_{i,t}u_{i,t-1}+u_{i,t-1}^2]=2\sigma_u^2$.
+
+Já a covariância entre $\Delta u_{i,t}$ e $\Delta u_{i,t+1}$ é $E[(u_{i,t}-u_{i,t-1})(u_{i,t+1}-u_{i,t})]=E[-u_{i,t}^2]=-\sigma_u^2$.
+
+Portanto a correlação entre $\Delta u_{i,t}$ e $\Delta u_{i,t+1}$ é $-\sigma_u^2 / (2\sigma_u^2)=-0,5$.
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
+
+
 ## Questão 4
 
 Com uma única variável explicativa, a equação de média temporal é
