@@ -420,7 +420,7 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
 
 
 .pull-right[
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 library(estimatr)
 # create a list of models
 mod <- list()
@@ -432,7 +432,7 @@ mod$ols <- lm(lnw ~ s, data = ak91)
 # doing IV manually in 2 stages.
 mod$stage_1 <- lm(s ~ q4, data = ak91)
 ak91$shat <- predict(mod$stage_1) #<<
-modmod$stage_2 <- lm(lnw ~ shat, data = ak91)
+mod$stage_2 <- lm(lnw ~ shat, data = ak91)
 
 # run 2SLS
 # doing IV all in one go
