@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(data.table)
 library(plm)
 library(fixest)
+library(modelsummary)
 ```
 
 
@@ -51,17 +52,63 @@ $y_{it} = \beta_1 x_{it} + \sum_{i=1}^N a_i d_i + u_{it}$
 
 Qual destes estimadores é melhor? Por quê?
 
+
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a) Características não observáveis como habilidade e esforço podem estar presente no termo $a_i$. Dificilmente estas características não sejam correlacionadas com a escolaridade ($x_{it}$), pois, tipicamente pessoas mais escolarizadas possuem tanto habilidade para estudos quanto suportam maiores cargas de esforço (se pensarmos que estudar requer esforço). 
+
+Sabemos que se alguma variável omitida em nossa regressão é correlacionada com qualquer um dos regressores, nossa estimativa de MQO será potencialmente viesada.
+
+b) Os três estimadores serão consistentes, resultando no mesmo valor estimado de $\beta_1$. A escolha deverá recair sobre qual estimador é mais eficiente. Aquele que provê menores erros padrão das estimativas.
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
+
 ## Questão 2
 
 Considere um modelo simples de taxa de criminalidade ($crim$) em função de desemprego ($desemp$). Temos um painel com $T=2$ e heterogeneidade não observada $a_i$. Especificamos o modelo com uma variável _dummy_ para identificar $t=2$.
 
-$$crim_{it}=\beta_0+\delta_0 D_{t2}+\beta_1 desemp+a_i+u_{it}.$$
+$$crim_{it}=\beta_0+\delta_0 D_{t2}+\beta_1 desemp_{it}+a_i+u_{it}.$$
 
 a) Escreva o modelo em primeira diferença (PD) e mostre que esta especificação elimina a heterogeneidade.
 
 b) Escreva o modelo com a transformação _within_ (dentro do grupo) e mostre que esta especificação também elimina a heterogeneidade.
 
 c) Suponha que $\beta_1 > 0$ e, $\Delta u_i$ e $\Delta desemp_i$ são negativamente correlacionados. Qual é o viés no estimador de $\beta_1$ via MQO PD?
+
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a) $\Delta crim_{i}=\delta_0+\beta_1\Delta desemp_i+\Delta u_i$. Veja que $\alpha_i$ foi elimiando da equação. Além disso, perceba que a dimensão temporal também foi eliminada, já que o painel original apresentava apenas dois períodos.
+
+b) $\bar y_i = \beta_0 + \delta_0/2 + \beta_1\bar x_i+\alpha_i+\bar u_i$, logo:
+
+$\ddot{crim}_{it}=\delta_0(D_{t2}-0.5) + \beta_1\ddot{desemp}_{it}+\ddot{u}_{it}$
+
+c) Em PD: 
+
+$$\hat\beta_1=\beta_1+\underbrace{\frac{\sum_i \Delta u_i(\Delta desemp_i - \bar{\Delta desemp_i})}{\sum_i(\Delta desemp_i - \bar{\Delta desemp_i})^2}}_{\propto cov(\Delta u_i, \Delta desemp_i)}$$
+
+Como $cov(\Delta u_i, \Delta desemp_i)<0$, o viés em $\hat\beta_1$ será de atenuação.
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
+
 
 ## Questão 3
 
@@ -105,6 +152,37 @@ a) Sendo $\tilde{\beta}_1$ o estimador MQO da especificação acima, mostre que 
 
 b) Suponha também que $x_{it}$ seja serialmente não correlacionado com variância constante igual a $\sigma_x^2$. Mostre que $\operatorname{plim}\tilde{\beta}_1=\beta_1+T\sigma_{xa}/\sigma_x^2$
 
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a) 
+
+$$
+\begin{align*}
+\tilde{\beta}_1&=\frac{\sum_i(\bar x_i - \bar x)\bar y_i}{\sum_i(\bar x_i -\bar x)^2}\\
+&=\frac{\sum_i(\bar x_i - \bar x)(\beta_0+\beta_1\bar{x}_i+a_i+\bar{u}_i)}{\sum_i(\bar x_i -\bar x)^2}\\
+&=\beta_1+\frac{\sum_i(\bar x_i - \bar x)\bar a_i}{\sum_i(\bar x_i -\bar x)^2}+\frac{\sum_i(\bar x_i - \bar x)\bar u_i}{\sum_i(\bar x_i -\bar x)^2}\\
+\text{plim}\tilde{\beta}_1&=\beta_1+\frac{cov(a_i, \bar x_i)}{Var[\bar x_i]}
+\end{align*}
+$$
+
+b) Neste caso $Var[\bar x_i]= Var[T^{-1}\sum_i x_{it}]$, logo
+
+$$Var[\bar x_i]=T^{-1}\sigma_x^2$$
+Substituindo na expressão do item a), temos
+
+$$\text{plim}\tilde{\beta}_1=\beta_1+\frac{T\sigma_{xa}}{\sigma_x^2}$$
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
+
 
 ## Questão 5
 
@@ -131,6 +209,87 @@ $$
 &-\lbrace E[y_{it}|i\in C, t=t_2] - E[y_{it}|i\in C, t=t_1]\rbrace
 \end{align*}
 $$
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a) As características não observadas e correlacionadas com o regressor $x_{it}$ causam viés no estimador $\hat\beta_1^{MQO}$. Utilizar somente a primeira diferença temporal não irá eliminar o efeito fixo $\theta_t$. Podemos, portanto, expandir em dummies **ambos** os efeitos fixos e estimar a regressão com MQO, ou utilizar uma transformação intragrupo adequada, que será mostrada no item a seguir.
+
+b) Seja $\bar y_i=T^{-1}\sum_t y_{it}$, $\bar y_t=N^{-1}\sum_i y_{it}$ e $\bar y=(NT)^{-1}\sum_i\sum_t y_{it}$. Então a transformação intragrupo em duas vias é dada por:
+
+$$\ddot{y}_{it}=(y_{it}-\bar y)-(\bar y_{i}-\bar y)-(\bar y_{t}-\bar y)=y_{it}-\bar y_{i}-\bar y_{t} + \bar y.$$
+
+Agora basta mostrar que $\ddot{y}_{it}=\beta_1\ddot{x}_{it}+\ddot{u}_{it}$.
+
+$\bar y_i=\beta_1\bar x_i+\alpha_i+\bar\theta+\bar u_i$
+
+$\bar y_t=\beta_1\bar x_t+\bar\alpha+\theta_t+\bar u_t$
+
+$\bar y=\beta_1\bar x+\bar\alpha+\bar\theta+\bar u$
+
+$$
+\begin{align*}
+\ddot{y}_{it}&=y_{it}-\bar y_{i}-\bar y_{t} + \bar y\\
+&=\beta_1 x_{it}+\alpha_i+\theta_t+u_{it}\\
+&-\beta_1\bar x_i+\alpha_i+\bar\theta+\bar u_i\\
+&-\beta_1\bar x_t+\bar\alpha+\theta_t+\bar u_t\\
+&+\beta_1\bar x+\bar\alpha+\bar\theta+\bar u\\
+&=\beta_1(x_{it}-\bar x_i-\bar x_t+\bar x)+(u_{it}-\bar u_i-\bar u_t+\bar u)\\
+&=\beta_1\ddot{x}_{it}+\ddot{u}_{it}.
+\end{align*}
+$$
+
+Considerando que $u_{it}$ é estritamente exógeno em relação a $x_{it}$, então $\ddot{u}_{it}$ também será exógeno em relação a $\ddot{x}_{it}$. Logo, não existirá viés em estimar a regressão $\ddot{y}_{it}=\beta_1\ddot{x}_{it}+\ddot{u}_{it}$ por MQO.
+
+c) Neste caso podemos expandir em dummies os efeitos fixos.
+
+$$y_{it}=\beta_0+\beta_1x_{it}+\delta_T\mathbb{1}_T + \delta_{t2}\mathbb{1}_{t2} + u_{it}$$
+onde as funções indicadoras são tais que 
+
+$$
+\mathbb{1}_T=
+\begin{cases}
+1, &\text{se }i\in T\\
+0, &\text{caso contrário}
+\end{cases}
+$$
+
+$$
+\mathbb{1}_{t2}=
+\begin{cases}
+1, &\text{se }t=t_2\\
+0, &\text{caso contrário.}
+\end{cases}
+$$
+Assim, temos que:
+
+$E[y_{it}|i\in C, t=t_1]=\beta_0$
+
+$E[y_{it}|i\in C, t=t_2]=\beta_0+\delta_{t2}$
+
+$E[y_{it}|i\in T, t=t_1]=\beta_0+\delta_T$
+
+$E[y_{it}|i\in T, t=t_2]=\beta_0+\delta_{t2}+\delta_T+\beta_1$.
+
+Portanto, podemos escrever $\beta_1$ em termos dos valores esperados condicionais
+
+$$
+\begin{align*}
+\beta_1&=E[y_{it}|i\in T, t=t_2] - E[y_{it}|i\in T, t=t_1]\\
+&-\lbrace E[y_{it}|i\in C, t=t_2] - E[y_{it}|i\in C, t=t_1]\rbrace
+\end{align*}
+$$
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
 
 ## Questão 6
 
@@ -204,3 +363,48 @@ e) Como os resultados do item anterior se comparam a estimação do MQO agrupado
 ```{r plm-haus, include=FALSE}
 phtest(mqo_fe, mqo_pool)
 ```
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a)
+
+```{r q6a, results='asis', echo=TRUE}
+pdim(plm_who)
+```
+
+b) 
+
+```{r q6b, results="asis", echo=TRUE}
+mqo_pool <- plm(LOGCOMP~LOGEDUC*LOGHEXP,
+                data = plm_who,
+                model = "pooling")
+msummary(mqo_pool)
+```
+
+c) A medida de educação é geral, ou seja, engloba educação fornecida pelo governo também. Desta forma, podemos pensar que outras variáveis que captam o tamanho/eficiência do governo podem estar influenciando tanto educação quanto o provimento de serviços de saúde. Controlar para tais covariadas parece ser apropriado. Renda per capta, despesas públicas de saúde e eficácia do governo poderiam ser incluídas.
+
+d) Podemos incluir as variáveis de controle acima e reestimar os resultados. Além destes controles explícitos, poderíamos também incluir efeitos fixos de país para tentar controlar por qualquer outra heterogeneidade não observada relativa ao país.
+
+```{r q6d, results='asis', echo=TRUE}
+mqo_ctrl <- plm(LOGCOMP~LOGEDUC*LOGHEXP+PUBTHE+LOGGDPC+GEFF,
+              data = plm_who,
+              model = "pooling")
+
+mqo_fe <- plm(LOGCOMP~LOGEDUC*LOGHEXP+PUBTHE+LOGGDPC+GEFF,
+              data = plm_who,
+              model = "within")
+msummary(list(MQO = mqo_pool, `MOQ+` = mqo_ctrl, EF = mqo_fe))
+```
+
+e) A variável de educação LOGEDUC tem sua magnitude reduzida para 0.091, porém ainda estatisticamente significativa. Ou seja, quanto mais educado um país, maior a oferta de serviços de saúde. Esta oferta parece ser completamente oriunda da educação, uma vez que as despesas não são relevantes. Nossa escolha de variáveis extras para controle foi quase que completamente absorvida pelo modelo de efeitos fixos. A explicação é que, apesar de ser um painel, nossos dados não possuem variação temporal nas variáveis PUBTHE e LOGGDPC. Sem variação temporal, o efeito fixo de país absorve estas variáveis. Sobrou apenas a eficácia do governo, GEFF, que tampouco foi estatisticamente significativa.
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
