@@ -319,3 +319,14 @@ ggdid(did_es) +
                color = "red") +
     labs(x = "Anos antes e depois da expansão da lei doutrina do castelo",
          y = "Log homicídios por 100K hab.")
+#' Vejam que as estimativas mudaram ligeiramente apenas. Muito embora a 
+#' especificação TWFE deva ser viesada em teoria, este viés aparentemente é
+#' pequeno. Podemos averiguar esta situação através da decomposição de 
+#' Goodman-Bacon. Se nenhum dos pesos atribuídos as estimativas for negativo,
+#' então o viés do TWFE tende a ser pequeno (pesos negativos exacerbam o viés 
+#' além de prejudicar uma interpretação causal do estimador TWFE).
+#' 
+bacon_d <- bacon(l_homicide~post, 
+                 data = castle, 
+                 id_var = "sid", 
+                 time_var = "year")
