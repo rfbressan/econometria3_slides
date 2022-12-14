@@ -5,7 +5,7 @@ author: "Rafael Bressan"
 date: "UDESC/Esag </br> Data devida: 08/12/2022"
 output: html_document
 params:
-    solutions: false
+    solutions: true
 ---
 
 ```{r setup, include=FALSE}
@@ -33,13 +33,72 @@ onde $D_{it}= State_i \cdot Time_t$ é o indicador de tratamento.
 
 (d) Sob quais premissas $\theta$ pode ser um estimador apropriado do efeito do tratamento?
 
+
+```{r , results='asis', include=!params$solutions}
+cat("\\begin{comment}\n")
+```
+
+
+## Solução
+
+a) Definimos as seguintes variáveis: $y= Y-\bar{Y}$, $s= State-\bar{State}$, $d= D-\bar{D}$. Além destas, definimos $n_s$ como o número de observações onde $State = 1$ e $n_d$ quando $D=1$. Veja que $D=1$ é um subconjunto de $State=1$, além do mais, supondo painel balanceado, o número de observações onde $D=1$ **quando** $State = 1$ é o mesmo que $D=0$ quando $State=1$.
+
+$$
+\begin{align}
+\hat{\theta}&=\frac{\sum yd\sum s^2-\sum ys\sum sd}{\sum s^2 \sum d^2 - (\sum sd)^2}
+\end{align}
+$$
+Calculando todos os termos
+
+$\sum yd = \sum_{D=1}y-\bar{D}\sum y$
+
+$\sum s^2 = \sum S - NT\bar{S}^2=n_s(1-\bar{S})$
+
+$\sum ys=\sum_{S=1}y-\bar{S}\sum y$
+
+$\sum sd=\sum SD-\bar{S}\sum D-\bar{D}\sum S+NT\bar{S}\bar{D}=n_d(1-\bar{S})$
+
+Desta forma, considerando que $n_s=2 n_d$, o numerador de $\hat{\theta}$ se reduz a:
+
+$$n_d(1-\bar{S})\left(\sum_{S=1,D=1}y - \sum_{S=1,D=0}y\right).$$
+O denominador será $n_d^2(1-\bar{S})$, e portanto, o estimador de MQO é:
+
+$$
+\begin{equation}
+\hat{\theta}=\frac{\sum_{S=1,D=1}y}{n_d}-\frac{\sum_{S=1,D=0}y}{n_d}.
+\end{equation}
+$$
+Como o painel é balanceado, $n_d$ representa tanto o número de estados no grupo tratamento efetivamente tratados (pós) quanto não ainda tratados (pré). Imediatamente percebemos que este é um estimador de uma diferença apenas, dentro do grupo tratado somente.
+
+b) Em termos populacionais passamos o operador de valor esperado condicional sobre nossa equação de regressão para extrair o valor de $\theta$ dado $State$ e $D$.
+
+$E[y_{it}|State_i=1, D_{it}=0]=\beta_0+\beta_1$
+
+$E[y_{it}|State_i=1, D_{it}=1]=\beta_0+\beta_1+\theta$, logo:
+
+$\theta=E[y_{it}|State_i=1, D_{it}=1] - E[y_{it}|State_i=1, D_{it}=0]$. Percebam como apenas a amostra tratada $S=1$ entra no cômputo de $\theta$. O estimador de MQO derivado no item anterior é facilmente identificado como o análogo amostral do $\theta$ populacional.
+
+c) Não é um estimador DID. Ele toma apenas uma diferença, no grupo tratado.
+
+d) Para $\hat\theta$ ser equivalente a um estimador DID, devemos ter que a diferença temporal no grupo controle seja igual a zero, isto é
+
+$E[y_{it}|State_i=0, Post_t=1] - E[y_{it}|State_i=0, Post_t=0]=0.$
+
+Em outras palavras, o contrafactual deve ser constante, não apresentando tendência temporal.
+
+
+```{r , results='asis', include=!params$solutions}
+cat("\\end{comment}")
+```
+
+
 ## Questão 2
 
 Em 1980, o estado do Kentucky elevou o limite de renda semanal que era coberta pela compensação em caso de acidentes. Queremos saber se essa nova política fez com que os trabalhadores passassem mais tempo desempregados. Se os benefícios não forem generosos o suficiente, os trabalhadores podem processar as empresas por lesões no trabalho, enquanto benefícios excessivamente generosos podem causar problemas de risco moral e induzir os trabalhadores a serem mais imprudentes no trabalho ou alegar que lesões fora do trabalho ocorreram durante o trabalho.
 
 a) Vamos utilizar dados de lesões no ambiente de trabalho oriundo do artigo de Meyer e Viscusi (1995). Carrege os dados a partir do arquivo `injury.csv`. 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(readr)
 library(dplyr)
@@ -59,7 +118,7 @@ b) Estas são as principais colunas com as quais nos preocuparemos:
 
 Filtre as observações para abrangirem somente o estado de Kentucky (`ky == 1`) e renomeie as váriaveis de acordo.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 inj_df <- injury |> 
     filter(ky == 1) |> 
     rename(duration = durat,
@@ -69,7 +128,7 @@ inj_df <- injury |>
 
 c) Em um gráfico separado entre antes e depois salário plote a média e o intervalo de confiança da duração do desemprego em logarítimo para os trabalhadores de baixo (controle) e alto salário (tratamento). Com base neste gráfico, você espera que o efeito da política sobre o tempo de desemprego seja positivo ou negativo?
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=TRUE, include=TRUE}
 ggplot(inj_df, aes(x = factor(highearn), y = log_duration)) +
   stat_summary(geom = "pointrange", size = 1, color = "red",
                fun.data = "mean_se", fun.args = list(mult = 1.96)) +
@@ -84,7 +143,7 @@ $$
 \left(\mathbb{E}[Y_{gt}|g=T, t=1] - \mathbb{E}[Y_{gt}|g=T, t=0]\right) - \left(\mathbb{E}[Y_{gt}|g=C, t=1] - \mathbb{E}[Y_{gt}|g=C, t=0]\right) 
 $$
 
-```{r, echo=FALSE, message=FALSE, include=FALSE}
+```{r, echo=TRUE, message=FALSE, include=TRUE}
 diffs <- inj_df %>% 
   group_by(after_1980, highearn) %>% 
   summarize(mean_duration = mean(log_duration),
@@ -95,7 +154,7 @@ diffs <- inj_df %>%
 
 e) O cálculo manual feito no item anterior, apesar de correto, não nos fornece erro-padrão associado a estimativa e portanto, não conseguimos fazer inferência. O modelo de regressão para DID é útil nestas situações. Escreva a equação de regressão e estime-a. O efeito encontrado é o mesmo do item anterior? E quanto a inferência estatística, este efeito é estatisticamente significativo?
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=TRUE, include=TRUE}
 reg <- lm(log_duration~highearn*after_1980, data = inj_df)
 summary(reg)
 ```
@@ -109,7 +168,7 @@ Nesse cenário, você estimará o efeito do programa comparando a mudança nos r
 
 a)  Compare os gastos médios com saúde (health_expenditures) antes (round = 0) e após o programa (round = 1) para o grupo de domicílios elegíveis (eligible =1) nas comunidades de tratamento (treatment_locality = 1).
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
 library(haven)
 eval_df <- read_dta("data/evaluation.dta")
 # Apenas comunidades de tratamento
@@ -125,7 +184,7 @@ diffs4 <- eval_df |>
 
 b) Estime o mesmo resultado utilizando um modelo de regressão.
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=TRUE, include=TRUE}
 reg4 <- lm(health_expenditures~round*eligible, data = eval_df)
 summary(reg4)
 ```
@@ -141,7 +200,7 @@ Rode uma regressão de TWFE para encontrar o mesmo efeito causal dos itens anter
 
 **ATENÇÃO:** a equivalência TWFE e DID só vale para o caso 2x2. Caso tenhamos mais de dois períodos, com adesão ao tratamento em momentos diferentes, ou efeitos heterogêneos entre as coortes, a equivalência deixa de existir. Uma recente literatura vem mostrando o viés da estimação via TWFE nestes casos, (Goodman-Bacon, 2021; Callaway e Sant'anna, 2021; De Chaisemartin e D'Haultfœuille, 2020; Imai e Kim, 2021; Sun e Abraham, 2021) 
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=TRUE, include=TRUE}
 library(fixest)
 reg4_twfe <- feols(health_expenditures~i(round, eligible, ref = 0)|household_identifier+round,
                    data = eval_df)
