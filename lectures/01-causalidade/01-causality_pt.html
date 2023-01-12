@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>ScPoEconometrics</title>
+    <title>Econometria III</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Mylène Feuillade, Gustave Kenedi, Florian Oswald and Pierre Villedieu" />
+    <meta name="author" content="Rafael Bressan" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
@@ -26,16 +26,16 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# ScPoEconometrics
+# Econometria III
 ]
 .subtitle[
-## Intro To Causality
+## Introdução a Causalidade
 ]
 .author[
-### Mylène Feuillade, Gustave Kenedi, Florian Oswald and Pierre Villedieu
+### Rafael Bressan
 ]
 .date[
-### SciencesPo Paris </br> 2022-09-11
+### Esag </br> 2023-01-12
 ]
 
 ---
@@ -43,7 +43,7 @@ class: center, middle, inverse, title-slide
 
 layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -51,86 +51,79 @@ layout: true
 
 layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
-# Quick "Quiz" on Last Week's Material
+# Introdução a Inferência Causal
 
-1\. From your ***computer*** 👉 connect to [***www.wooclap.com/SCPOSLR***](https://app.wooclap.com/SCPOSLR)
+* ***Causalidade*** versus ***Correlação***
 
-&amp;nbsp; &amp;nbsp; &amp;nbsp; ***OR***
+* _Framework_ de ***Resultados Potenciais*** a.k.a. Modelo Causal de Rubin
 
-2\. From your ***phone*** 👉 flash QR code below
+* ***Experimentos Aleatorizados*** (Randomized Controlled Trials - RCTs)
 
+* Aplicação empírica. *Tamanho de turma* e *performance do estudante*
+
+---
+# Por que Estudar Causalidade?
+
+[![](../../img/photos/the_economist.png)](https://www.economist.com/business/2022/09/07/why-economists-are-flocking-to-silicon-valley)
 
 
 ---
-
-# Today - Introduction to Causal Inference
-
-* ***Causality*** versus ***correlation***
-
-* The ***Potential Outcomes Framework*** a.k.a. Rubin's Causal Model
-
-* ***Randomized controlled trials*** (RCTs)
-
-* Follow up on the empirical application of *class size* and *student performance*
-
----
-# Why Study Causality?
+# Por que Estudar Causalidade?
 
 [![](../../img/photos/hbr_economics.png)](https://hbr.org/2019/02/why-tech-companies-hire-so-many-economists)
 
 ---
 
-# Causality and Economics
+# Causalidade e Economia
 
-- Making causal inference from data can be seen as economists' *comparative advantage* among the social sciences!
+- Fazer inferência causal a partir de dados pode ser visto como a **vantagem comparativa** dos economistas!
 
-- Plenty of fields do statistics. But very few make it standard training for their students to understand causality.
+- Diversos campos fazem estatística. Mas poucos treinam seus estudantes para compreender causalidade.
 
-- Economists' endeavour to establish causal relationships is also what makes them useful both in the private (e.g. tech companies) and public sector (e.g. policy advisors). 
+- Conhecimento de inferência causal é o que torna economistas úteis tanto no setor privado (e.g. empresas de tecnologia) e setor público (e.g. avaliação de políticas públicas)
 
 --
 
-- Ok, that's enough preaching 😅
+- Ok, chega de pregar causalidade. 😅
 
 
 ---
 
-# The Concept of Causality
+# O Conceito de Causalidade
 
-__Causality__: what are we talking about? 
+__Causalidade__: do que estamos falando? 
 
-- We say that `X` *causes* `Y`
+- Dizemos que `X` *causa* `Y`
 
 --
 
-  - if we were to intervene and *change* the value of `X` ***without changing anything else***...
-    
---
-
-  - then `Y` would also change ***as a result***.
+  - se nós **intervirmos** no valor de `X` ***sem mudar nada a mais*** ...
   
 --
 
-- The key point here is the ***without changing anything else***, often referred as the **ceteris paribus (*all else equal*) assumption**.   
-(*latin* makes things seem more complicated 🤓)
+  - então `Y` também mudará ***como resultado***.
+  
+--
+
+- O ponto pricipal é ***sem mudar nada a mais***, também referido por **ceteris paribus (*tudo o mais constante*)**.
 
 --
 
-- ⚠️ It does **NOT** mean that `X` is the only factor that causes `Y`.
+- ⚠️ Isto ***NÃO*** significa que `X` é o único fator que causa `Y`.
 
 ---
 
-# Correlation vs Causation
+# Correlação vs Causalidade
 
-***Correlation does not equal causation*** has become a ubiquitous mantra, but can you tell why it is true?
+***Correlação não é o mesmo que causalidade*** tornou-se um mantra, mas você consegue dizer porquê?
 
 --
 
-Some correlations obviously don't imply causation ([e.g. spurious correlation website](https://www.tylervigen.com/spurious-correlations)).
+Algumas correlações são obviamente espúrias e não tem nada a ver com causa e efeito ([e.g. spurious correlation website](https://www.tylervigen.com/spurious-correlations)).
 
 --
 
@@ -138,24 +131,24 @@ Some correlations obviously don't imply causation ([e.g. spurious correlation we
 
 ---
 
-# Correlation vs Causation: Smoking and Lung Cancer
+# Correlação vs Causalidade: Fumar e Câncer de Pulmão
 
-But not all correlations are so easy to rule out
+Mas nem todas as correlações são fáceis de diferenciar
 
 --
 
-***Does smoking cause lung cancer?***
+***Fumar causa câncer de pulmão?***
 
 --
 
 .pull-left[
-- Today, we know the answer is *YES*! 
+- Hoje em dia, nós sabemos que a resposta é *SIM*! 
 
-- But let's go back in the 1950's
+- Mas, voltemos para 1950
 
-  - We are at the start of a big increase in deaths from lung cancer...
+  - Início de um grande aumento no número de mortes por câncer de pulmão...
   
-  - ... which is happening after a fast growth in cigarette consumption
+  - ... que ocorre após um rápido aumento no consumo de cigarros
 ]
 
 --
@@ -166,117 +159,115 @@ But not all correlations are so easy to rule out
 
 --
 
-- It's very tempting to claim that smoking causes lung cancer based on this graph.
+- É tentador argumentar que fumar cigarros **causa** câncer de pulmão baseado neste gráfico.
 
 ---
 
-# Correlation vs Causation: Smoking and Lung Cancer
+# Correlação vs Causalidade: Fumar e Câncer de Pulmão
 
-At the time many people were still skeptical, including some famous statisticians:
+Na época, muitos eram céticos a esta hipótese, incluindo famosos estatísticos.
 
 --
 
 .pull-left[
-***Macro confouding factors***:  
+***Macro fatores de confusão***:  
 
-Other macro factors which can cause cancers also changed between 1900 and 1950:
+Outros fatores macro que podem causar câncer também mudaram entre  1900 e 1950:
 
-  - Tarring of roads,
+  - Asfaltamento de estradas,
   
-  - Inhalation of motor exhausts (leaded gasoline fumes),
+  - Inalação de fumaça de motores (vapores de gasolina com chumbo),
   
-  - General greater air pollution.
+  - Maior poluição atmosférica geral.
 ]
 
 --
 
 .pull-right[
-***Self selection***: 
+***Auto seleção***:
 
-Smokers and non-smokers may be different in the first place: 
+Fumantes e não fumantes podem ser diferentes em primeiro lugar:
   
-  - __Selection on observable characteristics__: age, education, income, etc.
+   - _Seleção de características observáveis_: idade, escolaridade, renda, etc.
   
-  - __Selection on unobservable characteristics__: genes (the hypothetical confounding genome theory of [Fisher](https://en.wikipedia.org/wiki/Ronald_Aylmer_Fisher)). 
+   - _Seleção de características não observáveis_: genes (a hipotética teoria do genoma de [Fisher](https://en.wikipedia.org/wiki/Ronald_Aylmer_Fisher)). 
 ]
 
 ---
 
-# Correlation vs Causation: Other Examples
+# Correlação vs Causalidade: Outros Exemplos
 
-&gt; Why might the observed correlation between ***years of education*** and ***income*** not reflect the causal effect of education?
-
---
-
-*Individuals who choose to get more education likely differ from those who don't: maybe they have higher innate ability, they enjoy schooling and are good at it* `\(\rightarrow\)` ***self-selection***
+&gt; Por que a correlação observada entre ***anos de estudo*** e ***renda*** não reflete o efeito causal da educação?
 
 --
 
-&gt; Why might the observed correlation between the ***employment rate*** and the ***minimum wage*** level not reflect the causal effect of the minimum wage?
+*Indivíduos que optam por obter mais educação provavelmente diferem daqueles que não: talvez tenham maior habilidade inata, gostem de estudar e sejam bons nisso* `\(\rightarrow\)` ***autosseleção***
 
 --
 
-*Policymakers may increase the minimum wage in times when the employment rate is high* `\(\rightarrow\)` ***reverse causality / simultaneity***
+&gt; ***Taxa de emprego*** e o nível do ***salário mínimo*** não reflete o efeito causal do salário mínimo?
 
 --
 
-&gt; Why might the observed correlation between ***economic growth*** and ***financial development*** not reflect the causal effect of the financial sector?
+*Aumento de salário mínimo em momentos em que a taxa de emprego é alta* `\(\rightarrow\)` ***causalidade reversa / simultaneidade***
 
 --
 
-*Again, maybe economic growth leads to financial development and not the other way around* `\(\rightarrow\)` ***reverse causality / simultaneity***
+&gt; ***Crescimento econômico*** e ***desenvolvimento financeiro*** não reflete o efeito causal do setor financeiro?
+
+--
+
+*Talvez crescimento econômico leve ao desenvolvimento financeiro e não o contrário* `\(\rightarrow\)` ***causalidade reversa / simultaneidade***
 
 ---
 
-# Link with Economic Theory
+# Link com a Teoria Econômica
 
-* Economic theory tells us individuals' behave in order to ***maximise their utility***
+* A teoria econômica nos diz que os indivíduos se comportam para ***maximizar sua utilidade***
 
-* Thus they don't choose to act in ***random ways*** `\(\rightarrow\)` we say that individual's behavior is ***endogenous***
+* Assim, eles não escolhem agir de ***forma aleatória*** `\(\rightarrow\)` dizemos que o comportamento do indivíduo é ***endógeno***
 
-* We should be ***suspicious*** of any correlation found in data
+* Devemos ser ***suspeitos*** de qualquer correlação encontrada nos dados
 
 --
 
-- How can we make ***causal claims*** then? 
+- Como podemos fazer ***reivindicações causais*** então?
 
-- The ***Potential Outcomes Framework*** will be our guide.
-
-
+- O framework de ***Resultados Potenciais*** será o nosso guia.
 
 ---
 layout: false
 class: title-slide-section-red, middle
 
-# Causal Inference
+# Inferência Causal
 
 ---
 layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
-# The Potential Outcomes Framework
+# O framework de Resultados Potenciais
 
-Often called the **Rubin Causal Model** in honor of statistician **Donald Rubin** who generalised and formalized this model in the 1970's.
+Frequentemente chamado de **Modelo Causal de Rubin** em homenagem ao estatístico **Donald Rubin**, que generalizou e formalizou esse modelo na década de 1970.
 
 --
 
-***Key idea***: Each individual can be exposed to **multiple alternative treatment states**.
-  - smoking cigarrettes, smoking cigars or not smoking,
-  - growing up in a poor vs a middle class neighborhood vs a rich neighborhood,
-  - being in a small or a big class.
+***Idéia-chave***: Cada indivíduo pode ser exposto a **vários estados alternativos de tratamento**.
+   - fumar cigarros, fumar charutos ou não fumar,
+   - crescendo em um bairro pobre versus um bairro de classe média versus um bairro rico,
+   - estar em uma turma pequena ou grande.
   
 --
 
 .pull-left[
-For practicality, let this treatment variable `\(D_i\)` be a binary variable:
+Por praticidade, deixe esta variável de tratamento `\(D_i\)` ser uma variável binária:
 
 $$
 D_i = \begin{cases} 
-                    1 \textrm{ if individual `\(i\)` is treated} \\\\ 
-                    0 \textrm{ if individual `\(i\)` is not treated} 
+                    1 \textrm{ se indivíduo `\(i\)` é tratado} \\\\ 
+                    0 \textrm{ se indivíduo `\(i\)` não é tratado} 
       \end{cases}
 $$
 ]
@@ -285,121 +276,81 @@ $$
 
 .pull-right[
 
-***Treatment group***  
-all the individuals such that `\(D_i = 1\)`.
+***Grupo de tratamento***
+todos os indivíduos tais que `\(D_i = 1\)`.
 
-***Control group***  
-all the individuals such that `\(D_i = 0\)`.
+***Grupo de controle***
+todos os indivíduos tais que `\(D_i = 0\)`.
 ]
 
 ---
 
 
-# The Potential Outcomes Framework
+# O framework de Resultados Potenciais
 
-* In this framework, each individual has two ***potential outcomes***, but only one ***observed outcome*** `\(Y_i\)`:
+* Nessa estrutura, cada indivíduo tem dois ***resultados potenciais***, mas apenas um ***resultado observado*** `\(Y_i\)`:
   
-  - `\(Y_i^1\)`: *potential outcome if individual `\(i\)` receives the treatment* `\((D_i = 1)\)`,
+   - `\(Y_i^1\)`: *resultado potencial se o indivíduo `\(i\)` receber o tratamento*,
   
-  - `\(Y_i^0\)`: *potential outcome if individual `\(i\)` does not receive the treatment* `\((D_i = 0)\)`.
+   - `\(Y_i^0\)`: *resultado potencial se o indivíduo `\(i\)` não receber o tratamento*.
 
 --
 
-* In real life we only observe `\(Y_i\)` which can be written as:
+* Na vida real, observamos apenas `\(Y_i\)` que pode ser escrito como:
 
 `$$Y_i = D_i \times Y_i^1 + (1- D_i) \times Y_i^0$$`
 
 --
 
-* ***Fundamental Problem of Causal Inference***: for any individual `\(i\)`, we only observe one of either potential outcomes [(Holland, 1986)](http://people.umass.edu/~stanek/pdffiles/causal-holland.pdf).
-
+* ***Problema fundamental da inferência causal***: para qualquer indivíduo `\(i\)`, observamos apenas um dos resultados potenciais [(Holland, 1986)](http://people.umass.edu/~stanek/pdffiles /causal-holland.pdf).
 ---
 
-# The Potential Outcomes Framework
+# O framework de Resultados Potenciais
 
-* The potential outcome that is not observed exists in principle, it is called the ***counterfactual outcome***.
+* O resultado potencial que não é observado existe em princípio, é chamado de ***resultado contrafactual***.
 
 --
 
-Group | `\(Y_i^1\)` | `\(Y_i^0\)`
+Grupo | `\(Y_i^1\)` | `\(Y_i^0\)`
 --------|:---------:|:---------:
-Treatment group `\((D_i = 1)\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; Observable as `\(Y_i\)` &amp;nbsp; &amp;nbsp; | Counterfactual
-Control group `\((D_i = 0)\)` | Counterfactual | &amp;nbsp; &amp;nbsp; Observable as `\(Y_i\)` &amp;nbsp; &amp;nbsp;
+Tratamento `\((D_i = 1)\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; Observável como `\(Y_i\)` &amp;nbsp; &amp;nbsp; | Contrafactual
+Controle `\((D_i = 0)\)` | Contrafactual | &amp;nbsp; &amp;nbsp; Observável como `\(Y_i\)` &amp;nbsp; &amp;nbsp;
 
 --
 
-* From these we can define the ***individual treatment effect*** `\(\delta_i\)`:
+* A partir deles podemos definir o ***efeito de tratamento individual*** `\(\delta_i= Y_i^1 - Y_i^0\)`
 
-$$ \delta_i = Y_i^1 - Y_i^0$$
-
-* `\(\delta_i\)` measures the **causal effect of the treatment `\((D_i)\)`** on outcome `\(Y\)` for individual `\(i\)`.
+* `\(\delta_i\)` mede o **efeito causal do tratamento** `\(D_i\)` no resultado `\(Y_i\)` do indivíduo
 
 --
 
-* Since the treatment effect *cannot* be observed at the individual level, we estimate population averages.
-
----
-
-# Sidenote: Expectation and Conditional Expectation
-
-Let's say you have a fair die and you roll it an infinite number of times. What is the average number rolled?
-
-* If `\(X\)` is a random variable containing the number rolled, we write:
-
-$$
-\mathop{\mathbb{E}}(X) = \frac{1}{6} \times 1 + \frac{1}{6} \times 2 + \frac{1}{6} \times 3 + \frac{1}{6} \times 4 + \frac{1}{6} \times 5 + \frac{1}{6} \times 6 = 3.5
-$$
-
-* The `\(\mathop{\mathbb{E}}(.)\)` operator stands for **expectation** or *population mean*.
-
-* The `\(\mathop{\mathbb{E}}(.)\)` operator is linear, in other words, `\(\mathop{\mathbb{E}}(X+Y) = \mathop{\mathbb{E}}(X) + \mathop{\mathbb{E}}(Y)\)` with `\(X\)` and `\(Y\)` being two random variables.
-
----
-
-# Sidenote: Expectation and Conditional Expectation
-
-Now, let's say you have two fair dice and you roll them an infinite number of times. What is the average sum of numbers rolled, conditional on one of them being always equal to 5?
-
-* If `\(X\)` is a random variable containing the number rolled of die 1 and `\(Y\)` a random variable containing the number rolled of die 2, we write:
-
-$$
-`\begin{align}
-\mathop{\mathbb{E}}(X+Y|Y = 5) &amp;= \mathop{\mathbb{E}}(X|Y = 5) + \mathop{\mathbb{E}}(Y|Y = 5) \\
-&amp;= \mathop{\mathbb{E}}(X) + 5 \\
-&amp;= 3.5 + 5 \\
-&amp;= 8.5
-\end{align}`
-$$
-
-* The `\(\mathop{\mathbb{E}}(.|D = x)\)` operator stands for **conditional expectation**. It refers to the expectation over a subcategory of the entire population, namely people who satisfy the condition `\(D = x\)`.
-
+* O efeito do tratamento ***não*** pode ser observado no nível individual (Por quê?), nossos estimandos serão médias populacionais.
 ---
 
 name: ate
 
-# Average Treatment Effect (ATE)
+# Efeito Médio do Tratamento (ATE)
 
-Broadest possible average effect:
+Efeito médio mais amplo possível:
 
 `\begin{align}
 ATE &amp;= \mathop{\mathbb{E}}(\delta_i) \\
-    &amp;= \mathop{\mathbb{E}}(Y_i^1 - Y_i^0) \\ 
-    &amp;= \mathop{\mathbb{E}}(Y_i^1) - \mathop{\mathbb{E}}(Y_i^0)
+     &amp;= \mathop{\mathbb{E}}(Y_i^1 - Y_i^0) \\
+     &amp;= \mathop{\mathbb{E}}(Y_i^1) - \mathop{\mathbb{E}}(Y_i^0)
 \end{align}`
   
-* The ATE simply measures the ***average of individual treatment effects over the whole population***.
+* O ATE mede simplesmente a ***média dos efeitos individuais do tratamento sobre toda a população***.
 
-([*Appendix:*](#attandatu) Average Treatment on the Treated and Average Treatment on the Untreated)
-
+([*Apêndice:*](#attandatu) Tratamento Médio nos Tratados e Tratamento Médio nos Não Tratados)
 ---
 
-# Example: Small vs. Large Class
+# Exemplo: Classe Pequena vs. Grande
 
-Potential outcomes for students of being in a small `\((Y^1)\)` or large class `\((Y^0)\)` on GPA (0-10):
+Resultados potenciais para os alunos em turma pequena `\((Y^1)\)` ou grande `\((Y^0)\)`:
 
 .pull-left[
-Student | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(Y^0\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)` &amp;nbsp; &amp;nbsp; 
------------|:---------:|:---------:|:---------:|
+Aluno | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(Y^0\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)` &amp;nbsp; &amp;nbsp;
+-----------|:---------:|:------:|:---------:|
 1 | 5 | 2 | 3
 2 | 6 | 4 | 2
 3 | 3 | 6 | -3
@@ -408,9 +359,7 @@ Student | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &am
 6 | 2 | 4 | -2
 7 | 5 | 2 | 3
 8 | 6 | 4 | 2
-9 | 2 | 9 | -7
-10 | 8 | 2 | 6
-Average | 5.2 | 4.5 | 0.7
+Média | 5.25 | 4.25 | 1.0
 
 ]
 
@@ -422,362 +371,306 @@ $$
 `\begin{align}
 \color{#d90502}{\text{ATE}} &amp;= \mathbb{E}(\delta) \\
 &amp;=\mathbb{E}(Y^1) - \mathbb{E}(Y^0) \\
-&amp;= 5.2 - 4.5 \\
-&amp;= 0.7
+&amp;= 5.25 - 4.25 \\
+&amp;= 1.0
 \end{align}`
 $$
 
-`\(\rightarrow\)` the ***average*** causal effect of being in small relative to large class on GPA is 0.7 points.
+- o efeito causal ***médio*** de estar na turma pequena em relação à grande nas notas é de 1 ponto.
 
-⚠️ not all students benefited equally from the treatment!
+- ⚠️ nem todos os alunos se beneficiaram igualmente com o tratamento!
 
 ]
-
 ---
 
-# The Problem of Causal Inference
+# O problema da Inferência Causal
 
-* In practice, we have the same **missing data problem** for computing the ATE as we did for `\(\delta_i\)`. Either `\(Y_i^1\)` or `\(Y_i^0\)` is missing for each `\(i\)`.
+* Na prática, temos o mesmo **problema de falta de dados** para calcular o ATE que tivemos para `\(\delta_i\)`. Falta `\(Y_i^1\)` ou `\(Y_i^0\)` para cada `\(i\)`.
 
 --
 
-* From the data, we can compute the **S**imple **D**ifference in mean **O**utcomes (***SDO***) for both groups:
+* A partir dos dados, podemos calcular a **D**iferença **S**imples nas médias dos **R**esultados (***DSR***) para ambos os grupos:
 
 $$
 `\begin{align}
-SDO &amp;= \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) \\
-&amp;= \underbrace{\frac{1}{N_T}\sum_{i=1}^{N_T}(Y_i|D_i=1)}_{\text{average outcome of treatment group}} - \underbrace{\frac{1}{N_C}\sum_{i=1}^{N_C}(Y_i|D_i=0)}_{\text{average outcome of control group}}
+DSR &amp;= \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) \\
+&amp;= \underbrace{\frac{1}{N_T}\sum_{i=1}^{N_T}(Y_i|D_i=1)}_{\text{resultado médio do grupo de tratamento}} - \underbrace{\frac {1}{N_C}\sum_{i=1}^{N_C}(Y_i|D_i=0)}_{\text{resultado médio do grupo de controle}}
 \end{align}`
-$$ 
+$$
 
 ---
 
-# Simple Difference in Mean Outcomes: With An Example
-
-Now, imagine a benevolent and omniscient school director assigns students to the treatment that maximizes their GPA
-
---
-
-Student | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(Y^0\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)` &amp;nbsp; | &amp;nbsp; &amp;nbsp; &amp;nbsp; `\(Y\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(D\)` &amp;nbsp; &amp;nbsp;
------------|:---------:|:---------:|:---------:|:-----------:|:---------:|:---------:
-1 | 5 | 2 | 3 |  | 
-2 | 6 | 4 | 2 |  | 
-3 | 3 | 6 | -3 |  | 
-4 | 5 | 4 | 1 |  | 
-5 | 10 | 8 | 2 |  | 
-6 | 2 | 4 | -2 |  |
-7 | 5 | 2 | 3 |  | 
-8 | 6 | 4 | 2 |  | 
-9 | 2 | 9 | -7 |  | 
-10 | 8 | 2 | 6 |  | 
-
----
-
-# Simple Difference in Mean Outcomes: With An Example
-
-Now, imagine a benevolent and omniscient school director assigns students to the treatment that maximizes their GPA
-
-Student | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(Y^0\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)` &amp;nbsp; | &amp;nbsp; &amp;nbsp; &amp;nbsp; `\(Y\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(D\)` &amp;nbsp; &amp;nbsp;
------------|:---------:|:---------:|:---------:|:-----------:|:---------:|:---------:
-1 | 5 | 2 | 3 | 5 | 1
-2 | 6 | 4 | 2 | 6 | 1
-3 | 3 | 6 | -3 | 6 | 0
-4 | 5 | 4 | 1 | 5 | 1
-5 | 10 | 8 | 2 | 10 | 1
-6 | 2 | 4 | -2 | 4 | 0
-7 | 5 | 2 | 3 | 5 | 1
-8 | 6 | 4 | 2 | 6 | 1
-9 | 2 | 9 | -7 | 9 | 0
-10 | 8 | 2 | 6 | 8 | 1
-
----
-
-# Simple Difference in Mean Outcomes: With An Example
+# Diferença Simples nas médias dos Resultados: um exemplo
 
 .pull-left[
-Student | &amp;nbsp; &amp;nbsp; `\(Y\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(D\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)`&amp;nbsp; &amp;nbsp;
+Estudante | &amp;nbsp; &amp;nbsp; `\(Y\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(D\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)`&amp;nbsp; &amp;nbsp;
 -----------|:---------:|:---------:|:---------:
 1 | 5 | 1 | 3
 2 | 6 | 1 | 2
 3 | 6 | 0 | -3
-4 | 5 | 1 | 1
+4 | 4 | 0 | 1
 5 | 10 | 1 | 2
 6 | 4 | 0 | -2
 7 | 5 | 1 | 3
 8 | 6 | 1 | 2
-9 | 9 | 0 | -7
-10 | 8 | 1 | 6
-Average |  |  | 0.7
+
 ]
 
 .pull-right[
-The simple difference in mean outcomes:
+A diferença simples na média dos resultados:
 
 $$
 `\begin{align}
-SDO &amp;= \frac{5+6+5+10+5+6+8}{7} - \frac{6+4+9}{3} \\
-&amp;\approx 6.43 - 6.33 \approx 0.1
+DSR &amp;= \frac{5+6+10+5+6}{5} - \frac{6+4+4}{3} \\
+&amp;\approx 6.4 - 4.67 \approx 1.73
 \end{align}`
 $$
 
-* The SDO is much smaller than the ATE!
+* A DSR é bem maior que o ATE!
 
-* Such a difference **will (almost always) fail to capture the causal treatment effect**
+* A DSR **irá (quase sempre) falhar em capturar o efeito causal do tratamento**
 
-* Notice that this kind "naive" comparison is often done by journalists, politicians, badly trained scientists (but not you now! 😉)
+* Observe que esse tipo de comparação "ingênua" é frequentemente feita por jornalistas, políticos, cientistas mal treinados (mas você não mais! 😉)
 ]
 
 ---
 
 name: naive_comp
 
-# Problems with Naive Comparisons
+# Problemas com comparações ingênuas
 
-Let's rewrite the SDO to make the individual treatment effect `\((\delta_i)\)` appear in the equation. 
+Reescrever a DSR para fazer o efeito de tratamento individual `\((\delta_i)\)` aparecer na equação.
 
+$$
 `\begin{align}
-  SDO &amp;= \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) \\ &amp;= \mathop{\mathbb{E}}(Y_i^0 + \delta_i | D_i = 1) - \mathop{\mathbb{E}}(Y_i^0 | D_i = 0)
+   DSR &amp;= \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) \\ &amp;= \mathop{\mathbb{ E}}(Y_i^0 + \delta_i | D_i = 1) - \mathop{\mathbb{E}}(Y_i^0 | D_i = 0)
 \end{align}`
+$$
+--
+
+Para simplificar, suponha que o **efeito do tratamento seja constante** entre as pessoas: para todo `\(i, \delta_i = \delta\)`.
 
 --
 
-For simplicity, suppose **treatment effect is constant** across people: for all `\(i, \delta_i = \delta\)`.
+`$$DSR = \delta + \underbrace{\mathop{\mathbb{E}}(Y_i^0 | D_i = 1) - \mathop{\mathbb{E}}(Y_i^0 | D_i = 0)}_\text{Viés de Seleção}$$`
 
---
-
-Then,
-
-$$
-  SDO = \delta + \mathop{\mathbb{E}}(Y_i^0 | D_i = 1) - \mathop{\mathbb{E}}(Y_i^0 | D_i = 0)
-$$
-
-And because `\(ATE = \mathop{\mathbb{E}}(\delta_i) = \mathop{\mathbb{E}}(\delta) = \delta\)` (by assumption), we get: 
+E por hipótese: `\(ATE = \mathop{\mathbb{E}}(\delta_i) = \mathop{\mathbb{E}}(\delta) = \delta\)` 
 
 
-`\begin{equation}
-  SDO = ATE + \underbrace{\mathop{\mathbb{E}}(Y_i^0 | D_i = 1) - \mathop{\mathbb{E}}(Y_i^0 | D_i = 0)}_\text{Selection bias}
-\end{equation}`
-
-([*Appendix*](#naive_comp_extended): when constant treatment assumption is relaxed another bias term appears.)
-
+([*Apêndice*](#naive_comp_extended): quando a suposição de tratamento constante é relaxada, outro termo de viés aparece.)
 ---
 
-class:inverse
+# Aleatorização resolve o problema da inferência causal!
 
-# Task 1: SDO, ATE and Randomization
+* ***Experimentos aleatorizados***: você atribui ***aleatoriamente*** pessoas a um tratamento e a um grupo de controle.
 
-
-Let's compute these various quantities and biases with data we generated ourselves.
-
-
-
-1. Load the data [here](https://www.dropbox.com/s/oqc3vq1m9eyp1d6/toy_data_2.csv?dl=1) using `read.csv`. The `group` variable corresponds to whether the individual has been treated or not, `Y0` to the potential outcome if the individual does not receive the treatment `\((Y_i^0)\)` while `Y1` to the potential outcome if the individual receives the treatment `\((Y_i^1)\)`. Create a new variable containing the observed outcome `\((Y_i)\)` and the individual treatment effect `\((\delta_i)\)`. Recall `\(Y_i = D_i \times Y_i^1 + (1 - D_i) \times Y_i^0\)`, `\(\delta_i = Y_i^1 - Y_i^0\)`.
-
-1. Compute the ***ATE*** and the ***SDO***. Is there is any *bias*? Is it large in magnitude?
-
-1. In this new [dataset](https://www.dropbox.com/s/0qfsonzz1t9gkxi/toy_data_random.csv?dl=1) we've randomly assigned the same individuals to the treatment and control groups. Compute the ***SDO under randomization***. Remember that you need to recompute `\(Y_i\)` because the assignment is not the same anymore. If you got it right, the bias should be very close to 0. Why is it not exactly 0? 
-
-1. *Optional*:  Compute the ***selection bias*** and the ***heterogeneous treatment effect bias*** and check that `\(SDO = ATE + \text{selection bias} + \text{heterogenous treatment effect bias}\)`
-
-
----
-
-# Randomization solves the problem of causal inference!
-
-* ***Randomized experiments***: you ***randomly*** assign people to a treatment and a control group.
-
-* In this case, the treatment assignment is **independent** of the potential outcomes.
+* Nesse caso, a atribuição do tratamento é **independente** dos resultados potenciais. 
 
 --
 
-* In particular, there is no reason for `\(\mathop{\mathbb{E}}(Y_i^0 | D_i = 1)\)` to be different from `\(\mathop{\mathbb{E}}(Y_i^0 | D_i = 0)\)`
+* Em particular, não há razão para `\(\mathop{\mathbb{E}}(Y_i^0 | D_i = 1)\)` ser diferente de `\(\mathop{\mathbb{E}}(Y_i^0 | D_i = 0)\)`
 
-  * Therefore the ***selection bias is equal to 0***.
+   * Portanto, o ***viés de seleção é igual a 0***.
 
 --
 
-* With random assignment we have: 
+* Com atribuição aleatória, temos:
 
-$$ SDO = \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) = ATE$$ 
+$$ DSR = \mathop{\mathbb{E}}(Y_i^1|D_i=1) - \mathop{\mathbb{E}}(Y_i^0|D_i=0) = ATE$$
 
-👉 We can directly estimate the ATE from the data!
-
+👉 Podemos estimar o ATE diretamente a partir dos dados!
 ---
 
 layout: false
 class: title-slide-section-red, middle
 
-# Randomized Experiments
+# Experimentos Aleatorizados
 
 ---
 layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
+&lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
-# Randomized Experiments
+# Experimentos Aleatorizados
 
-- Often called **R**andomized **C**ontrolled **T**rials (RCT).
+- Frequentemente chamados de **R**andomized **C**ontrolled **T**rials (RCT).
 
-- The first RCTs were conducted a long time ago (18th and 19th century), mainly in **Medecine**. 
+- Os primeiros RCTs foram realizados há muito tempo (séculos XVIII e XIX), principalmente em **Medicina**.
 
-- In the beginning of the 20th century they were popularized by famous statisticians like **J. Neyman** or **R.A. Fisher**. 
+- No início do século XX foram popularizados por estatísticos famosos como **J. Neyman** ou **R.A. Fisher**.
 
-- Since then they have had a growing influence and have progressively become a reliable [tool for public policy evaluation](https://www.povertyactionlab.org/fr). 
+- Desde então, eles tiveram uma influência crescente e se tornaram progressivamente uma confiável [ferramenta para avaliação de políticas públicas](https://www.povertyactionlab.org/fr).
 
-- As for economics, the **2019 Nobel Price in Economics** was awarded to three exponents of RCTs, [Abhijit Banerjee, Esther Duflo and Michael Kremer](https://www.economist.com/finance-and-economics/2019/10/17/a-nobel-economics-prize-goes-to-pioneers-in-understanding-poverty), "for their experimental approach to alleviating global poverty".
-
+- Quanto à economia, o **Prêmio Nobel de Economia de 2019** foi concedido a três expoentes dos RCTs, [Abhijit Banerjee, Esther Duflo e Michael Kremer](https://www.economist.com/finance-and-economics/ 2019/10/17/a-nobel-economics-prêmio-vai-para-pioneiros-na-compreensão-da-pobreza), "por sua abordagem experimental para aliviar a pobreza global".
 ---
 
-# Back to class size and students' achievement
+# Tamanho da turma e desempenho dos alunos
 
-Last week we regressed average student math or reading scores on class size.
+Suponha que regredimos as notas médias dos alunos em matemática ou leitura no tamanho da turma.
 
-`$$\textrm{math score}_i = b_0 + b_1 \textrm{class size}_i + e_i$$`
-We briefly discussed why `\(b_1^{OLS}\)` could only establish an ***association*** and not a ***causal relationship***.
+`$$\textrm{matemática}_i = b_0 + b_1 \textrm{tamanho}_i + e_i$$`
 
---
-
-* **Student sorting**: There is selection into schools with different sized classes. Suppose parents have a prior that smaller classes are better, they will try to get their kids into those schools.
+Sem maiores informações sobre a origem dos dados coletados, `\(b_1^{OLS}\)` só poderá estabelecer uma ***associação*** e não uma ***relação causal***.
 
 --
 
-* **Teacher sorting**: Teachers may sort in schools with smaller classes because it’s easier to teach a small rather than a large class, and if there is competition for those places then higher quality teachers will have an advantage.
+* **Seleção de alunos**: seleção em escolas com turmas de tamanhos diferentes. Pais tenham a noção de que turmas menores são melhores, eles colocarão seus filhos nessas escolas.
 
 --
 
-* **Location effect**: Large classes may be more common in wealthier and bigger cities, while small classes may be more likely in poorer rural areas.
+* **Seleção de professores**: os professores escolhem escolas com turmas menores porque é mais fácil ensinar nestas e, se houver competição, os professores melhores terão as vagas.
 
 --
 
-An RCT would take care of all these biases!
-
+Um RCT cuidaria de todos esses vieses!
 ---
 
-# The Project STAR Experiment
+# O Experimento do Projeto STAR
 
-Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Krueger (1999)](http://piketty.pse.ens.fr/files/Krueger1999.pdf))
+Tennessee **S**student/**T**eacher **A**chievement **R**atio Experiment (ver [Krueger (1999)](http://piketty.pse.ens.fr/files/Krueger1999.pdf))
 
-* Funded by Tennesse legislature for a total cost of approx. $12 million.
+* Financiado pela legislatura do Tennesse por um custo total de aprox. $ 12 milhões.
 
-* The experiment started in the 1985-1986 school year and lasted four years.
+* A experiência começou no ano letivo de 1985-1986 e durou quatro anos.
 
 --
 
-* 11,600 students and their teachers where **randomly assigned** to one of the following 3 groups from kindergarten through third grade:
+* 11.600 alunos e professores foram **distribuídos aleatoriamente** para um dos 3 grupos a seguir, do jardim de infância até a terceira série:
 
-  1. ***Small class***: 13-17 students per teacher,
+   1. ***Turma pequena***: 13-17 alunos por professor,
   
-  2. ***Regular class***: 22-25 students,
+   2. ***Aula regular***: 22-25 alunos,
   
-  3. ***Regular/aide class***: 22-25 students with a full-time teacher's *aide*.
+   3. ***Classe regular/auxiliar***: 22-25 alunos com um *auxiliar* do professor em tempo integral.
+
+---
+# O Experimento do Projeto STAR
+
+* A aleatorização ocorreu dentro das escolas.
+
+* As habilidades de matemática e leitura dos alunos foram testadas por volta de março de cada ano.
 
 --
 
-* Randomization occurred within schools.
-
-* Students' math and reading skills were tested around March each year.
-
---
-
-* There was a problem of ***non-random attrition*** but we will ignore it.
+* Houve um problema de ***atrito não aleatório***, mas vamos ignorá-lo.
 
 ---
 
 class:inverse
 
-# Task 2: STAR data
+# Tarefa: Dados STAR (usando R)
 
+1. Carregue os dados *STAR*  [daqui](https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1) e atribua-os a um objeto chamado `star_df`. Leia a ajuda para os dados [aqui](https://rdrr.io/cran/AER/man/STAR.html) para entender a que correspondem as variáveis. (Observação: os dados foram *reformulados*, portanto, não se preocupe com o "k", "1" etc. nos nomes das variáveis na ajuda.)
 
-1. Load the *STAR* data from [here](https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
+1. Qual é a unidade de observação? Qual variável contém: (i) a designação (aleatória) da turma, (ii) a nota do aluno na turma, (iii) os resultados de interesse?
 
-1. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
+1. Quantas observações existem? Por que tantas se 11.598 alunos participaram? Por que existem tantos 'NA's? A que eles correspondem?
 
-1. How many observations are there? Why so many if 11,598 students participated? Why are there so many `NA`s? What do they correspond to?
-
-1. Keep only cases with no `NA`s with the following code:  
+1. Mantenha apenas os casos sem `NA`s com o seguinte código:
 `star_df &lt;- star_df[complete.cases(star_df),]`
 
-1. Let's check how well the randomization was done by doing ***balancing checks***.  
-Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class. (*Hint*: The following computes the percentage of girls (without the relevant `dplyr` verbs):
-`share_female = mean(gender == "female") * 100`.)
+1. Vamos verificar o quão bem a aleatorização foi feita fazendo ***verificações de balanceamento***.
+Calcule a porcentagem média de meninas, afro-americanos e alunos com almoço gratuito por série *e* classe de tratamento. 
+
+---
+# Tarefa: Dados STAR (usando R)
 
 
+```r
+star_df = readr::read_csv(file = "https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1")
+star_df &lt;- star_df[complete.cases(star_df),]
+
+star_df |&gt; 
+    group_by(grade, star) |&gt; 
+    summarise(girls = sum(gender == "female")/n())
+```
+
+```
+## # A tibble: 12 × 3
+## # Groups:   grade [4]
+##    grade star         girls
+##    &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+##  1 1     regular      0.487
+##  2 1     regular+aide 0.478
+##  3 1     small        0.486
+##  4 2     regular      0.483
+##  5 2     regular+aide 0.477
+##  6 2     small        0.491
+##  7 3     regular      0.489
+##  8 3     regular+aide 0.472
+##  9 3     small        0.501
+## 10 k     regular      0.485
+## 11 k     regular+aide 0.488
+## 12 k     small        0.480
+```
 
 ---
 
-# The Project STAR Experiment
+# O Experimento do Projeto STAR
 
-We just saw that in an RCT the Average Treatment Effect is obtained by computing the differences in outcomes between the treatment and control groups.
+Acabamos de ver que em um RCT o Efeito Médio do Tratamento é obtido computando as diferenças nos resultados entre os grupos de tratamento e controle.
 
-Let's only focus on:
+Vamos nos concentrar apenas em:
 
-- One treatment group: **small classes**,
+- Um grupo de tratamento: **pequenas turmas**,
 
-- One control group: **regular classes**,
+- Um grupo de controle: **aulas regulares**,
 
-- One grade: **kindergarten** (k).
-
+- Uma série: **jardim de infância** (k).
 --
 
 
 
-grade | test | mean regular | mean small | ATE
+série | teste | média regular | média pequena | ATE
 --------|---------|:---------:|:---------:|:---------:
-k | math | 484.45 | 493.34 | 8.9
-k | read | 435.76 | 441.13 | 5.37
+k | matemática | 484.45 | 493.34 | 8.9
+k | leitura | 435.76 | 441.13 | 5.37
 
-What's the interpretation for these ATEs? 
-
---
-
-That's nice but can't we put this in regression form?
+Qual é a interpretação para esses ATEs?
 
 ---
 
-# RCT in Regression Form
+# RCT em forma de Regressão
 
 $$ Y_i = D_i Y_i^1 + (1 - D_i) Y_i^0 $$
 
 --
 
-Factoring by `\(D_i\)` and replacing `\(Y_i^1 - Y_i^0\)` by `\(\delta_i\)`, we get:
+Fatorando por `\(D_i\)` e substituindo `\(Y_i^1 - Y_i^0\)` por `\(\delta_i\)`, obtemos:
 
 `$$\begin{align} Y_i &amp;=Y_i^0 +D_i (Y_i^1 - Y_i^0) \\ &amp;= Y_i^0 +D_i \delta_i \end{align}$$`
 
 --
 
-Assuming `\(\delta_i = \delta\)`, for all `\(i\)`,
-
-`$$Y_i = Y_i^0 + D_i \delta$$`
+Assumindo `\(\delta_i = \delta\)`, para todo `\(i\)`, então `\(Y_i = Y_i^0 + D_i \delta\)`
 
 --
 
-Adding `\(\mathbb{E}[Y_i^0] - \mathbb{E}[Y_i^0] = 0\)` to the right-hand side:
+Adicionando `\(\mathbb{E}[Y_i^0] - \mathbb{E}[Y_i^0] = 0\)` ao lado direito:
 
 `$$\begin{align} Y_i &amp;= \mathbb{E}[Y_i^0] + D_i \delta + Y_i^0 - \mathbb{E}[Y_i^0] \\ &amp;= b_0 + \delta D_i + e_i \end{align}$$`
-where `\(b_0 = \mathbb{E}[Y_i^0]\)` and `\(e_i = Y_i^0 - \mathbb{E}[Y_i^0]\)`
+onde `\(b_0 = \mathbb{E}[Y_i^0]\)` e `\(e_i = Y_i^0 - \mathbb{E}[Y_i^0]\)`
 
 ---
 
-# The Project STAR Experiment: Regression
+# O Experimento do Projeto STAR: Regressão
 
-The last equation looks exactly like the simple regression model we saw last week! (with `\(\delta = b_1\)`)
+A última equação se parece exatamente com o modelo de regressão simples! (com `\(\delta = b_1\)`)
 
-Let's therefore estimate the ATE of being assigned to a small class size on math scores.
+Vamos, portanto, estimar o ATE de ser designado para uma turma pequena em notas de matemática.
 
 --
 
-We want to estimate the following model: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`, with
+Queremos estimar o seguinte modelo: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`, com
 
 $$
-\text{small}_i = \begin{cases} 
-                    1 \textrm{  if assigned to a small class}  \\\\ 
-                    0 \textrm{  if assigned to a regular class} 
-      \end{cases}
+\text{pequeno}_i = \begin{cases}
+                     1 \textrm{ se atribuído a uma turma pequena} \\\\
+                     0 \textrm{ se atribuído a uma turma regular}
+       \end{cases}
 $$
-
 .pull-left[
 
 ```r
@@ -787,16 +680,14 @@ star_df_k_small &lt;- star_df %&gt;%
   mutate(small = (star == "small"))
 ```
 
-
-```r
-star_df_k_small %&gt;% count(star, grade)
-
-star_df_k_small %&gt;% count(small)
-```
-
 ]
 
 .pull-left[
+
+```r
+star_df_k_small %&gt;%
+  count(star, grade)
+```
 
 ```
 ## # A tibble: 2 × 3
@@ -805,21 +696,13 @@ star_df_k_small %&gt;% count(small)
 ## 1 regular k      1781
 ## 2 small   k      1578
 ```
-
-```
-## # A tibble: 2 × 2
-##   small     n
-##   &lt;lgl&gt; &lt;int&gt;
-## 1 FALSE  1781
-## 2 TRUE   1578
-```
 ]
 
 ---
 
-# The Project STAR Experiment: Regression
+# O Experimento do Projeto STAR: Regressão
 
-Regression model we want to estimate: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`
+Modelo de regressão que queremos estimar: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`
 
 
 ```r
@@ -838,7 +721,7 @@ lm(math ~ small, star_df_k_small)
 
 --
 
-Recall that: `\(b_0 = \mathbb{E}[Y_i^0]\)` and `\(\delta = \mathbb{E}[Y_i | D_i = 1] - \mathbb{E}[Y_i | D_i = 0]\)`
+Lembre-se de que: `\(b_0 = \mathbb{E}[Y_i^0]\)` e `\(\delta = \mathbb{E}[Y_i | D_i = 1] - \mathbb{E}[Y_i | D_i = 0]\)`
 
 .pull-left[
 
@@ -870,42 +753,42 @@ delta
 
 ---
 
-# Regression with a Dummy Variable: Graphically
+# Regressão com uma Variável Dummy: Graficamente
 
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
+O regressor em nossa regressão é uma ***variável binária***, ou seja, uma variável que assume os valores VERDADEIRO ou FALSO (1 ou 0).
+
+&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regressão com uma Variável Dummy: Graficamente
+
+O regressor em nossa regressão é uma ***variável binária***, ou seja, uma variável que assume os valores VERDADEIRO ou FALSO (1 ou 0).
+
+&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regressão com uma Variável Dummy: Graficamente
+
+O regressor em nossa regressão é uma ***variável binária***, ou seja, uma variável que assume os valores VERDADEIRO ou FALSO (1 ou 0).
+
+&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Regressão com uma Variável Dummy: Graficamente
+
+O regressor em nossa regressão é uma ***variável binária***, ou seja, uma variável que assume os valores VERDADEIRO ou FALSO (1 ou 0).
 
 &lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Regression with a Dummy Variable: Graphically
+# Regressão com uma Variável Dummy: Formalmente
 
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-&lt;img src="01-causality_pt_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Regression with a Dummy Variable: Formally
-
-Recall the regression model: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`
+Lembre-se do modelo de regressão: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`
 
 `\(\begin{align} \mathbb{E}[\textrm{math score} | \text{small}_i = 0]&amp;= \mathbb{E}[b_0 + \delta \text{small}_i + e_i | \text{small}_i = 0] \\ &amp;= b_0 + \delta \mathbb{E}[\text{small}_i| \text{small}_i = 0] + \mathbb{E}[e_i|\text{small}_i = 0] \\ &amp;= b_0 \end{align}\)`
 
@@ -919,16 +802,16 @@ Recall the regression model: `\(\text{math score}_i = b_0 + \delta \text{small}_
 
 --
 
-We knew this already but we now understand why this is true ✌️
+Já sabíamos disso, mas agora entendemos por que isso é verdade ✌️
 
 ---
 
 class:inverse
 
-# Task 3: Your Turn!
+# Tarefa: Sua Vez!
 
 
-Run the following code to filter the dataset to only keep first graders and the small class and regular class groups:
+Execute o código a seguir para filtrar o conjunto de dados para manter apenas os alunos da primeira série e os grupos de turmas pequenas e regulares:
 
 
 ```r
@@ -936,70 +819,48 @@ star_df_clean &lt;- star_df %&gt;%
     filter(grade == "1" &amp; star %in% c("small", "regular"))
 ```
 
-1. Compute the average math score for both groups, and the difference between the two. (Use base `R`.)
+1. Calcule a pontuação média em matemática para ambos os grupos e a diferença entre os dois.
 
-1. Create a dummy variable `treatment` equal to `TRUE` if student is in treatment group (i.e. small class size) and `FALSE` if in control group (i.e. regular class size). *Hint:* you can create the dummy variable with `treatment = (star == "small")`.
+1. Crie uma variável binária `tratamento` igual a `VERDADEIRO` se o aluno estiver no grupo de tratamento (ou seja, turma pequena) e `FALSO` se no grupo de controle (ou seja, turma de tamanho normal). *Dica:* você pode criar a variável binária com `tratamento = (star == "small")`.
 
-1. Regress math score on the treatment dummy variable. Are the results in line with question 2?
+1. Faça a regressão da pontuação em matemática na variável simulada de tratamento. Os resultados estão de acordo com a questão 2?
 
-1. How do you interpret these coefficients?
-
+1. Como você interpreta esses coeficientes?
 ---
 
-# Shortcomings of RCTs 
+# Deficiências dos RCTs
 
-RCTs have very strong ***internal validity***, that is they can convincingly establish causal links.
+Os RCTs têm uma ***validade interna*** muito forte, ou seja, eles podem estabelecer vínculos causais de forma convincente.
 
-However, they have some shortcomings:
+No entanto, eles têm algumas deficiências:
 
-* RCT are often **infeasible**:
-
-  * RCTs are **costly**,
-  * RCTs may face some **ethical issues**: some *treatments* simply cannot be given to people,
-  * RCTs take time and we may be **time constrained**.
+   * RCTs são **caros**,
+   * RCTs podem enfrentar alguns **problemas éticos**: alguns *tratamentos* simplesmente não podem ser administrados às pessoas,
+   * Os RCTs levam tempo e podemos ter **limitação de tempo**.
 
 --
 
-* **Interpretation** of the results:
+* **Interpretação** dos resultados:
 
-  * ***External validity***: To what extent can the results from a given RCT be generalized to other contexts (countries, populations,...)?
+   * ***Validade externa***: Resultados de um determinado RCT podem ser generalizados para outros contextos?
   
-  * Uncovering the mechanisms that are at stake may be difficult,
+   * Desvendar os mecanismos que estão atuando pode ser difícil,
   
-  * Imperfect randomization, attrition, ...
-
+   * Aleatorização imperfeita, atrito, etc.
 ---
 
 
-# What comes next? 
+# O que vem depois?
 
-* So if we cannot rely on RCTs to make our life easy, it means we have to find a way to make causal inference from ***observational data*** (as opposed to ***experimental data***).
+* Portanto, se não podemos administrar um RCT, isso significa que temos que encontrar uma maneira de fazer inferência causal a partir de ***dados observacionais*** (em oposição a ***dados experimentais***).
 
 --
 
-2 broad cases:
+2 casos amplos:
 
-* ***selection occurs on observable characteristics***: *multiple regression* (next week!)
+* ***seleção ocorre em características observáveis***: *regressão múltipla*
 
-* ***selection occurs on unobservable characteristics***: *regression discontinuity design* (lecture 10) or  *difference-in-differences* (not covered but set of slides online!)
-
-
----
-
-# On the way to causality
-
-✅ How to manage data? Read it, tidy it, visualise it...
-
-🚧  How to summarise relationships between variables? Simple linear regression... to be continued
-
-✅ **What is causality?**
-
-❌ What if we don't observe an entire population?
-
-❌  Are our findings just due to randomness?
-
-❌ How to find exogeneity in practice?
-
+* ***seleção ocorre em características não observáveis***: múltiplas abordagens (e.g., *variáveis instrumentais*, *diferença em diferenças*, etc.)
 
 ---
 
@@ -1012,24 +873,36 @@ However, they have some shortcomings:
 
 ---
 
+# Leitura Recomendada
+
+* CUNNINGHAM, Scott. Causal Inference: The Mixtape, New Haven: Yale University Press, 2021. URL: https://mixtape.scunning.com/
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mastering'metrics: The path from cause to effect. Princeton university press, 2014. URL: http://www.masteringmetrics.com/
+
+* ANGRIST, Joshua D.; PISCHKE, Jörn-Steffen. Mostly harmless econometrics: An empiricist's companion. Princeton university press, 2009.
+
+---
+layout: false
+
 class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
+background-image: url(../../img/logo/UdescEsag.jpeg)
+background-size: 350px
 background-position: 9% 19%
 
-# SEE YOU NEXT WEEK!
+# ATÉ A PRÓXIMA AULA!
 
 
 
 
 |                                                                                                            |                                   |
 | :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| &lt;a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
-| &lt;a href="https://scpoecon.github.io/ScPoEconometrics"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Book |
-| &lt;a href="http://twitter.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-twitter fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                         |
-| &lt;a href="http://github.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                       |
+| &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
+| &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
 
 
+.footnote[
+[1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
+]
 ---
 
 layout: false
