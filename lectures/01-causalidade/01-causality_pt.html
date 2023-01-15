@@ -6,6 +6,10 @@
     <meta name="author" content="Rafael Bressan" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/viz/viz.js"></script>
+    <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding/grViz.js"></script>
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -35,7 +39,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2023-01-12
+### Esag </br> 2023-01-15
 ]
 
 ---
@@ -871,6 +875,149 @@ No entanto, eles têm algumas deficiências:
 &lt;img src="../../img/photos/correlation_funny.png" width="1000px" style="display: block; margin: auto;" /&gt;
 ]
 
+---
+
+# Grafos Acíclicos Direcionados - DAG
+
+- Ferramenta gráfica para modelar relações causais
+
+- Composto de nós e arestas
+    + **Nó** representa uma variável
+    + **Aresta** é direcionada pela relação causal
+
+--
+&lt;center&gt;
+<div id="htmlwidget-fb44d18bb85377037db2" style="width:504px;height:100px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb44d18bb85377037db2">{"x":{"diagram":"\n                  digraph ex1 {\n                  graph [rankdir = LR]\n                  node [shape = circle, \n                    width = 0.2, \n                    color = darkgreen, \n                    label = \"\"]\n                  edge [color = black]\n                  a -> b\n                  a [label = \"A\"]\n                  b [label = \"B\"]\n                  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+A causa B
+&lt;/center&gt;
+
+---
+# Grafos Acíclicos Direcionados - DAG
+
+- Causalidade corre em apenas uma direção (acíclico)
+
+- Causalidade reversa e simultaneidade são complicados de serem representados em um DAG
+
+- Cadeia de efeitos causais (mecanismos)
+
+- Ausência de aresta **significa ausência de efeito!**
+
+--
+
+- Um DAG representa um modelo causal teórico ou o conhecimento de um especialista no assunto
+
+---
+# Variável Omitida em um DAG
+
+Como representamos uma variável omitida (não observada) em um DAG?
+
+&lt;center&gt;
+
+<div id="htmlwidget-e12f21187c0cac4c6455" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e12f21187c0cac4c6455">{"x":{"diagram":"\n                  digraph ex1 {\n                  graph [rankdir = LR]\n                  node [shape = circle, \n                    width = 0.2, \n                    color = darkgreen, \n                    label = \"\"]\n                  a;b\n                  node [style = dashed]\n                  c\n                  edge [color = black]\n                  c -> {a b}\n                  a -> b\n                  \n                  a [label = \"A\"]\n                  b [label = \"B\"]\n                  c [label = \"C\"]\n                  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+&lt;/center&gt;
+
+- A variável C é não observada e portanto, omitida
+--
+
+- Entretanto, C é causa comum de A e B. Chamamos de variável de confusão
+- A e B estão correlacionados pelo caminho A &lt;- C -&gt; B, que **não é causal** (_backdoor_)
+--
+
+- Efeito causal de A em B não está identificado
+
+⚠️ **Viés de variável omitida!**
+
+---
+
+# Identificação em um DAG
+
+- Suponha que observamos uma variável X
+
+--
+
+.pull-left[
+- X ainda é uma variável de confusão.
+- Podemos **controlar** para X e identificar nosso efeito causal
+]
+
+.pull-right[
+
+
+<div id="htmlwidget-0b13d7000bd4e6cfe9e8" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0b13d7000bd4e6cfe9e8">{"x":{"diagram":"\n                  digraph ex1 {\n                  graph [rankdir = LR]\n                  node [shape = circle, \n                    width = 0.2, \n                    color = darkgreen, \n                    label = \"\"]\n                  a;b;c\n                  \n                  edge [color = black]\n                  c -> {a b}\n                  a -> b\n                  \n                  a [label = \"A\"]\n                  b [label = \"B\"]\n                  c [label = \"X\"]\n                  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+]
+
+--
+
+- Condicionar em uma variável ao longo de algum caminho _backdoor_, ***bloqueia*** este caminho
+
+- Efeito causal de A em B é **identificado condicional ao valor de X**
+
+---
+
+# Identificação em um DAG
+
+.pull-left[
+- Considere este outro DAG
+
+<div id="htmlwidget-b9cbce26537aacd44904" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9cbce26537aacd44904">{"x":{"diagram":"\n                  digraph ex1 {\n                  graph [rankdir = LR]\n                  node [shape = circle, \n                    width = 0.2, \n                    color = darkgreen, \n                    label = \"\"]\n                  a;b;c\n                  \n                  edge [color = black]\n                  a -> {b c}\n                  b -> {c}\n                  \n                  a [label = \"A\"]\n                  b [label = \"B\"]\n                  c [label = \"X\"]\n                  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+]
+
+--
+.pull-right[
+- X agora é chamado de colisor (_collider_)
+
+- Tanto A quanto B afetam X
+
+- Os caminhos de A até B neste grafo
+  + A -&gt; B
+  + A -&gt; X &lt;- B
+
+- Diferença crucial entre colisor e confusor
+
+- Caminho colisor é **automaticamente bloqueado** sem necessidade de condicionar! 
+
+]
+
+.center[👉 Efeito causal de A em B **já está identificado!**]
+
+---
+
+# Identificação em um DAG
+
+- Identifique o efeito de A em B no seguinte DAG
+
+&lt;center&gt;
+<div id="htmlwidget-23574928a390173d18cb" style="width:504px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-23574928a390173d18cb">{"x":{"diagram":"\n                  digraph ex1 {\n                  graph [rankdir = LR, layout = neato]\n                  node [shape = circle, \n                    width = 0.2, \n                    color = darkgreen, \n                    label = \"\"]\n                  a;b;c;d\n                  \n                  edge [color = black]\n                  a -> {b c}\n                  b -> {c}\n                  d -> {a b}\n                  \n                  a [label = \"A\"]\n                  b [label = \"B\"]\n                  c [label = \"X\"]\n                  d [label = \"Z\"]\n                  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+&lt;/center&gt;
+
+---
+# Identificação em um DAG
+
+Passos quando utilizando DAGs
+
+1. Desenhe o grafo e qual efeito você quer identificar
+
+1. Escreva todos os caminhos entre os nós de causa e efeito
+
+1. Qual é o caminho direto?
+
+1. Quais são os caminhos _backdoor_? Estão (ou podem ser) bloqueados?
+
+--
+
+Algumas ferramentas
+
+- [causalfusion.net](https://causalfusion.net/)
+- [DAGitty](http://dagitty.net/)
 ---
 
 # Leitura Recomendada

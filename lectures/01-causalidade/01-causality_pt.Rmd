@@ -936,6 +936,237 @@ knitr::include_graphics("../../img/photos/correlation_funny.png")
 
 ---
 
+# Grafos Acíclicos Direcionados - DAG
+
+- Ferramenta gráfica para modelar relações causais
+
+- Composto de nós e arestas
+    + **Nó** representa uma variável
+    + **Aresta** é direcionada pela relação causal
+
+--
+<center>
+```{r, echo=FALSE}
+DiagrammeR::grViz("
+                  digraph ex1 {
+                  graph [rankdir = LR]
+                  node [shape = circle, 
+                    width = 0.2, 
+                    color = darkgreen, 
+                    label = '']
+                  edge [color = black]
+                  a -> b
+                  a [label = 'A']
+                  b [label = 'B']
+                  }",
+                  height = 100)
+```
+
+A causa B
+</center>
+
+---
+# Grafos Acíclicos Direcionados - DAG
+
+- Causalidade corre em apenas uma direção (acíclico)
+
+- Causalidade reversa e simultaneidade são complicados de serem representados em um DAG
+
+- Cadeia de efeitos causais (mecanismos)
+
+- Ausência de aresta **significa ausência de efeito!**
+
+--
+
+- Um DAG representa um modelo causal teórico ou o conhecimento de um especialista no assunto
+
+---
+# Variável Omitida em um DAG
+
+Como representamos uma variável omitida (não observada) em um DAG?
+
+<center>
+
+```{r, echo=FALSE}
+DiagrammeR::grViz("
+                  digraph ex1 {
+                  graph [rankdir = LR]
+                  node [shape = circle, 
+                    width = 0.2, 
+                    color = darkgreen, 
+                    label = '']
+                  a;b
+                  node [style = dashed]
+                  c
+                  edge [color = black]
+                  c -> {a b}
+                  a -> b
+                  
+                  a [label = 'A']
+                  b [label = 'B']
+                  c [label = 'C']
+                  }",
+                  height = 200)
+```
+
+</center>
+
+- A variável C é não observada e portanto, omitida
+--
+
+- Entretanto, C é causa comum de A e B. Chamamos de variável de confusão
+- A e B estão correlacionados pelo caminho A <- C -> B, que **não é causal** (_backdoor_)
+--
+
+- Efeito causal de A em B não está identificado
+
+`r emo::ji("warning")` **Viés de variável omitida!**
+
+---
+
+# Identificação em um DAG
+
+- Suponha que observamos uma variável X
+
+--
+
+.pull-left[
+- X ainda é uma variável de confusão.
+- Podemos **controlar** para X e identificar nosso efeito causal
+]
+
+.pull-right[
+
+
+```{r, echo=FALSE}
+DiagrammeR::grViz("
+                  digraph ex1 {
+                  graph [rankdir = LR]
+                  node [shape = circle, 
+                    width = 0.2, 
+                    color = darkgreen, 
+                    label = '']
+                  a;b;c
+                  
+                  edge [color = black]
+                  c -> {a b}
+                  a -> b
+                  
+                  a [label = 'A']
+                  b [label = 'B']
+                  c [label = 'X']
+                  }",
+                  height = 200)
+```
+
+]
+
+--
+
+- Condicionar em uma variável ao longo de algum caminho _backdoor_, ***bloqueia*** este caminho
+
+- Efeito causal de A em B é **identificado condicional ao valor de X**
+
+---
+
+# Identificação em um DAG
+
+.pull-left[
+- Considere este outro DAG
+
+```{r, echo=FALSE}
+DiagrammeR::grViz("
+                  digraph ex1 {
+                  graph [rankdir = LR]
+                  node [shape = circle, 
+                    width = 0.2, 
+                    color = darkgreen, 
+                    label = '']
+                  a;b;c
+                  
+                  edge [color = black]
+                  a -> {b c}
+                  b -> {c}
+                  
+                  a [label = 'A']
+                  b [label = 'B']
+                  c [label = 'X']
+                  }",
+                  height = 200)
+```
+
+]
+
+--
+.pull-right[
+- X agora é chamado de colisor (_collider_)
+
+- Tanto A quanto B afetam X
+
+- Os caminhos de A até B neste grafo
+  + A -> B
+  + A -> X <- B
+
+- Diferença crucial entre colisor e confusor
+
+- Caminho colisor é **automaticamente bloqueado** sem necessidade de condicionar! 
+
+]
+
+.center[`r emo::ji("point_right")` Efeito causal de A em B **já está identificado!**]
+
+---
+
+# Identificação em um DAG
+
+- Identifique o efeito de A em B no seguinte DAG
+
+<center>
+```{r, echo=FALSE}
+DiagrammeR::grViz("
+                  digraph ex1 {
+                  graph [rankdir = LR, layout = neato]
+                  node [shape = circle, 
+                    width = 0.2, 
+                    color = darkgreen, 
+                    label = '']
+                  a;b;c;d
+                  
+                  edge [color = black]
+                  a -> {b c}
+                  b -> {c}
+                  d -> {a b}
+                  
+                  a [label = 'A']
+                  b [label = 'B']
+                  c [label = 'X']
+                  d [label = 'Z']
+                  }",
+                  height = 400)
+```
+</center>
+
+---
+# Identificação em um DAG
+
+Passos quando utilizando DAGs
+
+1. Desenhe o grafo e qual efeito você quer identificar
+
+1. Escreva todos os caminhos entre os nós de causa e efeito
+
+1. Qual é o caminho direto?
+
+1. Quais são os caminhos _backdoor_? Estão (ou podem ser) bloqueados?
+
+--
+
+Algumas ferramentas
+
+- [causalfusion.net](https://causalfusion.net/)
+- [DAGitty](http://dagitty.net/)
+---
+
 # Leitura Recomendada
 
 * CUNNINGHAM, Scott. Causal Inference: The Mixtape, New Haven: Yale University Press, 2021. URL: https://mixtape.scunning.com/
