@@ -73,6 +73,8 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Causal AI papers](https://www.causalens.com/causal-ai-papers/)
 
+* [Coding for Economists (Python)](https://aeturrell.github.io/coding-for-economists/intro.html)
+
 ## Avaliação
 
 O sistema de avaliação da disciplina se dará da seguinte maneira:
