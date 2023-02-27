@@ -2,7 +2,7 @@
 title: "Econometria III"
 subtitle: "Introdução a Causalidade"
 author: "Rafael Bressan"
-date: "Esag </br> `r Sys.Date()`"
+date: "Esag </br> 27/02/2023"
 output:
   xaringan::moon_reader:
     chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
