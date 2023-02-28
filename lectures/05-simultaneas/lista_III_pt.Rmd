@@ -44,3 +44,31 @@ São corretas as afirmativas
 
 - ($\phantom{X}$) Para verificar se qualquer equação do sistema é identificável, basta aplicar a condição de ordem.
 
+## Questão 3
+
+O exercício a seguir usa o conjunto de dados `truffles` do pacote "PoEdata", onde $q$ é a quantidade de trufas comercializadas, $p$ é o preço de mercado, $p_s$ é o preço de um substituto, $d_i$ é a renda e $p_f$ é uma medida dos custos de produção. As equações estruturais de demanda e oferta (Equações 1 e 2) são formuladas com base na teoria econômica. Quantidade e preço são endógenos, e todas as outras variáveis são consideradas exógenas.
+
+$$
+\begin{align}
+q&=\alpha_1+\alpha_2p+\alpha_3p_s+\alpha_4d_i+e_d\\
+q&=\beta_1+\beta_2p+\beta_3p_f+e_s
+\end{align}
+$$
+
+Instale o pacote "PoEdata" e carregue os dados com os seguintes comandos:
+
+```{r poe, echo=TRUE, eval=FALSE}
+install.packages("remotes") # Se necessário
+remotes::install_github("ccolonescu/PoEdata")
+data("truffles")
+```
+
+a) Qual a condição de ordem para a identificação de cada uma das equações do modelo? Classifique as equações em: não-identificada, exatamente identificada ou sobreidentificada.
+
+b) Estime as formas reduzidas para quantidade e preço. Apresente os resultados e interprete. Os coeficientes são estatísticamente diferentes de zero? O que isso significa em termos de relevância de instrumentos?
+
+c) Se estamos interessados em estimar a equação de demanda, qual é o instrumento adequado para o preço? Por quê?
+
+d) Estime apenas a equação 1 (demanda) utilizando MQ2E com o instrumento selecionado anteriormente. Apresente os resultados.
+
+e) Estime ambas as equações de forma conjunta através de MQ2E. O resultado da estimação da equação de demanda é igual ao anterior?

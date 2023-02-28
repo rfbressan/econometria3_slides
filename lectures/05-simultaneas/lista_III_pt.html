@@ -352,7 +352,7 @@ display: none;
 <h1 class="title toc-ignore">Modelos de Equações Simultâneas</h1>
 <h3 class="subtitle">Lista de Exercícios III</h3>
 <h4 class="author">Rafael Bressan</h4>
-<h4 class="date">UDESC/Esag </br> 2023-02-23</h4>
+<h4 class="date">UDESC/Esag </br> 2023-02-28</h4>
 
 </div>
 
@@ -407,6 +407,42 @@ eficientes dos parâmetros da forma estrutural.</p></li>
 se qualquer equação do sistema é identificável, basta aplicar a condição
 de ordem.</p></li>
 </ul>
+</div>
+<div id="questão-3" class="section level2">
+<h2>Questão 3</h2>
+<p>O exercício a seguir usa o conjunto de dados <code>truffles</code> do
+pacote “PoEdata”, onde <span class="math inline">\(q\)</span> é a
+quantidade de trufas comercializadas, <span class="math inline">\(p\)</span> é o preço de mercado, <span class="math inline">\(p_s\)</span> é o preço de um substituto, <span class="math inline">\(d_i\)</span> é a renda e <span class="math inline">\(p_f\)</span> é uma medida dos custos de produção.
+As equações estruturais de demanda e oferta (Equações 1 e 2) são
+formuladas com base na teoria econômica. Quantidade e preço são
+endógenos, e todas as outras variáveis são consideradas exógenas.</p>
+<p><span class="math display">\[
+\begin{align}
+q&amp;=\alpha_1+\alpha_2p+\alpha_3p_s+\alpha_4d_i+e_d\\
+q&amp;=\beta_1+\beta_2p+\beta_3p_f+e_s
+\end{align}
+\]</span></p>
+<p>Instale o pacote “PoEdata” e carregue os dados com os seguintes
+comandos:</p>
+<pre class="r"><code>install.packages(&quot;remotes&quot;) # Se necessário
+remotes::install_github(&quot;ccolonescu/PoEdata&quot;)
+data(&quot;truffles&quot;)</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li><p>Qual a condição de ordem para a identificação de cada uma das
+equações do modelo? Classifique as equações em: não-identificada,
+exatamente identificada ou sobreidentificada.</p></li>
+<li><p>Estime as formas reduzidas para quantidade e preço. Apresente os
+resultados e interprete. Os coeficientes são estatísticamente diferentes
+de zero? O que isso significa em termos de relevância de
+instrumentos?</p></li>
+<li><p>Se estamos interessados em estimar a equação de demanda, qual é o
+instrumento adequado para o preço? Por quê?</p></li>
+<li><p>Estime apenas a equação 1 (demanda) utilizando MQ2E com o
+instrumento selecionado anteriormente. Apresente os resultados.</p></li>
+<li><p>Estime ambas as equações de forma conjunta através de MQ2E. O
+resultado da estimação da equação de demanda é igual ao
+anterior?</p></li>
+</ol>
 </div>
 
 

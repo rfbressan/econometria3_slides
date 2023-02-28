@@ -53,6 +53,8 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * FREIRE, Sergio M. Introdução ao R. 2021. URL: http://www.lampada.uerj.br/introducaoaor
 
+* McDERMOTT, Grant. Data science for economists. URL: https://github.com/uo-ec607/lectures#lecture-outline-and-quicklinks
+
 * R Core Team. An Introduction to R. URL: https://cran.r-project.org/doc/manuals/r-release/R-intro.html
 
 * HANCK, Christoph et al. Introduction to Econometrics with R. University of Duisburg-Essen, 2019. URL: https://www.econometrics-with-r.org/
