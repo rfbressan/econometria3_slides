@@ -63,11 +63,21 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * WICKHAM, Hadley; GROLEMUND, Garrett. R for data science: import, tidy, transform, visualize, and model data. O'Reilly Media, Inc., 2016. URL: https://r4ds.had.co.nz/
 
+## Videos
+
+* [Causal Data Science](https://www.youtube.com/watch?v=MguFFgUfcbc&list=PLSMHA74lM-x3NTV2vJoxWdB1qdsSMjcFL&index=1&t=5603s) Causal Data Science com Marcel Ribeiro Dantas (Sorbonne University)
+
+* [Introdução Latex](https://www.youtube.com/watch?v=EumeZnyvTzA&list=PLSMHA74lM-x3NTV2vJoxWdB1qdsSMjcFL&index=2&t=3213s) Introdução Latex
+
+* [Economia e Ciência de Dados](https://www.youtube.com/watch?v=6Q3SXs5agaU&list=PLSMHA74lM-x2VglhXkdbHEH80T2a_XgRr&index=2&t=4765s) Economia e Ciência de Dados com prof. Rafael Martins de Souza (FGV/EPGE)
+
+* [Carreira e Aplicações de Econometria](https://www.youtube.com/watch?v=VKZe49nNtxw&list=PLSMHA74lM-x2VglhXkdbHEH80T2a_XgRr&index=3&t=2182s) Carreira e Aplicações de Econometria com Luiz A. Esteves (Economista chefe do Banco do Nordeste)
+
 ## Outros Recursos
 
 * [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) by Brady Neal
 
-* [Course in Econometrics - part II](https://www.youtube.com/playlist?list=PLwJRxp3blEvb7P-7po9AxuBwquPv75LjU) by Ben Lambert
+* [Course in Econometrics - part II](https://www.youtube.com/playlist?list=PLwJRxp3blEvb7P-7po9AxuBwquPv75LjU) Course in Econometrics - part II by Ben Lambert
 
 * [Microsoft's Experimentation](https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/)
 
