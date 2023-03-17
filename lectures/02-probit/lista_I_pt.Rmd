@@ -2,7 +2,7 @@
 title: "Modelos de Escolha Qualitativa"
 subtitle: "Lista de Exercícios I"
 author: "Rafael Bressan"
-date: "UDESC/Esag </br> Data devida: 03/11/2022"
+date: "UDESC/Esag </br> Data devida: 23/03/2023"
 output: html_document
 params:
     solutions: false
