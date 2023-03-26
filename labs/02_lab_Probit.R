@@ -88,6 +88,13 @@ probit <- glm(fml,
               family = binomial(link = probit))
 
 msummary(list(Logit = logit, Probit = probit))
+#' 
+#' Uma forma visual de apresentar os resultados de uma regressão é através de
+#' um gráfico de coeficientes (coefficients plot). Este gráfico mostra a estimativa
+#' pontual acompanhada de uma barra denotando o intervalo de confiança (e.g. 90%).
+#' É muito utilizado em apresentações sobre a pesquisa ou estudo sendo realizada.
+modelplot(list(Logit = logit, Probit = probit), 
+          conf_level = 0.9)
 #'
 #' Podemos fazer a previsão da probabilidade das mesmas mulheres anteriores estarem no
 #' mercado de trabalho.
