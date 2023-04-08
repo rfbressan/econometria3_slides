@@ -785,6 +785,97 @@ layout: true
 --
 
 * Este F-Stat compara o poder preditivo do primeiro estágio com e sem as VIs. Se eles tiverem poder preditivo muito semelhante, o F-stat será baixo e não poderemos rejeitar H0 de que nossas VIs são **conjuntamente insignificantes** no modelo do primeiro estágio. 😞
+
+---
+
+# VI com um instrumento fraco
+
+* VI é consistente sob determinadas premissas.
+
+* No entanto, *mesmo* que tenhamos apenas $Cor(z,u)$ muito pequenos, podemos errar
+
+* Pequena correlação entre $x$ e $z$ pode produzir estimativas **inconsistentes**.
+
+$$
+\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
+$$
+
+--
+
+
+* Mesmo que $Cor(z,u)$ seja muito pequena
+
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para $Cor(z,x)$
+
+* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional $\beta_1$.
+
+
+---
+
+# VI com um instrumento fraco
+
+Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
+
+$$
+\log(bwght) = \beta_0 + \beta_1 packs + u
+$$
+
+Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em $u$ e que podem afetar o peso ao nascer da criança. 
+
+Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em $u$. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
+
+---
+
+# VI com um instrumento fraco
+
+
+```{r bw}
+data(bwght, package = "wooldridge")
+mods <- list()
+mods$Estagio_1 <- lm(packs ~ cigprice, data = bwght)
+mods$VI <- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
+                               diagnostics = TRUE)
+```
+
+```{r,echo = FALSE}
+tbl <- modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|statistic|Log.Lik.|Num.Obs.|N', output = "huxtable") %>%
+    set_bottom_border(row = 7, col = everywhere) %>%
+    set_bold(1, everywhere) %>%
+    set_tb_padding(5)
+font_size(tbl) <- 15
+tbl
+```
+
+
+---
+
+# VI com um instrumento fraco
+
+.pull-left[
+
+* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
+
+* $R^2$ é zero.
+
+* O que é que usamos nesta VI, no entanto?
+]
+
+--
+
+.pull-right[
+
+* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
+
+* Enorme erro padrão.
+
+* Um $R^2$ de -23?!
+
+* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de `r round(mods[["VI"]]$diagnostic_first_stage_fstatistic["p.value"],3)` : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
+
+* Então: abordagem **inválida**. ❌
+]
+
+
 ---
 
 # Variáveis de Controle Adicionais
@@ -889,95 +980,6 @@ htab
 2. O QOB é **independente** de, digamos, *características maternas*? Aniversários não são realmente aleatórios - há épocas de nascimento para certas origens socioeconômicas. maior escolaridade materna dão à luz no segundo trimestre. (não no 4º! ✅)
 
 3. Exclusão: E se as crianças mais novas (nascidas no 4º tri!) forem desfavorecidas desde o início, que tem impactos negativos a longo prazo? Então $E[u|z] \neq 0$! Bem, os mais novos se saem melhor (mais escolaridade e salário mais alto)! ✅
-]
-
----
-
-# VI com um instrumento fraco
-
-* VI é consistente sob determinadas premissas.
-
-* No entanto, *mesmo* que tenhamos apenas $Cor(z,u)$ muito pequenos, podemos errar
-
-* Pequena correlação entre $x$ e $z$ pode produzir estimativas **inconsistentes**.
-
-$$
-\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
-$$
-
---
-
-
-* Mesmo que $Cor(z,u)$ seja muito pequena
-
-* Um **instrumento fraco** é aquele com pequeno valor absoluto para $Cor(z,x)$
-
-* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional $\beta_1$.
-
-
----
-
-# VI com um instrumento fraco
-
-Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
-
-$$
-\log(bwght) = \beta_0 + \beta_1 packs + u
-$$
-
-Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em $u$ e que podem afetar o peso ao nascer da criança. 
-
-Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em $u$. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
-
----
-
-# VI com um instrumento fraco
-
-
-```{r bw}
-data(bwght, package = "wooldridge")
-mods <- list()
-mods$Estagio_1 <- lm(packs ~ cigprice, data = bwght)
-mods$VI <- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
-                               diagnostics = TRUE)
-```
-
-```{r,echo = FALSE}
-tbl <- modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|statistic|Log.Lik.|Num.Obs.|N', output = "huxtable") %>%
-    set_bottom_border(row = 7, col = everywhere) %>%
-    set_bold(1, everywhere) %>%
-    set_tb_padding(5)
-font_size(tbl) <- 15
-tbl
-```
-
-
----
-
-# VI com um instrumento fraco
-
-.pull-left[
-
-* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
-
-* $R^2$ é zero.
-
-* O que é que usamos nesta VI, no entanto?
-]
-
---
-
-.pull-right[
-
-* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
-
-* Enorme erro padrão.
-
-* Um $R^2$ de -23?!
-
-* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de `r round(mods[["VI"]]$diagnostic_first_stage_fstatistic["p.value"],3)` : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
-
-* Então: abordagem **inválida**. ❌
 ]
 
 ---

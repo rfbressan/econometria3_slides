@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-07
+### Esag </br> 2023-04-07
 ]
 
 ---
@@ -905,6 +905,113 @@ layout: true
 --
 
 * Este F-Stat compara o poder preditivo do primeiro estágio com e sem as VIs. Se eles tiverem poder preditivo muito semelhante, o F-stat será baixo e não poderemos rejeitar H0 de que nossas VIs são **conjuntamente insignificantes** no modelo do primeiro estágio. 😞
+
+---
+
+# VI com um instrumento fraco
+
+* VI é consistente sob determinadas premissas.
+
+* No entanto, *mesmo* que tenhamos apenas `\(Cor(z,u)\)` muito pequenos, podemos errar
+
+* Pequena correlação entre `\(x\)` e `\(z\)` pode produzir estimativas **inconsistentes**.
+
+$$
+\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
+$$
+
+--
+
+
+* Mesmo que `\(Cor(z,u)\)` seja muito pequena
+
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Cor(z,x)\)`
+
+* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional `\(\beta_1\)`.
+
+
+---
+
+# VI com um instrumento fraco
+
+Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
+
+$$
+\log(bwght) = \beta_0 + \beta_1 packs + u
+$$
+
+Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em `\(u\)` e que podem afetar o peso ao nascer da criança. 
+
+Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em `\(u\)`. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
+
+---
+
+# VI com um instrumento fraco
+
+
+
+```r
+data(bwght, package = "wooldridge")
+mods &lt;- list()
+mods$Estagio_1 &lt;- lm(packs ~ cigprice, data = bwght)
+mods$VI &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
+                               diagnostics = TRUE)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-5">
+<col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">Estagio_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">VI</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.067</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">4.448</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.103)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.940)</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">cigprice</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.001)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">packs</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">2.989</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(8.996)</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">-23.230</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.30</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">115.77</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.121</td></tr>
+</table>
+
+
+
+---
+
+# VI com um instrumento fraco
+
+.pull-left[
+
+* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
+
+* `\(R^2\)` é zero.
+
+* O que é que usamos nesta VI, no entanto?
+]
+
+--
+
+.pull-right[
+
+* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
+
+* Enorme erro padrão.
+
+* Um `\(R^2\)` de -23?!
+
+* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de 0.728 : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
+
+* Então: abordagem **inválida**. ❌
+]
+
+
 ---
 
 # Variáveis de Controle Adicionais
@@ -939,7 +1046,7 @@ mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct,
 
 # Variáveis de Controle Adicionais
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-5">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-6">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">ols_yr</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E_yr</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E_all</th></tr>
 <tr>
@@ -966,7 +1073,7 @@ mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct,
 # Variáveis de Controle Adicionais
 
 .left-wide[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-6">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">ols_yr</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E_yr</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">MQ2E_all</th></tr>
 <tr>
@@ -1025,111 +1132,6 @@ mod$MQ2E_all &lt;- iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_fct,
 2. O QOB é **independente** de, digamos, *características maternas*? Aniversários não são realmente aleatórios - há épocas de nascimento para certas origens socioeconômicas. maior escolaridade materna dão à luz no segundo trimestre. (não no 4º! ✅)
 
 3. Exclusão: E se as crianças mais novas (nascidas no 4º tri!) forem desfavorecidas desde o início, que tem impactos negativos a longo prazo? Então `\(E[u|z] \neq 0\)`! Bem, os mais novos se saem melhor (mais escolaridade e salário mais alto)! ✅
-]
-
----
-
-# VI com um instrumento fraco
-
-* VI é consistente sob determinadas premissas.
-
-* No entanto, *mesmo* que tenhamos apenas `\(Cor(z,u)\)` muito pequenos, podemos errar
-
-* Pequena correlação entre `\(x\)` e `\(z\)` pode produzir estimativas **inconsistentes**.
-
-$$
-\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
-$$
-
---
-
-
-* Mesmo que `\(Cor(z,u)\)` seja muito pequena
-
-* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Cor(z,x)\)`
-
-* Mesmo com um tamanho de amostra grande, nosso estimador *não* convergirá para o verdadeiro parâmetro populacional `\(\beta_1\)`.
-
-
----
-
-# VI com um instrumento fraco
-
-Para ilustrar esse ponto, vamos supor que queremos analisar o impacto do número de maços de cigarros fumados por dia por mulheres grávidas (*packs*) no peso ao nascer de seus filhos (*bwght*):
-
-$$
-\log(bwght) = \beta_0 + \beta_1 packs + u
-$$
-
-Estamos preocupados que o comportamento de fumar esteja correlacionado com uma série de outras variáveis relacionadas à saúde que estão em `\(u\)` e que podem afetar o peso ao nascer da criança. 
-
-Então, procuramos um IV. Suponha que usemos o preço dos cigarros (*cigprice*), supondo que o preço dos cigarros não esteja correlacionado com fatores em `\(u\)`. Vamos executar o primeiro estágio de *cigprice* em *packs* e então vamos mostrar as estimativas de MQ2E:
-
----
-
-# VI com um instrumento fraco
-
-
-
-```r
-data(bwght, package = "wooldridge")
-mods &lt;- list()
-mods$Estagio_1 &lt;- lm(packs ~ cigprice, data = bwght)
-mods$VI &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bwght, 
-                               diagnostics = TRUE)
-```
-
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-7">
-<col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">Estagio_1</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: bold; font-size: 15pt;">VI</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.067</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">4.448</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.103)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.940)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">cigprice</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(0.001)</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">packs</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">2.989</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">(8.996)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">-23.230</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.30</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">115.77</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt; font-weight: normal; font-size: 15pt;">0.121</td></tr>
-</table>
-
-
-
----
-
-# VI com um instrumento fraco
-
-.pull-left[
-
-* As primeiras colunas mostram: primeiro estágio muito fraco. *cigprice* parece ter zero impacto nos maços!
-
-* `\(R^2\)` é zero.
-
-* O que é que usamos nesta VI, no entanto?
-]
-
---
-
-.pull-right[
-
-* na segunda coluna: impacto muito grande e positivo(!) dos maços fumados no peso ao nascer. 🤔
-
-* Enorme erro padrão.
-
-* Um `\(R^2\)` de -23?!
-
-* F-stat do primeiro estágio: 0,121. Corresponde a um valor p de 0.728 : nós **não podemos** rejeitar a H0 de um primeiro estágio insignificante.
-
-* Então: abordagem **inválida**. ❌
 ]
 
 ---
