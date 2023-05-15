@@ -35,7 +35,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2023-05-08
+### Esag </br> 2023-05-15
 ]
 
 ---
@@ -497,6 +497,74 @@ $$
 --
 
 - Quanto mais efeitos fixos adicionarmos na regressão, mais ***gl*** iremos perder 
+---
+
+# A Transformação Intragrupo (_Within_)
+## Hipóteses
+
+Satisfeitas as seguintes hipóteses, o estimador de **Efeitos Fixos** será ***não viesado***
+
+1. O modelo populacional é: `\(y_{it}=X_{it}\beta+c_i+u_{it}\)`. Para cada `\(i\)`, com `\(t=1, \ldots, T\)` e `\(c_i\)` é não observado.
+
+1. `\(\{y_{it}, X_{it}\}_{i=1}^N\)` é uma amostra aleatória para um dado `\(t\)`
+
+1. `\(X_{it}\)` possui variação na dimensão `\(t\)`
+
+1. Para cada `\(t\)`, o valor esperado do erro `\(u_{it}\)` condicional aos regressores em ***todos os períodos de tempo*** e ao efeito não observado, é zero: `\(E[u_{it}\mid X_{i1},\ldots, X_{iT}, c_i]=0\)` (**exogeneidade estrita**)
+
+--
+
+Se tivermos um painel curto `\((N&gt;&gt;T)\)`, então podemos dizer que assintoticamente `\((N\rightarrow\infty)\)` o estimador de Efeitos Fixos é _consistente_.
+
+---
+
+# A Transformação Intragrupo (_Within_)
+## Hipóteses
+
+- Por que a hipótese de exogeneidade estrita é tão importante?
+
+--
+
+- `\(E[u_{it}\mid X_{i1},\ldots, X_{iT}, c_i]=0\)` implica em `\(E[X_{is}u_{it}]=0\quad s,t = 1,\ldots, T\)`
+
+- Modelo transformado é `\(\ddot{y}_{it}=\ddot{X}_{it}\beta+\ddot{u}_{it}\)`
+
+- MQO **não viesado** se `\(E[\ddot{X}_{it}\ddot{u}_{it}]=0\)`
+
+--
+
+- Interpretação: uma vez que `\(X_{it}\)` e  `\(c_i\)` estejam controlados na regressão, ***outros períodos*** para os regressores não importam!
+
+- ⚠️ .red[ATENÇÃO]
+  + Isso não impede modelos de defasagem distribuída! 
+  + Modelos de variável dependente defasada estão excluídos
+
+---
+
+# A Transformação Intragrupo (_Within_)
+## Hipóteses
+
+- Por que a hipótese de exogeneidade estrita é tão importante?
+
+$$
+`\begin{align*}
+E[\ddot{X}_{it}\ddot{u}_{it}]&amp;=E[(X_{it}-\bar{X}_i)(u_{it}-\bar{u}_i)]\\
+&amp;=E[X_{it}u_{it}]+E[X_{it}\bar{u}_i]+\ldots
+\end{align*}`
+$$
+
+--
+
+- `\(E[X_{it}u_{it}]= 0\)`, pois `\(E[X_{is}u_{it}]=0\)` e `\(s=t\)`
+
+--
+
+- `\(E[X_{it}\bar{u}_i]=\frac{1}{T}\lbrace E[X_{it}u_{i1}]+\ldots + E[X_{it}u_{iT}]\rbrace\)`
+  + Cada um dos valores esperados também é zero pela hipótese de exogeneidade estrita!
+  
+--
+
+Ou seja, a hipótese de exogeneidade estrita, `\(E[u_{it}\mid X_{i1},\ldots, X_{iT}, c_i]=0\)` implica em `\(E[X_{is}u_{it}]=0\quad s,t = 1,\ldots, T\)`, garante que no modelo transformado o MQO é não viesado 
 
 ---
 
@@ -618,6 +686,24 @@ mod$FE &lt;- fixest::feols(crmrte ~ prbarr | county, cdata)
 * Observe a configuração semelhante à `estimatr::iv_robust` *fórmula de duas partes*. Aqui os efeitos fixos vêm após o `|`.
 
 * Além disso, podemos ter *mais de um efeito fixo*! Para um exemplo legal com *três* efeitos fixos veja a [vinheta](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html) do pacote.
+
+---
+
+# Estimativa de Efeitos Fixos no `R`
+## use um Pacote!
+
+Nem só de `R` vive um econometrista! Alguns outros pacotes de EF também para `Stata` e `Python`
+
+- **R**
+  + [`plm`](https://cran.r-project.org/web/packages/plm/index.html) (função plm)
+  + [`lfe`](https://cran.r-project.org/web/packages/lfe/) (função felm)
+  
+- **Stata**
+  + [`reghdfe`](https://github.com/sergiocorreia/reghdfe)
+  
+- **Python**
+  + [`Statsmodels`](https://www.statsmodels.org/stable/example_formulas.html) (_dummies_ somente)
+  + [`linearmodels`](https://pypi.org/project/linearmodels/) (EF em duas vias)
 
 ---
 
