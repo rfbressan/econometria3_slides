@@ -559,7 +559,7 @@ $$
 
 - M – número de variáveis endógenas no modelo
 - m – número de variáveis endógenas em uma dada equação
-- K – número de variáveis exógenas no modelo, incluindo os interceptos
+- K – número de variáveis exógenas no modelo
 - k – número de variáveis exógenas em uma dada equação
 
 $K – k \geq m – 1$
