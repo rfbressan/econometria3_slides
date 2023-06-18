@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2022-10-11
+### Esag </br> 2023-06-18
 ]
 
 ---
@@ -295,6 +295,7 @@ layout: true
 * Estima o efeito de um aumento do salário mínimo sobre a taxa de emprego na indústria de fast-food. Por que essa indústria?
 
 ---
+
 # Card e Krueger (1994)
 
 ## Detalhes Institucionais
@@ -788,6 +789,52 @@ DID &amp;= \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y_{ist
 &amp;= \delta
 \end{align}`
 $$
+
+---
+
+# Testando Tendências Paralelas
+
+- Não há maneira de testar tendências pararelas diretamente:
+`$$\left(\mathbb{E}[Y^0_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y^0_{ist}|s = \text{NJ}, t = \text{Fev}]\right)=\left(\mathbb{E}[Y^0_{ist}|s = \text{PA}, t = \text{Nov}] - \mathbb{E}[Y^0_{ist}|s = \text{PA}, t = \text{Fev}]\right)$$`
+
+
+- Veja que `\(\mathbb{E}[Y^0_{ist}|s = \text{NJ}, t = \text{Nov}]\)` é um valor **contrafactual**.
+
+- Economistas tipicamente utilizam testes de **placebo** (também conhecidos como falsificação)
+
+---
+
+# Placebos Pré-Tratamento
+
+- O teste placebo mais utilizado é obter observações de um **período anterior** ao próprio período pré-tratamento e utilizá-las no design **como se fossem observações posteriores**.
+
+- Se havia tendências paralelas entre os períodos pré-tratamento ($t_{-1}$, `\(t_0\)`), então não deve aparecer efeito na regressão 
+
+- Suponha que temos observações de Jan/92:
+
+$$
+`\begin{align}
+DID &amp;= \underbrace{\mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Jan}] - \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Fev}]}_{\text{tendência NJ}} \\
+&amp; - \Big(\underbrace{\mathbb{E}[Y_{ist}|s = \text{PA},t = \text{Jan}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}]}_{\text{tendência PA}}\Big) \\
+&amp;= 0\quad\text{caso sejam tendências paralelas}
+\end{align}`
+$$
+
+# Estudos de Eventos
+
+- Uma generalização para o teste de placebo é analisar os coeficientes de _leads_ de um estudo de eventos.
+
+- Ideia básica é: efeito do tratamento antes de sua aplicação deve ser zero entre grupos com tendências paralelas.
+
+`$$Y_{ist}=\gamma_s+\lambda_t+\sum_{\tau=-q}^{-1}\gamma_\tau D_{st}+\sum_{\tau=0}^p \delta_\tau D_{st}+\varepsilon_{ist}$$`
+
+- Coeficientes `\(\gamma_\tau=0\)`
+
+---
+
+# Estudos de Eventos
+
+&lt;img src="07_DID_pt_files/figure-html/event-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Leitura Recomendada
