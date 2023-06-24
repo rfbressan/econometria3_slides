@@ -18,7 +18,7 @@ Considere a configuração canônica do DID com T = 2 e N = 2.
 
 $$y_{it} = \beta_0 + \beta_1 State_i + \beta_2 Post_t + \theta D_{it} + \varepsilon_{it}$$
 
-suponha que a variável de tempo seja omitida. Assim, a equação de estimativa é
+suponha que a variável de tempo seja omitida. Assim, a equação de regressão **efetivamente estimada** é
 
 $$y_{it} = \beta_0 + \beta_1 State_i + \theta D_{it} + \varepsilon_{it}$$
 
@@ -28,9 +28,9 @@ onde $D_{it}= State_i \cdot Time_t$ é o indicador de tratamento.
 
 (b) Mostre que em termos populacionais $\theta$ é função apenas da subamostra tratada e não da subamostra não tratada.
 
-(c) $\theta$ é um estimador de diferença-em-diferenças?
+(c) $\hat\theta$ é um estimador de diferença-em-diferenças?
 
-(d) Sob quais premissas $\theta$ pode ser um estimador apropriado do efeito do tratamento?
+(d) Sob quais premissas $\hat\theta$ pode ser um estimador apropriado do efeito do tratamento?
 
 
 ## Questão 2
