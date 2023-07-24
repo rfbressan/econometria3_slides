@@ -1,0 +1,196 @@
+---
+title: "Econometria III"
+subtitle: |
+    | Questões - Dados em Painel e Efeitos Fixos
+author: "Rafael Bressan"
+date: "`r Sys.Date()`"
+output: 
+  html:
+    theme: cosmo
+lang: pt-BR
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r loads}
+library(ISLR2)
+library(modelsummary)
+library(kableExtra)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r setup-modelsummary}
+g_map <- c("nobs", "adj.r2")
+```
+
+
+# Questão 1 
+
+Assinale **V**erdadeiro ou **F**also:
+
+($\phantom{X}$) Dados em painel também são chamados de dados longitudinais, e diferem dos dados em seções transversais repetidas pois, em um painel não há repetição dos indíviduos ao longo do tempo.
+
+($\phantom{X}$) Na análise econométrica de dados em painel, não podemos simplesmente supor que as observações sejam independentemente distribuídas ao longo do tempo.
+
+($\phantom{X}$) Modelos DID tipicamente fazem uso de um experimento natural, onde algum evento exógeno altera o ambiente no qual as unidades de observação estão inseridas, separando-as em tratados e não-tratados.
+
+($\phantom{X}$) Em um modelo de efeito fixo $y_{it}=\beta_1x_{it}+a_i+u_{it}$, o termo $a_i$ é constante ao longo do tempo $t$ e deve ser observado para podermos estimar corretamente $\beta_1$.
+
+($\phantom{X}$) No modelo acima, o termo $a_i$ captura todos os fatores constantes no tempo e que são individuais (i.e. valores específicos da unidade $i$).
+
+($\phantom{X}$) A principal razão para coletar dados em painel é considerar que a heterogeneidade não observada $a_i$ é correlacionada com o regressor $x_{it}$, e então estimar um modelo de efeitos fixos.
+
+($\phantom{X}$) Um painel equilibrado possui o mesmo número de observações de períodos, $T$, para cada um dos $N$ indíviduos. Em um total de $N+T$ observações.
+
+($\phantom{X}$) O estimador de efeitos fixos faz uso da transformação intragrupo que é assim definida para o regressor $x_{it}$, $\ddot{x}_{it}=x_{it} - T^{-1}\sum_t x_{it}$.
+
+($\phantom{X}$) O estimador de efeito fixo fará a regressão da variável dependente centrada na média, $\ddot{y}_{it}$, contra o regressor observado $x_{it}$.
+
+($\phantom{X}$) Se a cardinalidade do efeito fixo $a_i$ for igual a $N$, então na regressão $y_{it}=\beta_1x_{it}+a_i+u_{it}$ perderemos $N$ graus de liberdade além daqueles necessários para estimar $\beta_1$. 
+
+
+# Questão 2
+
+Considere as observações $\{(y_{it}, x_{it})\}_{i=1, t=1}^{i=N, t=T}$ _iid_ e que seguem o modelo linear
+
+$$y_{it}=\beta_1 x_{it}+\alpha_i +\lambda_i t+u_{it}$$
+onde $\alpha_i+\lambda_i t$ são fatores não-observados individuais e com tendência temporal determinística.
+
+a) Proponha um estimador para $\beta_1$
+
+b) Mostre que este estimador é consistente para $\beta_1$, se assumirmos exogeneidade estrita do regressor, isto é $E[u_{it}|x_{i1}, \ldots , x_{iT}]=0$. 
+
+
+
+
+# Questão 3
+
+Considere o seguinte modelo em painel com $i=1, \ldots , N$ e $t=1, \ldots , T$.
+
+$$y_{it}=\beta_1 x_{it}+a_i+u_{it}.$$
+Onde $E[u_{it}|x_{i1}, x_{i2}, \ldots, x_{iT}, a_i]=0$ (hipótese de exogeneidade estrita).
+
+a) Se os erros idiossincráticos $u_{it}$ forem serialmente **não** correlacionados com variância constante $\sigma_u^2$, mostre que o estimador de primeira diferença irá induzir um correlação de $\Delta u_{i,t}$ com $\Delta u_{i,t+1}$ de $-0,5$. (1,0 ponto)
+
+b) Considere a transformação intragrupo para estimação de efeitos fixos, $\ddot{z}_{it}=z_{it}-\frac{1}{T}\sum_{t}z_{it}$. Mostre que o estimador de efeitos fixos nas condições do item anterior, produzirá uma correlação serial de $corr(\ddot{u}_{it},\ddot{u}_{is})=-1/(T-1)$, para todo $s\neq t$.
+
+c) Agora considere que os erros idiossincrátricos são serialmente correlacionados, $u_{it}=u_{i,t-1}+\varepsilon_{it}$ onde $Var[\varepsilon_{it}]=\sigma_\varepsilon^2$ e o ruído $\varepsilon_{it}$ **não é serialmente correlacionado**. Mostre que o estimador de primeira diferença irá eliminar a correlação serial nos resíduos. (0,5 ponto)
+
+d) Considere que $N>>T$ mas que ainda assim temos uma forte correlação serial nas observações de série temporal. Neste caso, qual estimador você prefere utilizar, primeira diferença ou efeitos fixos (i.e. transformação intragrupo)? Por quê? (0,5 ponto)
+
+e) Considere que $N>>T$ e não temos preocupação com correlação serial nas observações de série temporal. Neste caso, em quais situações você prefere utilizar os estimadores de primeira diferença e efeitos fixos (i.e. transformação intragrupo)? Por quê? (1,0 ponto)
+
+
+
+# Questão 4
+
+Qual das seguintes suposições é necessária para obter estimadores de efeito fixo não viesados?
+
+a. Os erros são heterocedásticos.
+b. Os erros são serialmente correlacionados.
+c. As variáveis explicativas são estritamente exógenas.
+d. O efeito não observado está correlacionado com as variáveis explicativas.
+
+Um estimador MQO agrupado que é baseado em variáveis centralizadas na média temporal é chamado de _____.
+
+a. estimador de efeitos aleatórios
+b. estimador de efeitos fixos
+c. estimador de desvios mínimos absolutos
+d. estimador de variável instrumental
+
+Quais devem ser os graus de liberdade (gl) para estimativa de efeitos fixos se o conjunto de dados incluir N unidades de seção transversal ao longo de T períodos de tempo e o modelo de regressão tem k variáveis independentes?
+
+a. N-kT
+b. NT-k
+c. NT-N-k
+d. N-T-k
+
+Qual dos seguintes tipos de variáveis não pode ser incluído em um modelo de efeitos fixos?
+
+a. Variável fictícia
+b. Variável dependente discreta
+c. Variável independente variável no tempo
+d. Variável independente constante no tempo
+
+Qual das opções a seguir é uma propriedade da regressão de variável dummy?
+
+a. Este método é mais adequado para conjuntos de dados de painel com muitas observações transversais.
+b. O R2 obtido a partir deste método é menor do que o obtido a partir da regressão em dados centralizados pelo tempo.
+c. Os graus de liberdade não podem ser calculados diretamente com este método.
+d. As principais estatísticas obtidas a partir deste método são idênticas às obtidas a partir regressão em dados reduzidos pelo tempo.
+
+Qual das opções a seguir é uma diferença entre um estimador de efeitos fixos e um estimador de primeira diferença?
+
+a. Os estimadores de efeitos fixos são sempre maiores que os estimadores de primeira diferença em uma análise de dados em painel de dois períodos.
+b. O estimador de efeitos fixos é mais eficiente que o estimador de primeira diferença quando os erros idiossincráticos são serialmente não correlacionados.
+c. O estimador de primeira diferença é mais sensível à não normalidade e à heteroscedasticidade.
+d. O viés no estimador da primeira diferença depende do período de tempo (T) da análise enquanto o viés no efeito fixo não depende de T.
+
+Um economista deseja estudar o efeito da renda sobre a poupança. Ele coletou dados de 120 gêmeos idênticos. Qual dos seguintes métodos de estimativa é o método mais adequado, se a renda estiver correlacionada com o efeito familiar não observado?
+
+a. Estimativa de efeitos aleatórios
+b. Estimativa de efeitos fixos
+c. Estimativa de mínimos quadrados ordinários
+d. Estimativa de mínimos quadrados ponderados
+
+
+
+# Questão 5
+
+Vamos provar a equivalência entre a regressão com expansão em dummies para efeitos fixos e a transformação intragrupo. Considere o modelo:
+
+\begin{equation}
+y_{it}=\beta x_{it} + \alpha_i + u_{it}
+\end{equation}
+
+Podemos considerar cada um dos $N$ $\alpha_i$ parâmetros a serem estimados juntamente com $\beta$. Os valores destes $\alpha_i$ são justamente os coeficientes associados as variáveis dummies. Portanto, nosso problema de estimação é:
+
+$$\{\hat\beta, \hat\alpha_i\}_{i=1}^N=\arg \min_{b, a_i}\sum_i\sum_t\left(y_{it}-b x_{it} - a_i\right)^2.$$
+
+a) Demonstre que a condição de primeira ordem (FOC) com relação a $b$ implica em $\sum_i\sum_t\left(y_{it}-b x_{it} - a_i\right)x_{it}=0$.
+
+b) Utilizando a FOC com relação a $a_i$, mostre que uma solução possível para cada um dos parâmetros $\hat\alpha_i$ é:
+
+$$\hat\alpha_i=\bar{y}_i-\hat\beta\bar{x}_i, \qquad \forall i=1, \ldots, N.$$
+
+c) Mostre que $\sum_i\sum_t\ddot{y}_{it}x_{it} =\sum_i\sum_t\ddot{y}_{it}\ddot{x}_{it}$. O mesmo ocorre para $\sum_i\sum_t\ddot{x}_{it}x_{it} =\sum_i\sum_t\ddot{x}_{it}^2$. Onde $\ddot{y}_{it}=y_{it}-\bar{y}_i$.
+
+d) Utilizando os valores encontrados para $\hat\alpha_i$ no item b), substitua na FOC do item a) e considerando o resultado obtido em c), mostre a equivalência do estimador de variáveis dummies com a transformação intragrupo. Ou seja, demonstre que $\hat\beta=\frac{\sum_i\sum_t\ddot{y}_{it}\ddot{x}_{it}}{\sum_i\sum_t\ddot{x}_{it}^2}$.
+
+
+
+# Questão 6
+
+No artigo de @souza2020nota intitulado _"Uma Nota Sobre o Prêmio Salarial em Empresas Exportadoras Brasileiras"_, os autores investigam a relação entre o status de exportação das empresas e o salário pago aos trabalhadores, testando se a exportação leva a um prêmio salarial para os empregados das empresas do setor externo ou se as empresas exportadoras já pagavam um salário maior antes de começar a exportar.
+
+Foi utilizado um painel de dados empregador-empregado do Brasil para os anos de 2003 a 2013 obtidos da RAIS. Esta contém informações sobre trabalhadores individualmente identificáveis em todos os seus empregadores, idade, gênero, educação, ocupação, tempo na empresa entre outras características. Além dos dados do trabalhador, são também utilizados variáveis da firma, tais como o setor de atividade, se atua no setor privado, número de ocupações diferentes dentro da firma, além de informações sobre variável de interesse, qual seja, o status de exportação da firma, todas oriundas da Secretaria de Comércio Exterior (Secex).
+
+O modelo empírico empregado para testar o impacto da firma ser exportadora sobre os salários dos trabalhadores segue uma especificação de efeitos fixos para tentar
+controlar a heterogeneidade não observada do empregado e da empresa:
+
+\begin{equation}
+\ln W_{ijt}=\beta_0+\beta_1\text{Exportador}_{ijt}+\beta_2X_{it}+\alpha_i+\gamma_j+\varepsilon_{ijt},
+\end{equation}
+
+onde $\ln W_{ijt}$ é o logaritmo do salário do indivíduo $i$ que trabalha na empresa $j$ no período de tempo $t$ . $\text{Exportador}_{ijt}$ é a variável dicotômica de interesse com valor 1 para os indivíduos que trabalham em firmas que se tornaram exportadoras a partir do quarto ano de cada coorte da amostra e 0 para os trabalhadores de firmas domésticas, $X_{it}$ é um vetor de características pessoais dos indivíduos e das firmas nas quais estes trabalham, $\alpha_i$ e $\gamma_j$ são os efeitos fixos do indivíduo e da firma, respectivamente.
+
+A Tabela abaixo apresenta os resultados para 3 estimações incrementais deste modelo.
+
+```{r q4tabela}
+knitr::include_graphics("Figs/Figueiredoetal2022_tab3.png")
+```
+
+a) Por que os autores não utilizaram diretamente um modelo MQO agrupado nos dados em painel? Explique em detalhes qual era o objetivo dos pesquisadores e quais os problemas que um MQO enfrentaria. (1,0 ponto)
+
+b) A interpretação dos autores dos resultados do modelo (3) é que este apresenta evidências que _"confirmam à existência de um mecanismo de autosseleção, onde as empresas pagam maiores salários por serem mais produtivas e, consequentemente, tornam-se aptas a entrar no mercado exportador."_. Explique com suas palavras como você interprete os resultados para as interações entre ano $t$ e a variável binária $\text{Exportador}$. (1,0 ponto)
+
+
+
+## Referências
+
