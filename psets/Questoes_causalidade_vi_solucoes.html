@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Econometria III</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="Questoes_causalidade_vi_solucoes_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/quarto.js"></script>
+<script src="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/popper.min.js"></script>
+<script src="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Questoes_causalidade_vi_solucoes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Questoes_causalidade_vi_solucoes_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Questoes_causalidade_vi_solucoes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Questoes_causalidade_vi_solucoes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Questoes_causalidade_vi_solucoes_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="Questoes_causalidade_vi_solucoes_files/libs/viz-1.8.2/viz.js"></script>
+<link href="Questoes_causalidade_vi_solucoes_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="Questoes_causalidade_vi_solucoes_files/libs/grViz-binding-1.0.10/grViz.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Econometria III</h1>
+<p class="subtitle lead"></p><p>Questões - Causalidade e Variáveis Instrumentais</p><p></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="causalidade" class="level1">
+<h1>Causalidade</h1>
+<section id="questão-1-20-pontos" class="level2">
+<h2 class="anchored" data-anchor-id="questão-1-20-pontos">Questão 1 (2,0 pontos)</h2>
+<p>Assinale <strong>V</strong>erdadeiro ou <strong>F</strong>also, com relação a Causalidade. Justifique as falsas:</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) A estrutura de resultados potenciais é uma estrutura estatística usada para estudar o efeito causal de uma intervenção.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) O problema fundamental da inferência causal é que só podemos observar um resultado potencial para cada unidade.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) O resultado contrafactual refere-se ao que teria acontecido a um indivíduo na ausência de uma intervenção.</li>
+</ul>
+<p>Resposta: Falso</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Um experimento aleatorizado (RCT) é um tipo de estudo observacional que pode ajudar a estabelecer a causalidade.</li>
+</ul>
+<p>Resposta: Falso</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) O efeito do tratamento para uma unidade de observação é a diferença entre os resultados potenciais nas condições de tratamento e controle.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Uma variável de confusão é uma variável que está relacionada tanto à atribuição do tratamento quanto aos resultados potenciais.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) DAGs são uma ferramenta gráfica usada para representar as relações causais entre variáveis em um sistema.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Em um DAG, as setas entre as variáveis representam relacionamentos causais, onde o início da seta indica a causa e a ponta da seta indica o efeito.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Um caminho <em>backdoor</em> em um DAG é um caminho que conecta a exposição (tratamento) ao resultado por meio de variáveis que não fazem parte do caminho causal.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Um colisor em um DAG é uma variável causada por duas ou mais outras variáveis em um caminho entre tratamento e resultado, e pode induzir associações espúrias entre essas variáveis.</li>
+</ul>
+<p>Resposta: Verdadeiro</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) Em um DAG, as setas entre as variáveis representam correlação em vez de causalidade.</li>
+</ul>
+<p>Resposta: Falso</p>
+<ul>
+<li>(<span class="math inline">\(\phantom{X}\)</span>) DAGs podem ser usados para provar causalidade entre variáveis.</li>
+</ul>
+<p>Resposta: Falso</p>
+</section>
+<section id="questão-2-20-pontos" class="level2">
+<h2 class="anchored" data-anchor-id="questão-2-20-pontos">Questão 2 (2,0 pontos)</h2>
+<p>Considere o seguinte DAG e responda aos itens abaixo:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-622a28a2236d10bb498a" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-622a28a2236d10bb498a">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"X\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"Z\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"M\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"W\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"Y\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"1\"->\"5\" \n  \"1\"->\"3\" \n  \"1\"->\"2\" \n  \"4\"->\"1\" \n  \"4\"->\"5\" \n  \"5\"->\"2\" \n  \"3\"->\"5\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<ol type="a">
+<li><p>Considerando que deseja-se estimar o efeito causal de X em Y, então descreva quem são as variáveis de confusão, os mecanismos e os colisores.</p></li>
+<li><p>Se desejamos o efeito total de X em Y, então devemos controlar para W somente. Explique porque.</p></li>
+<li><p>Explique por que a variável Z não pode ser utilizada como instrumento de X para recuperar o efeito causal de X em Y.</p></li>
+</ol>
+</section>
+</section>
+<section id="variáveis-instrumentais" class="level1">
+<h1>Variáveis Instrumentais</h1>
+<section id="questão-1-20-pontos-1" class="level2">
+<h2 class="anchored" data-anchor-id="questão-1-20-pontos-1">Questão 1 (2,0 pontos)</h2>
+<p>Assinale <strong>V</strong>erdadeiro ou <strong>F</strong>also, com relação a Variáveis Instrumentais. Justifique as falsas:</p>
+<ul>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Considere o modelo <span class="math inline">\(y = \alpha + \beta x + u\)</span>, onde <span class="math inline">\(x\)</span> é uma covariável endógena. Se <span class="math inline">\(z\)</span> é um instrumento válido para <span class="math inline">\(x\)</span>, deve ser que <span class="math inline">\(z\)</span> influencie <span class="math inline">\(x\)</span> e que também influencie <span class="math inline">\(y\)</span>, independentemente de <span class="math inline">\(x\)</span>.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Para calcular os erros padrão corretos para os coeficientes estimados através do MQ2E é altamente recomendado o uso das rotinas de estimativa do MQ2E disponíveis em pacotes estatísticos ao invés de produzir essas estimativas manualmente.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Quando todas as suposições de identificação são válidas, podemos confiar que o estimador de variáveis instrumentais (VI) será consistente.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Considere o modelo <span class="math inline">\(y = \alpha + \beta x + u\)</span>, onde <span class="math inline">\(x\)</span> é uma covariável endógena e <span class="math inline">\(z\)</span> é um candidato a instrumento para <span class="math inline">\(x\)</span>. Se houver correlação entre <span class="math inline">\(z\)</span> e <span class="math inline">\(u\)</span>, mas for menor que a correlação entre <span class="math inline">\(x\)</span> e <span class="math inline">\(u\)</span>, será sempre melhor usar a estimativa VI do que a estimativa OLS, porque VI deve ter menor viés.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Instrumentos fracos podem inflar os erros padrão produzidos por VI, mas não induzem viés de amostra finita.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) A regra de bolso para verificar se há instrumentos fracos é a seguinte: para o caso de um único regressor endógeno, a estatística F de primeiro estágio deve ser significativa para indicar um instrumento forte.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) A distinção entre variáveis endógenas e exógenas depende da distribuição das variáveis: quando são normalmente distribuídas, são exógenas, caso contrário são endógenas.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) O estimador MQ2E é consistente e tem uma distribuição normal em grandes amostras.</p></li>
+<li><p>(<span class="math inline">\(\phantom{X}\)</span>) Instrumentos fracos são um problema porque fazem com que os instrumentos não sejam exógenos.</p></li>
+</ul>
+</section>
+<section id="solução" class="level2">
+<h2 class="anchored" data-anchor-id="solução">Solução</h2>
+<p>( F ) <span class="math inline">\(z\)</span> não pode influenciar <span class="math inline">\(y\)</span> diretamente pois fere a restrição de exclusão.</p>
+<p>( V )</p>
+<p>( V )</p>
+<p>( F ) Nem sempre. A condição para MQO ser melhor (menos pior) que VI seria <span class="math inline">\(\operatorname{corr}\left(x_{i}, u_{i}\right) &lt; \frac{\operatorname{corr}\left(z_{i}, u_{i}\right)}{\operatorname{corr}\left(z_{i}, x_{i}\right)}\)</span>. E mesmo assim pode-se argumentar que uma troca de sinal é a pior coisa que pode existir em um estimador. Neste sentido, mesmo que a magnitude do viés de VI seja maior, ainda poderíamos preferi-lo se pelo menos esteja com o sinal correto.</p>
+<p>( F ) Instrumentos fracos podem induzir viés em amostra finita pois, na amostra, não necessariamente <span class="math inline">\(\sum_{i=1}^{N}\left(z_{i}-\bar{z}\right) u_{i}=0\)</span></p>
+<p>( F ) Não basta ser significativa.</p>
+<p>( F ) A distinção entre variáveis endógenas e exógenas se faz pela covariância com o termo de erro. Exógena: <span class="math inline">\(E[u|x]=0\)</span>.</p>
+<p>( V )</p>
+<p>( F ) Instrumento não faz regressor ser exógeno ou não. O problema de instrumentos fracos é que pode existir viés mesmo em grandes amostras.</p>
+</section>
+<section id="questão-2-40-pontos" class="level2">
+<h2 class="anchored" data-anchor-id="questão-2-40-pontos">Questão 2 (4,0 pontos)</h2>
+<p>No artigo de <span class="citation" data-cites="mattos2011">Mattos and França (<a href="#ref-mattos2011" role="doc-biblioref">2011</a>)</span>, os autores examinam a relação entre emprego público e redistribuição de renda nos municípios brasileiros. Eles utilizam os requisitos estabelecidos pela <strong>Lei de Responsabilidade Fiscal como instrumento</strong> para a variação do emprego público entre os municípios.</p>
+<p>A LRF estabelece limites máximos para dois grandes itens do orçamento público, um deles sendo as despesas com folha de pagamento, que não devem ultrapassar 60% da receita corrente líquida (RCL) do município. A LRF é uma variável <em>dummy</em> que equivale a um para governos cujo gasto com folha de pagamento ultrapassou 60% da RCL em pelo menos um ano entre 1997 e 1999 e estava dentro dos limites impostos pela LRF em 2000. Essa variável é igual a zero para todos os demais municípios.</p>
+<p>Este artigo propõe investigar o efeito do emprego público na distribuição de renda nos municípios brasileiros. A variável dependente é a desigualdade de renda (incineq), enquanto que as variáveis independentes são emprego público (publicemp) e outros controles. A <em>dummy</em> lrf1 servirá de instrumento para o emprego público.</p>
+<p><span class="math display">\[\text{incineq}_i=\eta + \delta \text{publicemp}_i + \lambda\text{controls}_i + \varepsilon_i\]</span></p>
+<ol type="a">
+<li><p>Por que o emprego público pode estar correlacionado com o termo de erro <span class="math inline">\(\varepsilon\)</span>? Qual o problema resultante? (1,0 ponto)</p></li>
+<li><p>Você acha que a LRF é um bom instrumento para o nível de emprego público local? Cite os dois critérios que uma variável instrumental deve atender e defenda ou critique a LRF com base nestes critérios. (1,5 pontos)</p></li>
+</ol>
+<p>Os resultados do primeiro estágio são apresentados abaixo:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="../img/mattos2011_stage1.png" style="height:100.0%" width="440"></p>
+</div>
+</div>
+<ol start="3" type="a">
+<li>Com base nestes resultados, você imagina que LRF é um bom instrumento para publicemp? O que você faria de diferente nesta estimação de primeiro estágio? (1,5 pontos)</li>
+</ol>
+</section>
+<section id="questão-3-40-pontos" class="level2">
+<h2 class="anchored" data-anchor-id="questão-3-40-pontos">Questão 3 (4,0 pontos)</h2>
+<p>Considere um modelo para a saúde de um indivíduo:</p>
+<p><span class="math display">\[saude=\beta_0+\beta_1 idade+\beta_2 peso+\beta_3 altura+\beta_4 masculino+\beta_5 trabalho+\beta_6 exercicio+u_1\]</span></p>
+<p>onde <code>saude</code> é alguma medida quantitativa da saúde da pessoa; <code>idade</code>, <code>peso</code>, <code>altura</code> e <code>masculino</code> são autoexplicativos; <code>trabalho</code> é horas semanais trabalhadas; e <code>exercicio</code> são as horas de exercício por semana.</p>
+<ol type="a">
+<li><p>Por que você poderia se preocupar com o fato de o exercício estar correlacionado com o termo de erro <span class="math inline">\(u_1\)</span>? Que problema esta correlação provocaria no seu estimador de MQO?</p></li>
+<li><p>Suponha que você possa coletar dados sobre duas variáveis adicionais, <code>distcasa</code> e <code>distrab</code>, as distâncias de casa e do trabalho até a academia mais próxima. Discuta se estas variáveis seriam bons instrumentos para <code>exercicio</code>. Quais as condições que elas devem atender? Explique em detalhes.</p></li>
+<li><p>Agora suponha que <code>distcasa</code> e <code>distrab</code> não estejam de fato correlacionados com <span class="math inline">\(u_1\)</span>, assim como todas as variáveis na equação acima, com exceção de <code>exercicio</code>. Escreva a forma reduzida para <code>exercicio</code>.</p></li>
+<li><p>Como as hipóteses de identificação na parte b) pode ser testada?</p></li>
+</ol>
+</section>
+<section id="solução-1" class="level2">
+<h2 class="anchored" data-anchor-id="solução-1">Solução</h2>
+<ol type="a">
+<li>A correlação entre exercício e o termo de erro <span class="math inline">\(u_1\)</span> pode ocorrer se houver algum fator não observável que afete tanto a quantidade de exercício que uma pessoa faz quanto sua saúde. Por exemplo, se pessoas que têm uma tendência genética para serem mais saudáveis também tendem a ser mais ativas fisicamente.</li>
+</ol>
+<p>Se exercício e <span class="math inline">\(u_1\)</span> estiverem correlacionados, o estimador de Mínimos Quadrados Ordinários (MQO) pode ser viesado e inconsistente. Isso ocorre porque o MQO assume que não há correlação entre as variáveis independentes e o termo de erro. Se houver correlação, o MQO não será capaz de separar os efeitos de exercício na saude daqueles que vêm do termo de erro <span class="math inline">\(u_1\)</span>, o que levará a estimativas incorretas dos coeficientes.</p>
+<p>Uma maneira de lidar com esse problema é usar uma variável instrumental que seja correlacionada com exercício, mas não com <span class="math inline">\(u_1\)</span>. A variável instrumental ajudará a isolar o efeito causal de exercício na saude, permitindo que o MQO forneça estimativas consistentes e não viesadas dos coeficientes.</p>
+<ol start="2" type="a">
+<li>As variáveis <code>distcasa</code> e <code>distrab</code> podem ser boas candidatas para servir como variáveis instrumentais para <code>exercicio</code>. Isso ocorre porque elas são correlacionadas com este, mas não devem estar correlacionadas com o termo de erro <span class="math inline">\(u_1\)</span>.</li>
+</ol>
+<p>Para que as variáveis instrumentais sejam válidas, elas devem atender a algumas condições:</p>
+<p><em>Relevância</em>: As variáveis instrumentais devem estar correlacionadas com a variável endógena (<code>exercicio</code>), ou seja, elas devem afetar a variável endógena de alguma forma.</p>
+<p><em>Exclusão</em>: As variáveis instrumentais não devem afetar diretamente (ou por meio de algum outro mecanismo que não a variável endógena) a variável dependente. Isso significa que elas não devem aparecer na equação de regressão.</p>
+<p><em>Exogeneidade</em>: As variáveis instrumentais devem ser independentes do termo de erro <span class="math inline">\(u_1\)</span>. Isso significa que elas não devem ser afetadas por fatores não observáveis que também afetem saude.</p>
+<p>No caso das variáveis <code>distcasa</code> e <code>distrab</code>, a primeira condição parece ser satisfeita, pois a distância até a academia mais próxima pode afetar a quantidade de exercício que uma pessoa faz. A segunda condição também parece plausível, já que a distância até a academia não deve estar diretamente relacionada à saúde de uma pessoa, por exemplo. A terceira condição não é possível de avaliar empiricamente, pois envolve fatores não observáveis que afetam tanto a distância até a academia quanto a saude. A validade desta terceira hipótese deve ser feita através de teoria economica e arguição lógica.</p>
+<p>A primeira condição para a validade das variáveis instrumentais pode ser testada empiricamente através do teste F em primeiro estágio.</p>
+<p>O teste F em primeiro estágio avalia se as variáveis instrumentais realmente afetam a variável endógena de forma significativa. Uma regressão é estimada da variável endógena (exercicio) sobre as variáveis instrumentais (distcasa ou distrab), juntamente com outras variáveis exógenas incluídas na equação de regressão. Em seguida, um teste F de contribuição marginal dos instrumentos é realizado para avaliar se estes têm um efeito significativo na variável endógena.</p>
+<p>Se o resultado do teste F for significativo, indica que as variáveis instrumentais são relevantes. No entanto, é importante ressaltar que o teste F em primeiro estágio por si só não é suficiente para garantir a validade das variáveis instrumentais. É necessário avaliar também as outras condições discutidas anteriormente.</p>
+<ol start="3" type="a">
+<li>Se distcasa e distrab não estiverem correlacionados com o termo de erro <span class="math inline">\(u_1\)</span>, podemos utilizá-las como variáveis instrumentais para exercicio na estimação via MQ2E.</li>
+</ol>
+<p>O primeiro estágio consiste em estimar a relação entre as variáveis instrumentais (distcasa e distrab) e a variável endógena (exercicio) juntamente com outras variáveis exógenas que afetam exercicio. A equação do primeiro estágio é:</p>
+<p><span class="math display">\[exer_i=\delta_0+\delta_1 distcasa_i+\delta_2distrab_i+\delta_3idade_i+\delta_4peso_i+\delta_5altura_i+\delta_6masculino_i+\delta_7trabalho_i+v_i\]</span></p>
+<p>Onde <span class="math inline">\(v_i\)</span> é o termo de erro, e <span class="math inline">\(\delta_j\)</span> são os coeficientes a serem estimados.</p>
+<p>Em seguida, no segundo estágio, substituímos exercicio na equação original pela previsão obtida no primeiro estágio e estimamos a relação entre as outras variáveis exógenas e a variável dependente <code>saude</code>. A equação do segundo estágio é:</p>
+<p><span class="math display">\[saude_i=\beta_0+\beta_1idade_i+\beta_2peso_i+\beta_3altura_i+\beta_4masculino_i+\beta_5trabalho_i+\beta_6\hat{exer}_i+\varepsilon_i\]</span></p>
+<p>Onde <span class="math inline">\(\hat{exer}_i\)</span> é a previsão de exercicio obtida no primeiro estágio para o indivíduo i, e <span class="math inline">\(varepsilon_i\)</span> é o termo de erro.</p>
+<p>Os coeficientes estimados no segundo estágio fornecem as estimativas consistentes dos parâmetros do modelo original. A estimação via MQ2E é especialmente útil quando a variável endógena é afetada por um erro de medida ou por outras fontes de endogeneidade, como no caso em que exercicio está correlacionado com o termo de erro <span class="math inline">\(u_1\)</span>.</p>
+</section>
+<section id="questão-4" class="level2">
+<h2 class="anchored" data-anchor-id="questão-4">Questão 4</h2>
+<p>Considere um modelo de estimação através de regressão de variáveis instrumentais</p>
+<p><span class="math display">\[y_i=\beta_0+\beta_1 x_i+\beta_2w_i+u_i\]</span> onde temos uma amostra independente das variáveis aleatórias Y, X, W e Z. Suponha que X é um regressor endógeno, equanto W é exógeno. Z é um instrumento válido para X.</p>
+<p>Escolha a alternativa correta para cada uma das questões abaixo.</p>
+<p>3.1) A regra de bolso para verificar se há instrumentos fracos é a seguinte: para o caso de um único regressor endógeno,</p>
+<ol type="a">
+<li>um primeiro estágio F deve ser estatisticamente significativo para indicar um instrumento forte.</li>
+<li>um primeiro estágio F &gt; 1,96 indica que os instrumentos são fracos.</li>
+<li>a estatística t em cada um dos instrumentos deve exceder pelo menos 1,64.</li>
+<li>um primeiro estágio F &lt; 10 indica que os instrumentos são fracos.</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.2) A distinção entre variáveis endógenas e exógenas é</p>
+<ol type="a">
+<li>que as variáveis exógenas são determinadas dentro do modelo e as variáveis endógenas são determinadas fora do modelo</li>
+<li>dependente do tamanho da amostra: para n &gt; 100, as variáveis endógenas tornam-se exógenas</li>
+<li>depende da distribuição das variáveis: quando são normalmente distribuídas, são exógenas, caso contrário são endógenas</li>
+<li>se as variáveis estão ou não correlacionadas com o termo de erro <span class="math inline">\(u\)</span></li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.3) Quando observadas todas as suas hipóteses, o estimador MQ2E é:</p>
+<ol type="a">
+<li>consistente e tem uma distribuição normal em grandes amostras.</li>
+<li>imparcial</li>
+<li>eficiente em pequenas amostras</li>
+<li>F-distribuído.</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.4) Instrumentos fracos são um problema porque:</p>
+<ol type="a">
+<li>o estimador MQ2E pode não ser normalmente distribuído, mesmo em grandes amostras.</li>
+<li>fazem com que os instrumentos não sejam exógenos.</li>
+<li>o estimador MQ2E não pode ser calculado.</li>
+<li>você não pode mais prever as variáveis endógenas no primeiro estágio.</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.6) Sejam <span class="math inline">\(W\)</span> as variáveis exógenas incluídas em uma função de regressão que também tem regressores endógenos <span class="math inline">\(X\)</span>. As variáveis <span class="math inline">\(W\)</span> podem:</p>
+<ol type="a">
+<li>ser variáveis de controle</li>
+<li>tem a propriedade <span class="math inline">\(E(u_i|W_i) = 0\)</span></li>
+<li>fazer um instrumento exógeno para a sua regressão</li>
+<li>não ser incluídas na regressão de primeiro estágio</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.7) A lógica das variáveis de controle em regressões de VI:</p>
+<ol type="a">
+<li>é similar a lógica das variáveis de controle no MQO</li>
+<li>só se aplica no caso de erros homocedásticos no primeiro estágio do MQ2E</li>
+<li>é substancialmente diferente da lógica das variáveis de controle no MQO, uma vez que existem duas etapas na estimativa</li>
+<li>implica que o MQ2E é eficiente</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.8) Para que <span class="math inline">\(W\)</span> seja uma variável de controle efetiva na estimativa de VI, onde <span class="math inline">\(Z\)</span> é o instrumento, a seguinte condição deve valer</p>
+<ol type="a">
+<li><span class="math inline">\(E(u_i) = 0\)</span></li>
+<li><span class="math inline">\(E(u_i|Z_i, W_i) = E(u_i|W_i)\)</span></li>
+<li><span class="math inline">\(E(u_iu_j) \neq 0\)</span></li>
+<li>deve haver um intercepto na regressão</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.9) O estimador VI pode ser usado para eliminar potencialmente o viés resultante de</p>
+<ol type="a">
+<li>multicolinearidade</li>
+<li>correlação serial</li>
+<li>erros de medida nas variáveis</li>
+<li>heterocedasticidade</li>
+<li>tudo o que precede</li>
+</ol>
+<p>3.10) A regressão de variáveis instrumentais usa instrumentos para:</p>
+<ol type="a">
+<li>estabelecer o Efeito Mozart</li>
+<li>para aumentar o R2 da regressão</li>
+<li>para eliminar a correlação serial</li>
+<li>isolar movimentos em <span class="math inline">\(X\)</span> que não estão correlacionados com <span class="math inline">\(u\)</span></li>
+<li>tudo o que precede</li>
+</ol>
+</section>
+<section id="referências" class="level2 unnumbered">
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-mattos2011" class="csl-entry" role="listitem">
+Mattos, Enlinson, and Vitor França. 2011. <span>“Public Employment and Income Redistribution: Causal Evidence for Brazilian Municipalities.”</span> <em>Public Choice</em> 146 (1/2): 43–73. <a href="http://www.jstor.org/stable/41483617">http://www.jstor.org/stable/41483617</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

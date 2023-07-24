@@ -1,0 +1,287 @@
+---
+title: "Econometria III"
+subtitle: |
+    | Questões - Causalidade e Variáveis Instrumentais
+author: "Rafael Bressan"
+date: "`r Sys.Date()`"
+output: 
+    # pdf:
+    #     latex_engine: xelatex
+    #     keep_tex: true
+    #     includes: 
+    #       in_header: exam_preamble.tex
+    html: 
+      theme: cosmo
+lang: pt-BR
+# logo: "Figs/UdescEsag.jpeg"
+bibliography: references.bib
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r loads}
+library(ISLR2)
+library(modelsummary)
+library(kableExtra)
+library(dplyr)
+library(caret)
+library(DiagrammeR)
+library(DiagrammeRsvg)
+```
+
+```{r setup-modelsummary}
+g_map <- c("nobs", "logLik")
+```
+
+# Causalidade
+
+## Questão 1 (2,0 pontos)
+
+Assinale **V**erdadeiro ou **F**also, com relação a Causalidade. Justifique as falsas:
+
+- ($\phantom{X}$) A estrutura de resultados potenciais é uma estrutura estatística usada para estudar o efeito causal de uma intervenção.
+
+
+- ($\phantom{X}$) O problema fundamental da inferência causal é que só podemos observar um resultado potencial para cada unidade.
+
+
+- ($\phantom{X}$) O resultado contrafactual refere-se ao que teria acontecido a um indivíduo na ausência de uma intervenção.
+
+
+
+- ($\phantom{X}$) Um experimento aleatorizado (RCT) é um tipo de estudo observacional que pode ajudar a estabelecer a causalidade.
+
+
+- ($\phantom{X}$) O efeito do tratamento para uma unidade de observação é a diferença entre os resultados potenciais nas condições de tratamento e controle.
+
+
+- ($\phantom{X}$) Uma variável de confusão é uma variável que está relacionada tanto à atribuição do tratamento quanto aos resultados potenciais.
+
+
+- ($\phantom{X}$) DAGs são uma ferramenta gráfica usada para representar as relações causais entre variáveis em um sistema.
+
+
+- ($\phantom{X}$) Em um DAG, as setas entre as variáveis representam relacionamentos causais, onde o início da seta indica a causa e a ponta da seta indica o efeito.
+
+
+- ($\phantom{X}$) Um caminho _backdoor_ em um DAG é um caminho que conecta a exposição (tratamento) ao resultado por meio de variáveis que não fazem parte do caminho causal.
+
+
+- ($\phantom{X}$) Um colisor em um DAG é uma variável causada por duas ou mais outras variáveis em um caminho entre tratamento e resultado, e pode induzir associações espúrias entre essas variáveis.
+
+
+- ($\phantom{X}$) Em um DAG, as setas entre as variáveis representam correlação em vez de causalidade. 
+
+
+- ($\phantom{X}$) DAGs podem ser usados para provar causalidade entre variáveis. 
+
+
+## Questão 2 (2,0 pontos)
+
+Considere o seguinte DAG e responda aos itens abaixo:
+
+```{r dag}
+# Create a new empty graph
+dag <- create_graph() |> 
+    # Add nodes to the graph
+    add_node(label = "X") |> 
+    add_node(label = "Z") |> 
+    add_node(label = "M") |> 
+    add_node(label = "W") |> 
+    add_node(label = "Y") |> 
+    # Add edges to the graph
+    add_edge("X", "Y") |> 
+    add_edge("X", "M") |> 
+    add_edge("X", "Z") |> 
+    add_edge("W", "X") |> 
+    add_edge("W", "Y") |> 
+    add_edge("Y", "Z") |> 
+    add_edge("M", "Y")
+
+# Set node attributes
+# dag <- dag |> 
+#     set_node_attrs("shape", "circle") |> 
+#     set_node_attrs("style", "filled") |> 
+#     set_node_attrs("fillcolor", "#9b9b9b") |> 
+#     set_node_attrs("fontname", "helvetica") |> 
+#     set_node_attrs("fontsize", 12) |> 
+#     # Set edge attributes
+#     set_edge_attrs("arrowhead", "normal") |> 
+#     set_edge_attrs("arrowsize", 0.7) |> 
+#     set_edge_attrs("color", "#555555") |> 
+#     set_edge_attrs("penwidth", 2)
+
+# Render the graph
+render_graph(dag)
+
+```
+
+a) Considerando que deseja-se estimar o efeito causal de X em Y, então descreva quem são as variáveis de confusão, os mecanismos e os colisores.
+
+b) Se desejamos o efeito total de X em Y, então devemos controlar para W somente. Explique porque.
+
+c) Explique por que a variável Z não pode ser utilizada como instrumento de X para recuperar o efeito causal de X em Y.
+
+# Variáveis Instrumentais
+
+## Questão 1 (2,0 pontos)
+
+Assinale **V**erdadeiro ou **F**also, com relação a Variáveis Instrumentais. Justifique as falsas:
+
+- ($\phantom{X}$) Considere o modelo $y = \alpha + \beta x + u$, onde $x$ é uma covariável endógena. Se $z$ é um instrumento válido para $x$, deve ser que $z$ influencie $x$ e que também influencie $y$, independentemente de $x$.
+
+- ($\phantom{X}$) Para calcular os erros padrão corretos para os coeficientes estimados através do MQ2E é altamente recomendado o uso das rotinas de estimativa do MQ2E disponíveis em pacotes estatísticos ao invés de produzir essas estimativas manualmente.
+
+- ($\phantom{X}$) Quando todas as suposições de identificação são válidas, podemos confiar que o estimador de variáveis instrumentais (VI) será consistente.
+
+- ($\phantom{X}$) Considere o modelo $y = \alpha + \beta x + u$, onde $x$ é uma covariável endógena e $z$ é um candidato a instrumento para $x$. Se houver correlação entre $z$ e $u$, mas for menor que a correlação entre $x$ e $u$, será sempre melhor usar a estimativa VI do que a estimativa OLS, porque VI deve ter menor viés.
+
+- ($\phantom{X}$) Instrumentos fracos podem inflar os erros padrão produzidos por VI, mas não induzem viés de amostra finita.
+
+- ($\phantom{X}$) A regra de bolso para verificar se há instrumentos fracos é a seguinte: para o caso de um único regressor endógeno, a estatística F de primeiro estágio deve ser significativa para indicar um instrumento forte.
+
+- ($\phantom{X}$) A distinção entre variáveis endógenas e exógenas depende da distribuição das variáveis: quando são normalmente distribuídas, são exógenas, caso contrário são endógenas.
+
+- ($\phantom{X}$) O estimador MQ2E é consistente e tem uma distribuição normal em grandes amostras.
+
+- ($\phantom{X}$) Instrumentos fracos são um problema porque fazem com que os instrumentos não sejam exógenos.
+
+
+## Questão 2 (4,0 pontos)
+
+No artigo de @mattos2011, os autores examinam a relação entre emprego público e redistribuição de renda nos municípios brasileiros. Eles utilizam os requisitos estabelecidos pela **Lei de Responsabilidade Fiscal como instrumento** para a variação do emprego público entre os municípios.
+
+A LRF estabelece limites máximos para dois grandes itens do orçamento público, um deles sendo as despesas com folha de pagamento, que não devem ultrapassar 60% da receita corrente líquida (RCL) do município. A LRF é uma variável _dummy_ que equivale a um para governos cujo gasto com folha de pagamento ultrapassou 60% da RCL em pelo menos um ano entre 1997 e 1999 e estava dentro dos limites impostos pela LRF em 2000. Essa variável é igual a zero para todos os demais municípios. 
+
+Este artigo propõe investigar o efeito do emprego público na distribuição de renda nos municípios brasileiros. A variável dependente é a desigualdade de renda (incineq), enquanto que as variáveis independentes são emprego público (publicemp) e outros controles. A _dummy_ lrf1 servirá de instrumento para o emprego público.
+
+$$\text{incineq}_i=\eta + \delta \text{publicemp}_i + \lambda\text{controls}_i + \varepsilon_i$$
+
+a) Por que o emprego público pode estar correlacionado com o termo de erro $\varepsilon$? Qual o problema resultante? (1,0 ponto)
+
+b) Você acha que a LRF é um bom instrumento para o nível de emprego público local? Cite os dois critérios que uma variável instrumental deve atender e defenda ou critique a LRF com base nestes critérios. (1,5 pontos)
+
+Os resultados do primeiro estágio são apresentados abaixo:
+
+```{r mattos2011-stage1, out.width="100%"}
+knitr::include_graphics("Figs/mattos2011_stage1.png")
+```
+
+c) Com base nestes resultados, você imagina que LRF é um bom instrumento para publicemp? O que você faria de diferente nesta estimação de primeiro estágio? (1,5 pontos)
+
+## Questão 3 (4,0 pontos)
+
+Considere um modelo para a saúde de um indivíduo:
+
+$$saude=\beta_0+\beta_1 idade+\beta_2 peso+\beta_3 altura+\beta_4 masculino+\beta_5 trabalho+\beta_6 exercicio+u_1$$
+
+onde `saude` é alguma medida quantitativa da saúde da pessoa; `idade`, `peso`, `altura` e `masculino` são autoexplicativos; `trabalho` é horas semanais trabalhadas; e `exercicio` são as horas de exercício por semana.
+
+a) Por que você poderia se preocupar com o fato de o exercício estar correlacionado com o termo de erro $u_1$? Que problema esta correlação provocaria no seu estimador de MQO?
+
+b) Suponha que você possa coletar dados sobre duas variáveis adicionais, `distcasa` e `distrab`, as distâncias de casa e do trabalho até a academia mais próxima. Discuta se estas variáveis seriam bons instrumentos para `exercicio`. Quais as condições que elas devem atender? Explique em detalhes.
+
+c) Agora suponha que `distcasa` e `distrab` não estejam de fato correlacionados com $u_1$, assim como todas as variáveis na equação acima, com exceção de `exercicio`. Escreva a forma reduzida para `exercicio`.
+
+d) Como as hipóteses de identificação na parte b) pode ser testada?
+
+
+## Questão 4
+
+Considere um modelo de estimação através de regressão de variáveis instrumentais
+
+$$y_i=\beta_0+\beta_1 x_i+\beta_2w_i+u_i$$
+onde temos uma amostra independente das variáveis aleatórias Y, X, W e Z. Suponha que X é um regressor endógeno, equanto W é exógeno. Z é um instrumento válido para X.
+
+Escolha a alternativa correta para cada uma das questões abaixo. 
+
+
+3.1) A regra de bolso para verificar se há instrumentos fracos é a seguinte: para o caso de um único regressor endógeno,
+ 
+a) um primeiro estágio F deve ser estatisticamente significativo para indicar um instrumento forte.
+b) um primeiro estágio F > 1,96 indica que os instrumentos são fracos.
+c) a estatística t em cada um dos instrumentos deve exceder pelo menos 1,64.
+d) um primeiro estágio F < 10 indica que os instrumentos são fracos.
+e) tudo o que precede
+ 
+ 
+3.2) A distinção entre variáveis endógenas e exógenas é
+ 
+a) que as variáveis exógenas são determinadas dentro do modelo e as variáveis endógenas são determinadas fora do modelo
+b) dependente do tamanho da amostra: para n > 100, as variáveis endógenas tornam-se exógenas
+c) depende da distribuição das variáveis: quando são normalmente distribuídas, são
+exógenas, caso contrário são endógenas
+d) se as variáveis estão ou não correlacionadas com o termo de erro $u$
+e) tudo o que precede
+ 
+ 
+3.3) Quando observadas todas as suas hipóteses, o estimador MQ2E é:
+ 
+a) consistente e tem uma distribuição normal em grandes amostras.
+b) imparcial
+c) eficiente em pequenas amostras
+d) F-distribuído.
+e) tudo o que precede
+ 
+ 
+3.4) Instrumentos fracos são um problema porque:
+ 
+a) o estimador MQ2E pode não ser normalmente distribuído, mesmo em grandes amostras.
+b) fazem com que os instrumentos não sejam exógenos.
+c) o estimador MQ2E não pode ser calculado.
+d) você não pode mais prever as variáveis endógenas no primeiro estágio.
+e) tudo o que precede
+ 
+ 
+
+3.6) Sejam $W$ as variáveis exógenas incluídas em uma função de regressão que também tem regressores endógenos $X$. As variáveis $W$ podem:
+ 
+a) ser variáveis de controle
+b) tem a propriedade $E(u_i|W_i) = 0$
+c) fazer um instrumento exógeno para a sua regressão
+d) não ser incluídas na regressão de primeiro estágio
+e) tudo o que precede
+ 
+ 
+3.7) A lógica das variáveis de controle em regressões de VI:
+ 
+a) é similar a lógica das variáveis de controle no MQO
+b) só se aplica no caso de erros homocedásticos no primeiro estágio do MQ2E
+c) é substancialmente diferente da lógica das variáveis de controle no MQO, uma vez que existem duas etapas na estimativa
+d) implica que o MQ2E é eficiente
+e) tudo o que precede
+ 
+ 
+3.8) Para que $W$ seja uma variável de controle efetiva na estimativa de VI, onde $Z$ é o instrumento, a seguinte condição deve valer
+ 
+a) $E(u_i) = 0$
+b) $E(u_i|Z_i, W_i) = E(u_i|W_i)$
+c) $E(u_iu_j) \neq 0$
+d) deve haver um intercepto na regressão
+e) tudo o que precede
+ 
+ 
+3.9) O estimador VI pode ser usado para eliminar potencialmente o viés resultante de
+ 
+a) multicolinearidade
+b) correlação serial
+c) erros de medida nas variáveis
+d) heterocedasticidade
+e) tudo o que precede
+
+ 
+3.10) A regressão de variáveis instrumentais usa instrumentos para:
+ 
+a) estabelecer o Efeito Mozart
+b) para aumentar o R2 da regressão
+c) para eliminar a correlação serial
+d) isolar movimentos em $X$ que não estão correlacionados com $u$
+e) tudo o que precede
+
+
+## Referências
