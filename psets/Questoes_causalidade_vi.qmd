@@ -40,7 +40,7 @@ g_map <- c("nobs", "logLik")
 
 # Causalidade
 
-## Questão 1 (2,0 pontos)
+## Questão 1 
 
 Assinale **V**erdadeiro ou **F**also, com relação a Causalidade. Justifique as falsas:
 
@@ -81,7 +81,7 @@ Assinale **V**erdadeiro ou **F**also, com relação a Causalidade. Justifique as
 - ($\phantom{X}$) DAGs podem ser usados para provar causalidade entre variáveis. 
 
 
-## Questão 2 (2,0 pontos)
+## Questão 2 
 
 Considere o seguinte DAG e responda aos itens abaixo:
 
@@ -129,7 +129,7 @@ c) Explique por que a variável Z não pode ser utilizada como instrumento de X 
 
 # Variáveis Instrumentais
 
-## Questão 1 (2,0 pontos)
+## Questão 1 
 
 Assinale **V**erdadeiro ou **F**also, com relação a Variáveis Instrumentais. Justifique as falsas:
 
@@ -152,7 +152,7 @@ Assinale **V**erdadeiro ou **F**also, com relação a Variáveis Instrumentais. 
 - ($\phantom{X}$) Instrumentos fracos são um problema porque fazem com que os instrumentos não sejam exógenos.
 
 
-## Questão 2 (4,0 pontos)
+## Questão 2 
 
 No artigo de @mattos2011, os autores examinam a relação entre emprego público e redistribuição de renda nos municípios brasileiros. Eles utilizam os requisitos estabelecidos pela **Lei de Responsabilidade Fiscal como instrumento** para a variação do emprego público entre os municípios.
 
@@ -174,7 +174,7 @@ knitr::include_graphics("Figs/mattos2011_stage1.png")
 
 c) Com base nestes resultados, você imagina que LRF é um bom instrumento para publicemp? O que você faria de diferente nesta estimação de primeiro estágio? (1,5 pontos)
 
-## Questão 3 (4,0 pontos)
+## Questão 3 
 
 Considere um modelo para a saúde de um indivíduo:
 
@@ -317,6 +317,96 @@ c) Suponha agora que a atribuição inicial das famílias ao programa tenha sido
 [^atrito]: Este problema é conhecido como atrito (do inglês _attrition_), quando nem todos os indíduos designados ao tratamento efetivamente o recebem.
 
 d) Tendo em vista os dados de que dispõe, proponha uma estratégia de estimativa alternativa que, nas circunstâncias descritas na questão c), permita obter o efeito causal do programa ($Particip_i$) no tempo que uma família mantém a sua casa ($Home_i$). Explique porque esta estratégia seria não-viesada.
+
+
+## Questão 5
+
+Suponha que temos um modelo $y=\beta_0 + \beta_1 x + u$, onde $E\left[x_i u_i\right]\neq 0$. Você obtém uma variável $Z$ tal que $E\left[z_i u_i\right] = 0$.
+
+a) Utilize a expressão $Cov(z_i, u_i) = 0$ para deduzir a forma do parâmetro $\beta_1$
+nesse modelo.
+
+b) Na letra (a), uma das hipóteses necessárias é “há correlação entre as variáveis X e Z”. Como isso aparece na forma estimada acima? Explique, intuitivamente, o sentido econômico dessa hipótese. Procure usar exemplos de um problema real.
+
+c) Utilizando os análogos amostrais de (a), proponha um estimador para o parâmetro populacional. Chame esse estimador de $\hat\beta_{1,IV}$.
+
+d) Outra forma de calcular $\hat\beta_{1,IV}$ é via MQ2E. Explique quais são os dois estágios da regressão.
+
+e) Assuma agora que $y = X\beta + u$, onde $E\left[X' u\right] \neq 0$ e $X$ tenha dimensão $k > 1$.
+Você obtém um conjunto de $g \leq k$ variáveis $Z$ tal que $E\left[Z'u\right] = 0$. Perceba que X pode conter, por exemplo, apenas uma variável tal que $E\left[x_k u\right] \neq 0$ (endógena), o que já tornaria o modelo inválido. Dê uma intuição para o motivo do número de variáveis instrumentais ser necessariamente maior ou igual ao número de variáveis explicativas em $X$ que são correlacionadas com o termo de erro. O que acontece quando o número de variáveis instrumentais é estritamente maior que o número de variáveis endógenas?
+
+
+
+## Questão 6
+
+Um dos problemas mais simples de variáveis instrumentais é o caso onde $y_i=\alpha+\beta x_i+u_i$ , $E\left[x_i u_i\right] \neq 0$, e você obtém um instrumento binário (dummy) $z_i$, com $E\left[z_i u_i\right] = 0$
+
+a) Mostre que o estimador de IV pode ser escrito como
+$$
+b_{Wald}=\frac{\bar{y}_1 - \bar{y}_0}{\bar{x}_1 - \bar{x}_0}
+$$
+Onde $\bar{y}_0$ e $\bar{x}_0$ são as médias amostrais de $x_i$ e $y_i$ considerando apenas a parte da amostra com $z_i = 0$, e que $\bar{y}_1$ e $\bar{x}_1$ são as médias amostrais considerando apenas a amostra com $z_i = 1$. Esse estimador, conhecido como estimador de Wald, foi proposto pelo próprio em 1940.
+
+b) Pense no caso onde $x_i$ é uma variável dummy indicando um tratamento (por exemplo, $x_i = 1$ se o indivı́duo aplicou para um programa de retreinamento fornecido pelo governo). Interprete intuitivamente o estimador acima, lembrando que a média de uma variável dummy é a proporção de observações cujo valor de $x_i$ é igual à 1. Para ajudar na resposta, note que o estimador da letra (a) requer que $\bar{x}_1 - \bar{x}_0 \neq 0$.
+
+
+
+## Questão 7
+
+Suponha que você está interessado em estimar
+$$y_i = \alpha + \beta x_i + u_i$$
+onde $x_i$ é um escalar e $E\left[x_i u_i\right] \neq 0$. Você observa uma variável aleatória $z_i$, relevante no sentido de que $E\left[z_i x_i\right] \neq 0$, mas não não tem certeza se ela é válida como instrumento, ou seja, não é garantindo que $E\left[z_i u_i\right] = 0$. Você decide estimar o modelo por OLS e IV, usando os estimadores
+
+$$b_{MQO}=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2} \text{ e } b_{VI}=\frac{\sum(z_i-\bar z)(y_i-\bar y)}{\sum (z_i-\bar z)(x_i-\bar x)}$$
+Nesse exercício, queremos deduzir condições para as quais o estimador de MQO é uma opção melhor que o estimador de VI.
+
+a) Mostre que o viés assintótico do MQO é igual à
+
+$$plim(b_{MQO}) − \beta = \text{corr}(x_i, u_i)\frac{\sigma_u}{\sigma_x}$$
+
+b) Mostre que o viés assintótico do IV é igual à
+
+$$plim(b_{VI}) − \beta = \frac{\text{corr}(z_i, u_i)}{\text{corr}(z_i, x_i)}\frac{\sigma_u}{\sigma_x}$$
+
+c) Use os resultados acima para deduzir quando o estimador de MQO é preferı́ve ao de VI, em termos de viés.
+
+d) Você sabe o que são “instrumentos fracos”. Relacione a discussão sobre instrumentos fracos, isso é, um instrumento tal que $E\left[x_i z_i\right]$ tem um valor baixo, com o resultado da letra (c).
+
+
+
+## Questão 8
+
+Neste problema você deve estabelecer a equivalência algébrica entre MQ2E, a razão entre estimativas MQO em forma reduzida e o estimador de VI. Considere um modelo com uma única (suspeito) variável endógena (variáveis já em desvio):
+
+\begin{align}
+y_1&=\alpha_1 y_2 + u_1\\
+y_1&=\pi_1 z + v_1\\
+y_2&=\pi_2 z + v_2
+\end{align}
+
+Para maior clareza de notação, usamos $y_2$ como a variável endógena suspeita e $z$ como a variável exógena que serve como instrumento para $y_2$. A segunda e terceira equações são a forma reduzida para $y_1$ e $y_2$, respectivamente.
+
+Sabemos que um estimador de $\alpha_1$ é o estimador MQ2E usando o instrumento z. Considere um estimador alternativo de $\alpha_1$: i) estimar a forma reduzida de $y_1$ e $y_2$ por MQO; ii) $\hat\alpha_1^{alt}=\hat\pi_1/\hat\pi_2$
+
+a) Mostre a equivalência numérica entre $\hat\alpha_1^{2E}$ e $\hat\alpha_1^{alt}$
+
+b) Mostre a equivalência numérica entre $\hat\alpha_1^{VI}$ e $\hat\alpha_1^{alt}$
+
+
+
+## Questão 9
+
+O objetivo deste exercı́cio é comparar as estimativas e erros padrão corretamente obtidos usando MQ2E com aqueles obtidos usando procedimentos inadequados. Use a base WAGE2.dta para esse exercı́cio.
+
+a) Estime a equação abaixo usando MQ2E
+$$\log(wage) = \beta_0 + \beta_1 educ + \beta_2 exper + \beta_3 tenure + \beta_4 black + u,$$
+
+onde `sibs` é uma variável instrumental para `educ`. Reporte os resultados.
+
+b) Agora, execute manualmente o MQ2E. Ou seja, primeiro faça a regressão de $educ_i$ em $sibs_i$, $exper_i$, $tenure_i$ e $black_i$ e obtenha os valores ajustados, $\widehat{educ}_i$ $i = 1, \ldots , n$. Em seguida, execute a regressão de segundo estágio $\log(wage_i)$ em $\widehat{educ}_i$, $exper_i$, $tenure_i$ e $black_i$. Verifique se os $\beta_j$ são idênticos aos obtidos no item a) e os erros padrão são um pouco diferentes. Os erros padrão obtidos da regressão do segundo estágio ao realizar manualmente MQ2E são inadequados.
+
+c) Agora, use o seguinte procedimento de duas etapas, que geralmente produz estimativas inconsistentes de $\beta_j$, e não apenas erros padrão incorretos. Na etapa um, regresse $educ_i$ em $sibs_i$ apenas e obtenha os valores ajustados, digamos $\widetilde{educ}_i$. (Observe que esta é uma regressão de primeiro estágio incorreta). Em seguida, na segunda etapa, execute a regressão de $\log(wage)$ em $\widetilde{educ}_i$, $exper_i$ , $tenure_i$ e $black_i$. Como a estimativa desse procedimento incorreto de duas etapas se compara à estimativa correta de MQ2E do retorno à educação?
+
 
 
 ## Referências

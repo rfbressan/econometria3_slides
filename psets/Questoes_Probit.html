@@ -81,6 +81,23 @@ ul.task-list li input[type="checkbox"] {
 <li>Quantas horas o aluno da parte b) precisaria estudar para ter 50% de chance de tirar A na disciplina?</li>
 </ol>
 </section>
+<section id="questão-2" class="level1">
+<h1>Questão 2</h1>
+<p>Seja <span class="math inline">\(\mathbf{z_1}\)</span> um vetor de variáveis, <span class="math inline">\(z_2\)</span> uma variável contínua e seja <span class="math inline">\(y\)</span> e <span class="math inline">\(d_1\)</span> variáveis binárias.</p>
+<p>No modelo <span class="math inline">\(P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)\)</span></p>
+<ol type="a">
+<li><p>Como você estimaria este modelo? Por quê?</p></li>
+<li><p>Encontre o efeito parcial de <span class="math inline">\(z_2\)</span> na probabilidade de resposta.</p></li>
+</ol>
+<p>No modelo <span class="math inline">\(P(y=1|\mathbf{z_1}, z_2, d_1)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2d_1+\gamma_3z_2d_1)\)</span></p>
+<ol start="3" type="a">
+<li>Como você mediria o efeito de <span class="math inline">\(d_1\)</span> na probabilidade de resposta?</li>
+</ol>
+<p>Suponha que tenhamos uma amostra de tamanho <span class="math inline">\(N\)</span>. Após estimar os parâmetros pelo método mais adequado:</p>
+<ol start="4" type="a">
+<li>Como você calcularia o efeito parcial médio (APE) de <span class="math inline">\(z_2\)</span> no modelo <span class="math inline">\(P(y=1|\mathbf{z_1}, z_2)=\Phi(\mathbf{z_1\delta_1}+\gamma_1z_2+\gamma_2z_2^2)\)</span>? Escreva a equação e explique-a.</li>
+</ol>
+</section>
 <section id="questão-3" class="level1">
 <h1>Questão 3</h1>
 <p>Considere o modelo de probabilidade linear <span class="math inline">\(Y_{i}=\beta_{0}+\beta_{1} X_{i}+u_{i}\)</span>, em que <span class="math inline">\(\operatorname{Pr}\left(Y_{i}=1 \mid X_{i}\right)=\beta_{0}+\beta_{1} X_{i}\)</span>.</p>
@@ -345,6 +362,55 @@ Logit
 <p><span class="math display">\[
 {\displaystyle f(z)={\frac {1}{\sigma {\sqrt {2\pi }}}}e^{-{\frac {1}{2}}\left({\frac {z-\mu }{\sigma }}\right)^{2}}}
 \]</span></p>
+</section>
+<section id="questão-9" class="level1">
+<h1>Questão 9</h1>
+<p>Considere um modelo de probabilidade linear dado por <span class="math inline">\(Y_{i}=\beta_{0}+\beta_{1} X_{1 i}+\cdots + \beta_{k} X_{k i}+u_{i}\)</span> e um modelo não linear do tipo:</p>
+<p><span class="math display">\[
+\operatorname{Pr}\left(Y_{i}=1\right)=G(Z)
+\]</span></p>
+<p>sendo <span class="math inline">\(Z=\beta_{0}+\beta_{1} X_{1 i}+\cdots+\beta_{k} X_{k i}\)</span> e <span class="math inline">\(0 \leq G(Z) \leq 1\)</span>.</p>
+<ol type="a">
+<li><p>Discorra sobre a diferença na interpretação dos coeficientes nos modelos de probabilidade Linear e não Linear (Probit ou Logit).</p></li>
+<li><p>Apresente a forma dos efeito marginais nos modelos não lineares (obs: eles diferem nos casos contínuo, discreto e para dummies).</p></li>
+</ol>
+</section>
+<section id="questão-10" class="level1">
+<h1>Questão 10</h1>
+<p>Assinale se as alternativas são verdadeiras (V) ou falsas (F). Fundamente sua resposta:</p>
+<p>3.1 Sobre o modelo de probabilidade linear (MPL) <span class="math inline">\(y=\beta_{0}+\beta_{1} x_{1}+\beta_{2} x_{2}+\)</span> <span class="math inline">\(\ldots+\beta_{k} x_{k}+u\)</span>, onde y é uma variável binária assumindo somente os valores 0 e 1, é correto afirmar que:</p>
+<ol type="a">
+<li><p>A probabilidade de sucesso <span class="math inline">\(P(Y=1 \mid X)\)</span> é igual à esperança condicional de <span class="math inline">\(y, E(Y \mid X)\)</span>, sendo a probabilidade de resposta linear nos parâmetros.</p></li>
+<li><p><span class="math inline">\(\beta_{j}\)</span> pode ser interpretado como a mudança em <span class="math inline">\(y\)</span> devido ao aumento de uma unidade de <span class="math inline">\(x_{j}\)</span>, mantendo os demais fatores fixos.</p></li>
+<li><p>O modelo de probabilidade linear, em geral, será homoscedástico.</p></li>
+<li><p>Uma das limitações do modelo de probabilidade linear é que as probabilidades previstas pelo modelo podem estar abaixo de zero ou acima de 1.</p></li>
+<li><p>O <span class="math inline">\(R^{2}\)</span> é uma boa medida de ajuste para modelos de probabilidade lineares.</p></li>
+</ol>
+<p>3.2 Com relação aos modelos logit e probit de resposta binária, podemos afirmar que:</p>
+<ol start="6" type="a">
+<li><p>Eles evitam as limitações do MPL ao proporem modelos em que a probabilidade de resposta são funções não lineares dos parâmetros, que assumem valores apenas no intervalo de zero a um. No modelo logit, a função utilizada é a logística. Já no modelo probit, utiliza-se a função de distribuição Normal.</p></li>
+<li><p>Utilizamos o método de mínimos quadrados ordinários na estimação desses tipos de modelo de resposta binária.</p></li>
+<li><p>O efeito marginal das variáveis explicativas independe do valor em que estamos avaliando essas variáveis.</p></li>
+</ol>
+</section>
+<section id="questão-11" class="level1">
+<h1>Questão 11</h1>
+<p>Para esse exercício, usaremos a base WAGE2.dta. Primeiro, crie uma variável dummy que seja igual a 1 se educ for maior que 12, 0 caso contrário. Queremos avaliar se brancos e negros divergem na probabilidade de entrar na faculdade.</p>
+<ol type="a">
+<li>Estime, usando OLS, o seguinte modelo:</li>
+</ol>
+<p><span class="math display">\[
+\text{college}=\beta_{0}+\beta_{1} \text{black}+\beta_{2} \text{meduc}
+\]</span></p>
+<p>O que você conclui dessa estimação? Como podemos interpretar <span class="math inline">\(\beta_{1}\)</span> e <span class="math inline">\(\beta_{2}\)</span> ?</p>
+<ol start="2" type="a">
+<li><p>Analise os valores preditos de college. Eles estão entre 0 e 1 ?</p></li>
+<li><p>Estime agora um modelo probit, usando os mesmos regressores. Qual a interpretação possível para os coeficientes encontrados?</p></li>
+<li><p>Com base no modelo probit estimado, qual é a probabilidade de um negro cuja mãe tem 12 anos de educação ter entrado na faculdade?</p></li>
+<li><p>Com base no modelo probit estimado, qual é a probabilidade de um negro cuja mãe tem 15 anos de educação ter entrado na faculdade?</p></li>
+<li><p>Repita (d) e (e) para um branco.</p></li>
+<li><p>O efeito marginal da educação da mãe na probabilidade do indivíduo ir para a faculdade depende de raça? No caso do OLS, estimado no item (a), esse efeito marginal dependia de raça?</p></li>
+</ol>
 <section id="referências" class="level2">
 <h2 class="anchored" data-anchor-id="referências">Referências</h2>
 </section>

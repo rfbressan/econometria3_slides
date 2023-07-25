@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -293,6 +327,78 @@ div.csl-indent {
 <li><p>Faça a estimativa pontual do efeito do shopping center no preço dos alugueis no bairo A. Considere como período pré <span class="math inline">\(t=-1\)</span> e período pós <span class="math inline">\(t=1\)</span>. (1,0 ponto)</p></li>
 <li><p>Para a estimação do item b) qual deve ser o teste placebo a ser realizado para a verificação das tendências paralelas? Calcule a estimativa DID do teste placebo e verifique se é igual a zero. (1,0 ponto)</p></li>
 </ol>
+</section>
+<section id="questão-5" class="level1">
+<h1>Questão 5</h1>
+<p>Em 1980, o estado do Kentucky elevou o limite de renda semanal que era coberta pela compensação em caso de acidentes. Queremos saber se essa nova política fez com que os trabalhadores passassem mais tempo desempregados. Se os benefícios não forem generosos o suficiente, os trabalhadores podem processar as empresas por lesões no trabalho, enquanto benefícios excessivamente generosos podem causar problemas de risco moral e induzir os trabalhadores a serem mais imprudentes no trabalho ou alegar que lesões fora do trabalho ocorreram durante o trabalho.</p>
+<ol type="a">
+<li>Vamos utilizar dados de lesões no ambiente de trabalho oriundo do artigo de Meyer e Viscusi (1995). Carrege os dados a partir do arquivo <code>injury.csv</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>injury <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/injury.csv"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="a">
+<li>Estas são as principais colunas com as quais nos preocuparemos:</li>
+</ol>
+<ul>
+<li><p>durat (que vamos renomear para duration): duração dos benefícios de desemprego, medida em semanas</p></li>
+<li><p>ldurat (que vamos renomear para log_duration): Versão registrada de durat (log(durat))</p></li>
+<li><p>afchnge (que vamos renomear para after_1980): variável indicadora que marca se a observação aconteceu antes (0) ou depois (1) da mudança de política em 1980</p></li>
+<li><p>highearn: variável indicadora que marca se a observação é de baixo (0) ou alto (1) salário</p></li>
+</ul>
+<p>Filtre as observações para abrangirem somente o estado de Kentucky (<code>ky == 1</code>) e renomeie as váriaveis de acordo.</p>
+<ol start="3" type="a">
+<li><p>Em um gráfico separado entre antes e depois salário plote a média e o intervalo de confiança da duração do desemprego em logarítimo para os trabalhadores de baixo (controle) e alto salário (tratamento). Com base neste gráfico, você espera que o efeito da política sobre o tempo de desemprego seja positivo ou negativo?</p></li>
+<li><p>Considere que <span class="math inline">\(t\in\{0,1\}\)</span> represente antes/depois da política e <span class="math inline">\(g\in\{T, C\}\)</span> os grupos tratamento e controle, respectivamente. Calcule a estimativa de DID a partir da seguinte expressão:</p></li>
+</ol>
+<p><span class="math display">\[
+\hat\delta =
+\left(\mathbb{E}[Y_{gt}|g=T, t=1] - \mathbb{E}[Y_{gt}|g=T, t=0]\right) - \left(\mathbb{E}[Y_{gt}|g=C, t=1] - \mathbb{E}[Y_{gt}|g=C, t=0]\right)
+\]</span></p>
+<ol start="5" type="a">
+<li>O cálculo manual feito no item anterior, apesar de correto, não nos fornece erro-padrão associado a estimativa e portanto, não conseguimos fazer inferência. O modelo de regressão para DID é útil nestas situações. Escreva a equação de regressão e estime-a. O efeito encontrado é o mesmo do item anterior? E quanto a inferência estatística, este efeito é estatisticamente significativo?</li>
+</ol>
+</section>
+<section id="questão-6" class="level1">
+<h1>Questão 6</h1>
+<p>Este exercício analisa o impacto de um programa de subsídio de plano de saúde para os pobres, o HISP. Um dos principais objetivos do programa é reduzir a carga de despesas relacionadas à saúde para famílias de baixa renda. Você foi encarregado de conduzir uma avaliação de impacto do efeito do HISP sobre os gastos diretos com saúde. Você usará o conjunto de dados denominado “evaluation.dta” para conduzir sua análise.</p>
+<p>Nesse cenário, você estimará o efeito do programa comparando a mudança nos resultados ao longo do tempo para um grupo de famílias que se inscreveram no programa. Assuma cumprimento integral, o que significa que todos os domicílios elegíveis ao programa se inscreveram nele.</p>
+<ol type="a">
+<li>Compare os gastos médios com saúde (health_expenditures) antes (round = 0) e após o programa (round = 1) para o grupo de domicílios elegíveis (eligible =1) nas comunidades de tratamento (treatment_locality = 1).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>eval_df <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/evaluation.dta"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apenas comunidades de tratamento</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>eval_df <span class="ot">&lt;-</span> eval_df <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(treatment_locality <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="a">
+<li><p>Estime o mesmo resultado utilizando um modelo de regressão.</p></li>
+<li><p>A regressão linear de efeitos fixos em duas vias (TWFE) tornou-se um método padrão para estimar efeitos causais a partir de dados em painel, pois, ela pode controlar para fatores não observados da unidade e do tempo ao mesmo tempo. Outra justificativa comum para o uso do estimador TWFE é baseada em sua equivalência ao estimador de DID na configuração mais simples com dois grupos e dois períodos de tempo. A especificação TWFE é:</p></li>
+</ol>
+<p><span class="math display">\[
+y_{it}=\alpha_i+\gamma_t+\delta D_{it}+\varepsilon_{it}
+\]</span> onde <span class="math inline">\(D_{it}\)</span> é uma variável binária que representa o status de tratamento (1, somente se for do grupo tratado no período pós). Neste caso <span class="math inline">\(i\)</span> representa o domicílio e <span class="math inline">\(t\)</span> o período. Note que essa especificação é mais geral que o DID canônico, uma vez que o efeito fixo de unidade, <span class="math inline">\(\alpha_i\)</span> engloba (absorve) o próprio indicador de grupo de tratamento.</p>
+<p>Rode uma regressão de TWFE para encontrar o mesmo efeito causal dos itens anteriores.</p>
+<p><strong>ATENÇÃO:</strong> a equivalência TWFE e DID só vale para o caso 2x2. Caso tenhamos mais de dois períodos, com adesão ao tratamento em momentos diferentes, ou efeitos heterogêneos entre as coortes, a equivalência deixa de existir. Uma recente literatura vem mostrando o viés da estimação via TWFE nestes casos, <span class="citation" data-cites="GOODMANBACON2021254 callaway2021difference de2020two imai2021use sun2021estimating">(<a href="#ref-GOODMANBACON2021254" role="doc-biblioref">Goodman-Bacon 2021</a>; <a href="#ref-callaway2021difference" role="doc-biblioref">Callaway e Sant’Anna 2021</a>; <a href="#ref-de2020two" role="doc-biblioref">De Chaisemartin e d’Haultfoeuille 2020</a>; <a href="#ref-imai2021use" role="doc-biblioref">Imai e Kim 2021</a>; <a href="#ref-sun2021estimating" role="doc-biblioref">Sun e Abraham 2021</a>)</span></p>
+</section>
+<section id="questão-7" class="level1">
+<h1>Questão 7</h1>
+<p>Considere os seguintes dados simulados em <code>dind_data.csv</code>. Existem 10 períodos de tempo (<code>timeid</code>), 1000 unidades (<code>ids</code>), e o tratamento é ativado no período 5 (<code>post</code>). O grupo tratado (<code>treated_group</code>) recebe o tratamento no período 5 e o grupo controle não. Por favor, seja específico em quais erros-padrão você está reportando.</p>
+<ol type="a">
+<li>Primeiro, concentre-se em <code>y_instant</code> e estime o efeito do tratamento para as três regressões a seguir:</li>
+</ol>
+<ul>
+<li><p>O efeito do tratamento, controlando o status do grupo e o período pós <span class="math inline">\(y_{it} = \alpha_{post} + \alpha_{treated} + \beta \texttt{post} \times \texttt{treated}\)</span></p></li>
+<li><p>O efeito do tratamento, controlando o status do grupo e efeitos fixos de tempo <span class="math inline">\(y_{it} = \alpha_{t} + \alpha_{treated} + \beta \texttt{post} \times \texttt{treated}\)</span></p></li>
+<li><p>O efeito do tratamento, controlando os efeitos fixos de unidade e tempo <span class="math inline">\(y_{it} = \alpha_{t} + \alpha_{i} + \beta \texttt{post} \times \texttt{treated}\)</span></p></li>
+</ul>
+<p>Compare as estimativas pontuais e os erros-padrão. Como eles diferem? <strong>Por quê</strong>?</p>
 <section id="referências" class="level2 unnumbered">
 
 
@@ -300,8 +406,23 @@ div.csl-indent {
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-callaway2021difference" class="csl-entry" role="listitem">
+Callaway, Brantly, e Pedro HC Sant’Anna. 2021. <span>“Difference-in-differences with multiple time periods”</span>. <em>Journal of econometrics</em> 225 (2): 200–230.
+</div>
+<div id="ref-de2020two" class="csl-entry" role="listitem">
+De Chaisemartin, Clément, e Xavier d’Haultfoeuille. 2020. <span>“Two-way fixed effects estimators with heterogeneous treatment effects”</span>. <em>American Economic Review</em> 110 (9): 2964–96.
+</div>
 <div id="ref-galiani2005water" class="csl-entry" role="listitem">
 Galiani, Sebastian, Paul Gertler, e Ernesto Schargrodsky. 2005. <span>“Water for life: The impact of the privatization of water services on child mortality”</span>. <em>Journal of political economy</em> 113 (1): 83–120.
+</div>
+<div id="ref-GOODMANBACON2021254" class="csl-entry" role="listitem">
+Goodman-Bacon, Andrew. 2021. <span>“Difference-in-differences with variation in treatment timing”</span>. <em>Journal of Econometrics</em> 225 (2): 254–77. https://doi.org/<a href="https://doi.org/10.1016/j.jeconom.2021.03.014">https://doi.org/10.1016/j.jeconom.2021.03.014</a>.
+</div>
+<div id="ref-imai2021use" class="csl-entry" role="listitem">
+Imai, Kosuke, e In Song Kim. 2021. <span>“On the use of two-way fixed effects regression models for causal inference with panel data”</span>. <em>Political Analysis</em> 29 (3): 405–15.
+</div>
+<div id="ref-sun2021estimating" class="csl-entry" role="listitem">
+Sun, Liyang, e Sarah Abraham. 2021. <span>“Estimating dynamic treatment effects in event studies with heterogeneous treatment effects”</span>. <em>Journal of Econometrics</em> 225 (2): 175–99.
 </div>
 </div></section></div></main>
 <!-- /main column -->

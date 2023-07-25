@@ -82,6 +82,8 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Course in Econometrics - part II](https://www.youtube.com/playlist?list=PLwJRxp3blEvb7P-7po9AxuBwquPv75LjU) Course in Econometrics - part II by Ben Lambert
 
+* [Coletânea de cursos de Econometria](https://giuseppecavaliere.wixsite.com/giuseppe/econometrics-courses)
+
 * [Microsoft's Experimentation](https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/)
 
 * [Booking.datasience](https://booking.ai)
@@ -90,13 +92,12 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * [Coding for Economists (Python)](https://aeturrell.github.io/coding-for-economists/intro.html)
 
+
 ## Avaliação
 
 O sistema de avaliação da disciplina se dará da seguinte maneira:
 
-- 5 listas de exercícios a serem entregues no Moodle em formato eletrônico (arquivo PDF). O Total de listas conta 20% na nota antes do exame.
-
-- 3 Provas escritas, presenciais, com os seguintes pesos: 20%, 25% e 35%.
+- 3 Provas escritas, presenciais, com os seguintes pesos: 30%, 35% e 35%.
 
 - É obrigatória a frequência em no mínimo 75% das aulas para aprovação.
 
@@ -106,10 +107,3 @@ Você pode copiar e adaptar este material para seus propósitos, contanto que d�
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
-## Como construir
-
-* Estes são simplesmente slides Rmarkdown.
-* Então, no Rstudio, basta clicar em *knit*.
-* Para imprimir os slides como PDF, faça
-```decktape capitulo1.html capitulo1.pdf --chrome-arg=--disable-web-security```
-usando o incrível [decktape](https://github.com/astefanutti/decktape)

@@ -280,6 +280,91 @@ b) Faça a estimativa pontual do efeito do shopping center no preço dos aluguei
 c) Para a estimação do item b) qual deve ser o teste placebo a ser realizado para a verificação das tendências paralelas? Calcule a estimativa DID do teste placebo e verifique se é igual a zero. (1,0 ponto)
 
 
+# Questão 5
+
+Em 1980, o estado do Kentucky elevou o limite de renda semanal que era coberta pela compensação em caso de acidentes. Queremos saber se essa nova política fez com que os trabalhadores passassem mais tempo desempregados. Se os benefícios não forem generosos o suficiente, os trabalhadores podem processar as empresas por lesões no trabalho, enquanto benefícios excessivamente generosos podem causar problemas de risco moral e induzir os trabalhadores a serem mais imprudentes no trabalho ou alegar que lesões fora do trabalho ocorreram durante o trabalho.
+
+a) Vamos utilizar dados de lesões no ambiente de trabalho oriundo do artigo de Meyer e Viscusi (1995). Carrege os dados a partir do arquivo `injury.csv`. 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+injury <- read_csv("data/injury.csv")
+```
+
+b) Estas são as principais colunas com as quais nos preocuparemos:
+
+* durat (que vamos renomear para duration): duração dos benefícios de desemprego, medida em semanas
+
+* ldurat (que vamos renomear para log_duration): Versão registrada de durat (log(durat))
+
+* afchnge (que vamos renomear para after_1980): variável indicadora que marca se a observação aconteceu antes (0) ou depois (1) da mudança de política em 1980
+
+* highearn: variável indicadora que marca se a observação é de baixo (0) ou alto (1) salário
+
+Filtre as observações para abrangirem somente o estado de Kentucky (`ky == 1`) e renomeie as váriaveis de acordo.
+
+
+c) Em um gráfico separado entre antes e depois salário plote a média e o intervalo de confiança da duração do desemprego em logarítimo para os trabalhadores de baixo (controle) e alto salário (tratamento). Com base neste gráfico, você espera que o efeito da política sobre o tempo de desemprego seja positivo ou negativo?
+
+
+d) Considere que $t\in\{0,1\}$ represente antes/depois da política e $g\in\{T, C\}$ os grupos tratamento e controle, respectivamente. Calcule a estimativa de DID a partir da seguinte expressão:
+
+$$
+\hat\delta = 
+\left(\mathbb{E}[Y_{gt}|g=T, t=1] - \mathbb{E}[Y_{gt}|g=T, t=0]\right) - \left(\mathbb{E}[Y_{gt}|g=C, t=1] - \mathbb{E}[Y_{gt}|g=C, t=0]\right) 
+$$
+
+
+e) O cálculo manual feito no item anterior, apesar de correto, não nos fornece erro-padrão associado a estimativa e portanto, não conseguimos fazer inferência. O modelo de regressão para DID é útil nestas situações. Escreva a equação de regressão e estime-a. O efeito encontrado é o mesmo do item anterior? E quanto a inferência estatística, este efeito é estatisticamente significativo?
+
+
+# Questão 6
+
+Este exercício analisa o impacto de um programa de subsídio de plano de saúde para os pobres, o HISP. Um dos principais objetivos do programa é reduzir a carga de despesas relacionadas à saúde para famílias de baixa renda. Você foi encarregado de conduzir uma avaliação de impacto do efeito do HISP sobre os gastos diretos com saúde. Você usará o conjunto de dados denominado “evaluation.dta” para conduzir sua análise.
+
+Nesse cenário, você estimará o efeito do programa comparando a mudança nos resultados ao longo do tempo para um grupo de famílias que se inscreveram no programa. Assuma cumprimento integral, o que significa que todos os domicílios elegíveis ao programa se inscreveram nele.
+
+a)  Compare os gastos médios com saúde (health_expenditures) antes (round = 0) e após o programa (round = 1) para o grupo de domicílios elegíveis (eligible =1) nas comunidades de tratamento (treatment_locality = 1).
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+library(haven)
+eval_df <- read_dta("data/evaluation.dta")
+# Apenas comunidades de tratamento
+eval_df <- eval_df |> 
+    filter(treatment_locality == 1)
+```
+
+b) Estime o mesmo resultado utilizando um modelo de regressão.
+
+
+c) A regressão linear de efeitos fixos em duas vias (TWFE) tornou-se um método padrão para estimar efeitos causais a partir de dados em painel, pois, ela pode controlar para fatores não observados da unidade e do tempo ao mesmo tempo. Outra justificativa comum para o uso do estimador TWFE é baseada em sua equivalência ao estimador de DID na configuração mais simples com dois grupos e dois períodos de tempo. A especificação TWFE é:
+
+$$
+y_{it}=\alpha_i+\gamma_t+\delta D_{it}+\varepsilon_{it}
+$$
+onde $D_{it}$ é uma variável binária que representa o status de tratamento (1, somente se for do grupo tratado no período pós). Neste caso $i$ representa o domicílio e $t$ o período. Note que essa especificação é mais geral que o DID canônico, uma vez que o efeito fixo de unidade, $\alpha_i$ engloba (absorve) o próprio indicador de grupo de tratamento.
+
+Rode uma regressão de TWFE para encontrar o mesmo efeito causal dos itens anteriores.
+
+**ATENÇÃO:** a equivalência TWFE e DID só vale para o caso 2x2. Caso tenhamos mais de dois períodos, com adesão ao tratamento em momentos diferentes, ou efeitos heterogêneos entre as coortes, a equivalência deixa de existir. Uma recente literatura vem mostrando o viés da estimação via TWFE nestes casos, [@GOODMANBACON2021254; @callaway2021difference; @de2020two; @imai2021use; @sun2021estimating] 
+
+
+# Questão 7
+
+Considere os seguintes dados simulados em `dind_data.csv`. Existem 10 períodos de tempo (`timeid`), 1000 unidades (`ids`), e o tratamento é ativado no período 5 (`post`). O grupo tratado (`treated_group`) recebe o tratamento no período 5 e o grupo controle não. Por favor, seja específico em quais erros-padrão você está reportando.
+
+a) Primeiro, concentre-se em `y_instant` e estime o efeito do tratamento para as três regressões a seguir:
+
+- O efeito do tratamento, controlando o status do grupo e o período pós $y_{it} = \alpha_{post} + \alpha_{treated} + \beta \texttt{post} \times \texttt{treated}$
+
+- O efeito do tratamento, controlando o status do grupo e efeitos fixos de tempo $y_{it} = \alpha_{t} + \alpha_{treated} + \beta \texttt{post} \times \texttt{treated}$
+
+- O efeito do tratamento, controlando os efeitos fixos de unidade e tempo $y_{it} = \alpha_{t} + \alpha_{i} + \beta \texttt{post} \times \texttt{treated}$
+
+Compare as estimativas pontuais e os erros-padrão. Como eles diferem? **Por quê**? 
 
 
 ## Referências

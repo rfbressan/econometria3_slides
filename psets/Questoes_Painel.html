@@ -219,10 +219,182 @@ y_{it}=\beta x_{it} + \alpha_i + u_{it}
 <li><p>Por que os autores não utilizaram diretamente um modelo MQO agrupado nos dados em painel? Explique em detalhes qual era o objetivo dos pesquisadores e quais os problemas que um MQO enfrentaria. (1,0 ponto)</p></li>
 <li><p>A interpretação dos autores dos resultados do modelo (3) é que este apresenta evidências que <em>“confirmam à existência de um mecanismo de autosseleção, onde as empresas pagam maiores salários por serem mais produtivas e, consequentemente, tornam-se aptas a entrar no mercado exportador.”</em>. Explique com suas palavras como você interprete os resultados para as interações entre ano <span class="math inline">\(t\)</span> e a variável binária <span class="math inline">\(\text{Exportador}\)</span>. (1,0 ponto)</p></li>
 </ol>
-<section id="referências" class="level2 unnumbered">
-
-
 </section>
+<section id="questão-7" class="level1">
+<h1>Questão 7</h1>
+<p>Considere o modelo:</p>
+<p><span class="math display">\[
+\begin{align*}
+y_{it} &amp;= \beta_0 + \beta_1 x_{it} + \varepsilon_{it}\\
+\varepsilon_{it} &amp;= a_i + u_{it}
+\end{align*}
+\]</span> Os dados consistem de <span class="math inline">\(N\)</span> observações de <span class="math inline">\(y\)</span> (salário) e <span class="math inline">\(x\)</span> (escolaridade) para <span class="math inline">\(T = 2\)</span> períodos de tempo.</p>
+<ol type="a">
+<li><p>Interprete possíveis variáveis omitidas que possam fazer parte do efeito fixo <span class="math inline">\(a_i\)</span>. Você acredita que <span class="math inline">\(a_i\)</span> possa ser não-correlacionado com <span class="math inline">\(x\)</span>? Que implicações isso tem para a escolha de sua estratégia de estimação de <span class="math inline">\(\beta_1\)</span>?</p></li>
+<li><p>Um pesquisador propõe eliminar o efeito fixo, <span class="math inline">\(a_i\)</span> , estimando por MQO um modelo em primeira diferenças do tipo:</p></li>
+</ol>
+<p><span class="math inline">\(y_{i1} − y_{i0} = \beta_1 (x_{i1} − x_{i0}) + (u_{i1} − u_{i0})\)</span></p>
+<p>Outro pesquisador propõe eliminar o efeito fixo estimando por MQO um modelo de diferenças em relação à média:</p>
+<p><span class="math inline">\(y_{it}-\bar{y}_i=\beta_1 (x_{it}-\bar{x}_i)+(u_{it}-\bar{u}_i)\)</span></p>
+<p>Onde <span class="math inline">\(\bar{y}_i=\frac{1}{T}\sum_{t}y_{it}\)</span></p>
+<p>é a média da variável <span class="math inline">\(y\)</span> para o indivíduo <span class="math inline">\(i\)</span>.</p>
+<p>Um terceiro pesquisador propõe ainda a inclusão de variáveis dummy <span class="math inline">\(d_i\)</span> indicando se a observação pertence ao indivíduo <span class="math inline">\(i\)</span>, estimando assim um MQO do modelo:</p>
+<p><span class="math inline">\(y_{it} = \beta_1 x_{it} + \sum_{i=1}^N a_i d_i + u_{it}\)</span></p>
+<p>Qual destes estimadores é melhor? Por quê?</p>
+</section>
+<section id="questão-8" class="level1">
+<h1>Questão 8</h1>
+<p>Considere um modelo simples de taxa de criminalidade (<span class="math inline">\(crim\)</span>) em função de desemprego (<span class="math inline">\(desemp\)</span>). Temos um painel com <span class="math inline">\(T=2\)</span> e heterogeneidade não observada <span class="math inline">\(a_i\)</span>. Especificamos o modelo com uma variável <em>dummy</em> para identificar <span class="math inline">\(t=2\)</span>.</p>
+<p><span class="math display">\[crim_{it}=\beta_0+\delta_0 D_{t2}+\beta_1 desemp_{it}+a_i+u_{it}.\]</span></p>
+<ol type="a">
+<li><p>Escreva o modelo em primeira diferença (PD) e mostre que esta especificação elimina a heterogeneidade.</p></li>
+<li><p>Escreva o modelo com a transformação <em>within</em> (dentro do grupo) e mostre que esta especificação também elimina a heterogeneidade.</p></li>
+<li><p>Suponha que <span class="math inline">\(\beta_1 &gt; 0\)</span> e, <span class="math inline">\(\Delta u_i\)</span> e <span class="math inline">\(\Delta desemp_i\)</span> são negativamente correlacionados. Qual é o viés no estimador de <span class="math inline">\(\beta_1\)</span> via MQO PD?</p></li>
+</ol>
+</section>
+<section id="questão-9" class="level1">
+<h1>Questão 9</h1>
+<p>Com uma única variável explicativa, a equação de média temporal é</p>
+<p><span class="math display">\[\bar{y}_i=\beta_0+\beta_1\bar{x}_i+a_i+\bar{u}_i.\]</span> Tendo incluído um intercepto, temos que <span class="math inline">\(E[a_i]=0\)</span>. Suponha que <span class="math inline">\(\bar{u}_i\)</span> seja não correlacionado com <span class="math inline">\(\bar{x}_i\)</span>, mas que <span class="math inline">\(cov(\bar{x}_i, a_i)=\sigma_{xa}\)</span>.</p>
+<ol type="a">
+<li><p>Sendo <span class="math inline">\(\tilde{\beta}_1\)</span> o estimador MQO da especificação acima, mostre que <span class="math inline">\(\operatorname{plim}\tilde{\beta}_1=\beta_1+\sigma_{xa}/Var[\bar{x}_i]\)</span> (lembre-se <span class="math inline">\(a_i\)</span> é não observado).</p></li>
+<li><p>Suponha também que <span class="math inline">\(x_{it}\)</span> seja serialmente não correlacionado com variância constante igual a <span class="math inline">\(\sigma_x^2\)</span>. Mostre que <span class="math inline">\(\operatorname{plim}\tilde{\beta}_1=\beta_1+T\sigma_{xa}/\sigma_x^2\)</span></p></li>
+</ol>
+</section>
+<section id="questão-10" class="level1">
+<h1>Questão 10</h1>
+<p>A regressão linear de efeitos fixos em duas vias ( <em>two way fixed effects</em> - TWFE) tornou-se um método padrão para estimar efeitos causais a partir de dados em painel. Muitos pesquisadores aplicados usam o estimador TWFE para ajustar os fatores de confusão não observados específicos da unidade e específicos do tempo ao mesmo tempo. A especificação é simples:</p>
+<p><span class="math display">\[y_{it}=\beta_1 x_{it}+\alpha_i+\theta_t+u_{it},\]</span> onde <span class="math inline">\(\alpha_i\)</span> representa características não observadas do indivíduo e <span class="math inline">\(\theta_t\)</span> efeitos temporais também não observados (ou não medidos). Se qualquer um dos efeitos fixos forem correlacionados com o regressor <span class="math inline">\(x_{it}\)</span>, então o estimador agrupado (ie., <em>pooled</em>) de MQO será viesado.</p>
+<ol type="a">
+<li><p>Como você poderia estimar <span class="math inline">\(\beta_1\)</span> sem incorrer em viés?</p></li>
+<li><p>Conhecemos a transformação dentro do grupo (ie., <em>within</em>) para apenas um efeito fixo de indivíduo. Proponha uma transformação similar que elimine ambos os fatores de confusão simultaneamente. (Dica: temos dois tipos de grupos agora. Você pode querer descontar as médias intragrupo e recompor a média geral.)</p></li>
+<li><p>Suponha que existam apenas dois grupos de indivíduos, <span class="math inline">\(i \in\{C, T\}\)</span> e dois períodos, <span class="math inline">\(t\in\{t_1, t_2\}\)</span> e que o regressor é um indicador de tratamento</p></li>
+</ol>
+<p><span class="math display">\[x_{it}=\begin{cases}
+1, \text{ se } i=T \text{ e } t=t_2\\
+0, \text{ caso contrário.}
+\end{cases}\]</span> Mostre que <span class="math inline">\(\beta_1\)</span> neste caso é</p>
+<p><span class="math display">\[
+\begin{align*}
+\beta_1&amp;=E[y_{it}|i\in T, t=t_2] - E[y_{it}|i\in T, t=t_1]\\
+&amp;-\lbrace E[y_{it}|i\in C, t=t_2] - E[y_{it}|i\in C, t=t_1]\rbrace
+\end{align*}
+\]</span></p>
+</section>
+<section id="questão-11" class="level1">
+<h1>Questão 11</h1>
+<p>Este exercício será baseado em um conjunto de dados da Organização Mundial da Saúde que se relaciona com resultados agregados dos sistemas de saúde nas economias mundiais. O arquivo é <code>WHO.csv</code>, carregue-o em seu software de preferência.</p>
+<p>As variáveis nos conjuntos de dados são</p>
+<table class="table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variável</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YEAR</td>
+<td>1993, …, 1997</td>
+</tr>
+<tr class="even">
+<td>COMP, LOGCOMP</td>
+<td>medida composta de obtenção de cuidados de saúde</td>
+</tr>
+<tr class="odd">
+<td>DALE, LOGDALE</td>
+<td>expectativa de vida ajustada por deficiência</td>
+</tr>
+<tr class="even">
+<td>HLTHEXP,LOGHEXP</td>
+<td>despesas de saúde</td>
+</tr>
+<tr class="odd">
+<td>EDUC, LOGEDUC</td>
+<td>educação média</td>
+</tr>
+<tr class="even">
+<td>LOGHEXP2</td>
+<td>quadrado de LOGHEXP</td>
+</tr>
+<tr class="odd">
+<td>LOGEDUC2</td>
+<td>quadrado de LOGEDUC</td>
+</tr>
+<tr class="even">
+<td>LOGED_EX</td>
+<td>LOGHEXP * LOGEDUC</td>
+</tr>
+<tr class="odd">
+<td>GINI</td>
+<td>Coeficiente de Gini de distribuição de renda</td>
+</tr>
+<tr class="even">
+<td>TROPICS</td>
+<td>Variável dummy para localização tropical</td>
+</tr>
+<tr class="odd">
+<td>POPDEN, LOGPOPDEN</td>
+<td>densidade populacional</td>
+</tr>
+<tr class="even">
+<td>PUBTHE</td>
+<td>proporção das despesas de saúde que são públicas</td>
+</tr>
+<tr class="odd">
+<td>GDPC,LOGGDPC</td>
+<td>renda per capita</td>
+</tr>
+<tr class="even">
+<td>T93,…,T97</td>
+<td>Variáveis dummy de ano</td>
+</tr>
+<tr class="odd">
+<td>GEFF</td>
+<td>Medida do Banco Mundial de eficácia do governo</td>
+</tr>
+<tr class="even">
+<td>VOICE</td>
+<td>Medida do Banco Mundial de extensão da Democracia</td>
+</tr>
+<tr class="odd">
+<td>OECD</td>
+<td>Variável dummy, membro da OCDE da ONU em 1997</td>
+</tr>
+<tr class="even">
+<td>MEANLCMP</td>
+<td>(média de 5 anos) de LOGCMP</td>
+</tr>
+<tr class="odd">
+<td>MEANLHC,MEAHLHC2</td>
+<td>média do país e seu quadrado de LOGEDUC</td>
+</tr>
+<tr class="even">
+<td>MEANLEXP</td>
+<td>média do país de LOGHEXP</td>
+</tr>
+</tbody>
+</table>
+<p>Além do nome e código do país.</p>
+<ol type="a">
+<li>Quais são as dimensões do painel? É balanceado?</li>
+</ol>
+<p>Considere a partir de agora a seguinte regressão para explicar oferta de serviços de saúde</p>
+<p><span class="math display">\[LOGCOMP_{it} = \beta_0 + \beta_1 LOGEDUC_{it} + \beta_2 LOGHEXP_{it} + \beta_3 LOGED-EX_{it} + \varepsilon_{it}\]</span> ou seja, a oferta de saúde é explicada pela educação média e despesas com saúde, incluindo sua interação.</p>
+<ol start="2" type="a">
+<li><p>Estime a versão agrupada desta especificação e apresente os resultados.</p></li>
+<li><p>Você não acredita que este modelo esteja capturando a verdadeira influência da educação na oferta de saúde, afinal, os países na amostra são muito diferentes. Discorra sobre quais fatores individuais de cada país podem influenciar no provimento de serviços de saúde. Estes fatores seriam correlacionados com o nível educacional?</p></li>
+<li><p>Escolha um modelo que julgue o mais adequado para estimar o efeito da educação na oferta de saúde, apresente e comente sobre os resultados.</p></li>
+<li><p>Como os resultados do item anterior se comparam a estimação do MQO agrupado? Qual resultado é mais confiável, por quê?</p></li>
+</ol>
+</section>
+<section id="referências" class="level1 unnumbered">
+
+
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
