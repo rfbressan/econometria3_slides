@@ -4,7 +4,7 @@ subtitle: |
     | Questões - Modelos de Escolha Qualitativa e Máxima Verossimilhança
 # author: "Rafael Bressan"
 # date: "`r Sys.Date()`"
-output: 
+format: 
   html:
     theme: cosmo
 lang: pt-BR
@@ -52,16 +52,16 @@ b1 <- 0.05
 b2 <- 0.5
 x1 <- 40
 x2 <- 7
-z <- b0+b1*x1+b2*x2
-p <- exp(z)/(1+exp(z))
+z <- b0 + b1 * x1 + b2 * x2
+p <- exp(z) / (1 + exp(z))
 ```
 
 c) Quantas horas o aluno da parte b) precisaria estudar para ter 50% de chance de tirar A na disciplina?
 
 ```{r}
 pc <- 0.5
-l_odds <- log(pc/(1-pc))
-x1 <- (l_odds - b0 - b2*x2)/b1
+l_odds <- log(pc / (1 - pc))
+x1 <- (l_odds - b0 - b2 * x2) / b1
 ```
 
 # Questão 2
@@ -107,12 +107,13 @@ Default$default <- Default$default == "Yes"
 # Get a random subsample
 set.seed(938383)
 df <- Default[sample(nrow(Default), 5000), ]
-mpl <- lm(default~balance1K, data = df)
-logit <- glm(default~balance1K, data = df, family = binomial())
+mpl <- lm(default ~ balance1K, data = df)
+logit <- glm(default ~ balance1K, data = df, family = binomial())
 tbl <- modelsummary::msummary(list(MPL = mpl, Logit = logit), 
-                              output = "kableExtra",
-                              gof_map = c("nobs"),
-                              notes = "Nota: Erro-padrão entre parênteses.") |> 
+    output = "kableExtra",
+    gof_map = c("nobs"),
+    notes = "Nota: Erro-padrão entre parênteses."
+) |> 
     kable_classic(latex_options = c("HOLD_position"))
 
 mean_x <- mean(df$balance1K)
@@ -139,9 +140,11 @@ d) Com base na matriz de confusão apresentada abaixo calcule o percentual comet
 ```{r confusao, results='asis'}
 actual <- as.factor(df$default)
 pred_mpl <- factor(predict(mpl) > 0.5, 
-                   levels = levels(actual))
+    levels = levels(actual)
+)
 pred_logit <- factor(predict(logit, type = "response") > 0.5, 
-                     levels = levels(actual))
+    levels = levels(actual)
+)
 
 conf_mpl <- confusionMatrix(actual, pred_mpl, positive = "TRUE")
 conf_logit <- confusionMatrix(actual, pred_logit, positive = "TRUE")
@@ -149,17 +152,22 @@ conf_logit <- confusionMatrix(actual, pred_logit, positive = "TRUE")
 tbl <- cbind(conf_mpl$table, conf_logit$table)
 
 kbl(tbl, booktabs = TRUE) |> 
-    kable_classic(full_width = FALSE,
-                  latex_options = c("HOLD_position")) |> 
-    add_header_above(c(" " = 1,
-                       "MPL" = 2,
-                       "Logit" = 2)) |> 
+    kable_classic(
+        full_width = FALSE,
+        latex_options = c("HOLD_position")
+    ) |> 
+    add_header_above(c(
+        " " = 1,
+        "MPL" = 2,
+        "Logit" = 2
+    )) |> 
     footnote("Para ambos os modelos o valor de 0,5 foi escolhido como limiar para determinar a previsão de resposta.",
-             threeparttable = TRUE,
-             general_title = "Nota: ")
-    # footnote(sprintf("Acurácia do modelo MPL é %s e do modelo Logit é %s", 
-    #                              conf_mpl$overall["Accuracy"], 
-    #                              conf_logit$overall["Accuracy"]))
+        threeparttable = TRUE,
+        general_title = "Nota: "
+    )
+# footnote(sprintf("Acurácia do modelo MPL é %s e do modelo Logit é %s", 
+#                              conf_mpl$overall["Accuracy"], 
+#                              conf_logit$overall["Accuracy"]))
 ```
 
 
@@ -226,13 +234,15 @@ Os resultados são mostrados na Tabela abaixo.
 
 ```{r bike, results='asis'}
 data("Bikeshare")
-poi_reg <- glm(bikers~workingday+temp+weathersit,
-               data = Bikeshare,
-               family = poisson)
+poi_reg <- glm(bikers ~ workingday + temp + weathersit,
+    data = Bikeshare,
+    family = poisson
+)
 
 msummary(poi_reg, 
-         gof_map = c("nobs", "logLik"),
-         notes = "Erro-padrão entre parênteses.")
+    gof_map = c("nobs", "logLik"),
+    notes = "Erro-padrão entre parênteses."
+)
 ```
 
 c) Qual o efeito parcial de uma variação marginal na temperatura no número de ciclistas ($PE_t$)? Encontre uma expressão analítica e responda se este efeito é constante. DICA: $PE_t=\partial E[y|\symbf{x}]/\partial x_t$
@@ -241,25 +251,34 @@ d) Qual o valor de $PE_t$ se for um dia claro, de trabalho e com temperatura nor
 
 ```{r poi-pre}
 prediction <- predict(poi_reg, 
-                      newdata = list(workingday = 1, 
-                                     temp = 0.5, 
-                                     weathersit = "clear"))
+    newdata = list(
+        workingday = 1, 
+        temp = 0.5, 
+        weathersit = "clear"
+    )
+)
 beta_temp <- coef(poi_reg)["temp"]
-pe_t <- prediction*beta_temp
+pe_t <- prediction * beta_temp
 ```
 
 e) Qual o valor do efeito de uma mudança climática, de dia claro para chuva forte, em um dia de descanso com a menor temperatura registrada nos dados?
 
 ```{r poi-pre2}
 pred1 <- predict(poi_reg,
-                 newdata = list(workingday = 0,
-                                temp = 0,
-                                weathersit = "heavy rain/snow"))
+    newdata = list(
+        workingday = 0,
+        temp = 0,
+        weathersit = "heavy rain/snow"
+    )
+)
 
 pred2 <- predict(poi_reg,
-                 newdata = list(workingday = 0,
-                                temp = 0,
-                                weathersit = "clear"))
+    newdata = list(
+        workingday = 0,
+        temp = 0,
+        weathersit = "clear"
+    )
+)
 delta <- pred1 - pred2
 ```
 

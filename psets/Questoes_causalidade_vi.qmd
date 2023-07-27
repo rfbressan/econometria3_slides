@@ -4,7 +4,7 @@ subtitle: |
     | Questões - Causalidade e Variáveis Instrumentais
 author: "Rafael Bressan"
 date: "`r Sys.Date()`"
-output: 
+format: 
     # pdf:
     #     latex_engine: xelatex
     #     keep_tex: true
@@ -87,33 +87,33 @@ Considere o seguinte DAG e responda aos itens abaixo:
 
 ```{r dag}
 # Create a new empty graph
-dag <- create_graph() |> 
+dag <- create_graph() |>
     # Add nodes to the graph
-    add_node(label = "X") |> 
-    add_node(label = "Z") |> 
-    add_node(label = "M") |> 
-    add_node(label = "W") |> 
-    add_node(label = "Y") |> 
+    add_node(label = "X") |>
+    add_node(label = "Z") |>
+    add_node(label = "M") |>
+    add_node(label = "W") |>
+    add_node(label = "Y") |>
     # Add edges to the graph
-    add_edge("X", "Y") |> 
-    add_edge("X", "M") |> 
-    add_edge("X", "Z") |> 
-    add_edge("W", "X") |> 
-    add_edge("W", "Y") |> 
-    add_edge("Y", "Z") |> 
+    add_edge("X", "Y") |>
+    add_edge("X", "M") |>
+    add_edge("X", "Z") |>
+    add_edge("W", "X") |>
+    add_edge("W", "Y") |>
+    add_edge("Y", "Z") |>
     add_edge("M", "Y")
 
 # Set node attributes
-# dag <- dag |> 
-#     set_node_attrs("shape", "circle") |> 
-#     set_node_attrs("style", "filled") |> 
-#     set_node_attrs("fillcolor", "#9b9b9b") |> 
-#     set_node_attrs("fontname", "helvetica") |> 
-#     set_node_attrs("fontsize", 12) |> 
+# dag <- dag |>
+#     set_node_attrs("shape", "circle") |>
+#     set_node_attrs("style", "filled") |>
+#     set_node_attrs("fillcolor", "#9b9b9b") |>
+#     set_node_attrs("fontname", "helvetica") |>
+#     set_node_attrs("fontsize", 12) |>
 #     # Set edge attributes
-#     set_edge_attrs("arrowhead", "normal") |> 
-#     set_edge_attrs("arrowsize", 0.7) |> 
-#     set_edge_attrs("color", "#555555") |> 
+#     set_edge_attrs("arrowhead", "normal") |>
+#     set_edge_attrs("arrowsize", 0.7) |>
+#     set_edge_attrs("color", "#555555") |>
 #     set_edge_attrs("penwidth", 2)
 
 # Render the graph

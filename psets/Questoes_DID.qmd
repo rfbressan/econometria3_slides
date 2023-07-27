@@ -4,7 +4,7 @@ subtitle: |
     | Questões - Diferenças em diferenças
 author: "Rafael Bressan"
 date: "`r Sys.Date()`"
-output:
+format:
   html:
     theme: cosmo
 lang: pt-BR
@@ -80,11 +80,11 @@ Estes são dados não experimentais que incluem contagens de roubos de carros pa
 
 
 ```{r libs, warning=FALSE, message=FALSE}
-library(tidyverse)     # For ggplot, %>%, mutate, filter, group_by, and friends
-library(haven)         # For loading data from Stata
-library(broom)         # For showing models as data frames
-library(fixest)        # For fast, nice, fixed effects regression
-library(modelsummary)  # For side-by-side regression tables
+library(tidyverse) # For ggplot, %>%, mutate, filter, group_by, and friends
+library(haven) # For loading data from Stata
+library(broom) # For showing models as data frames
+library(fixest) # For fast, nice, fixed effects regression
+library(modelsummary) # For side-by-side regression tables
 
 # This turns off this message that appears whenever you use summarize():
 # `summarise()` ungrouping output (override with `.groups` argument)
@@ -94,26 +94,32 @@ options(dplyr.summarise.inform = FALSE)
 
 # Load terror data
 terror <- read_stata("data/MonthlyPanel.dta") %>% 
-  # The attack happened on July 18. The authors omitted data from July 19-31, so
-  # all July observations are from before the attack. Make a new indicator
-  # variable `after` to mark if the row is from before or after the attack
-  mutate(after = mes > 7) %>% 
-  # There are some weird months in the data like 73. Filter out anything > 12
-  filter(mes <= 12) %>% 
-  # Rename some columns to be more readable
-  rename(same_block = institu1,
-         distance = distanci,
-         car_theft = totrob,
-         month = mes,
-         block = observ) %>% 
-  # Create indicator variables for the distance of each block to a synagogue
-  mutate(one_block_away = ifelse(distance == 1, 1, 0),
-         two_blocks_away = ifelse(distance == 2, 1, 0),
-         more_than_two_away = ifelse(distance > 2, 1, 0)) %>% 
-  # Make these factors/categories
-  mutate(block = as.factor(block),
-         month = as.factor(month),
-         same_block_factor = as.factor(same_block))
+    # The attack happened on July 18. The authors omitted data from July 19-31, so
+    # all July observations are from before the attack. Make a new indicator
+    # variable `after` to mark if the row is from before or after the attack
+    mutate(after = mes > 7) %>% 
+    # There are some weird months in the data like 73. Filter out anything > 12
+    filter(mes <= 12) %>% 
+    # Rename some columns to be more readable
+    rename(
+        same_block = institu1,
+        distance = distanci,
+        car_theft = totrob,
+        month = mes,
+        block = observ
+    ) %>% 
+    # Create indicator variables for the distance of each block to a synagogue
+    mutate(
+        one_block_away = ifelse(distance == 1, 1, 0),
+        two_blocks_away = ifelse(distance == 2, 1, 0),
+        more_than_two_away = ifelse(distance > 2, 1, 0)
+    ) %>% 
+    # Make these factors/categories
+    mutate(
+        block = as.factor(block),
+        month = as.factor(month),
+        same_block_factor = as.factor(same_block)
+    )
 ```
 
 
@@ -139,12 +145,15 @@ trends_df <- terror |>
     summarise(avg_theft = mean(car_theft))
 
 ggplot(trends_df, aes(month, avg_theft, 
-                      group = same_block_factor,
-                      color = same_block_factor)) +
+    group = same_block_factor,
+    color = same_block_factor
+)) +
     geom_line() +
     geom_vline(xintercept = "7", color = "red") +
-    labs(x = "Mês",
-         y = "Média de furtos") +
+    labs(
+        x = "Mês",
+        y = "Média de furtos"
+    ) +
     guides(color = guide_legend(title = "Sinagoga \nQuarteirão")) +
     theme_classic()
 ```
@@ -190,12 +199,15 @@ h) Identifique o coeficiente relativo ao efeito causal DID. É igual ao calculad
 
 
 ```{r simple-diff-diff-model, warning=FALSE}
-did_model <- lm(car_theft~after*same_block, data = terror)
+did_model <- lm(car_theft ~ after * same_block, data = terror)
 msummary(did_model,
-         gof_map = c("nobs", "adj.r.squared"),
-         coef_rename = c(`afterTRUE` = "after",
-                         `afterTRUE:same_block` = "after x same_block"),
-         title = "Regressão DID.")
+    gof_map = c("nobs", "adj.r.squared"),
+    coef_rename = c(
+        `afterTRUE` = "after",
+        `afterTRUE:same_block` = "after x same_block"
+    ),
+    title = "Regressão DID."
+)
 ```
 
 
@@ -251,7 +263,7 @@ delta_i_a <- 6
 delta_i_b <- 3
 delta_i_c <- 1
 efeito <- 2
-ya <- delta_t_ac + delta_i_a + efeito*(t > 0)
+ya <- delta_t_ac + delta_i_a + efeito * (t > 0)
 yb <- delta_t_b + delta_i_b
 yc <- delta_t_ac + delta_i_c
 
@@ -264,12 +276,13 @@ p <- ggplot(df, aes(t, value, color = nbh, group = nbh)) +
     geom_line() +
     geom_point(aes(shape = nbh, size = 0.2)) +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed", size = 0.3) +
-    guides(color = guide_legend(title = "Bairro"),
-           shape = guide_legend(title = "Bairro"),
-           size = "none") +
+    guides(
+        color = guide_legend(title = "Bairro"),
+        shape = guide_legend(title = "Bairro"),
+        size = "none"
+    ) +
     labs(x = "Tempo", y = "Aluguel") +
     theme_bw()
-
 p
 ```
 

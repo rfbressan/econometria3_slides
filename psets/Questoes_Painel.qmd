@@ -4,7 +4,7 @@ subtitle: |
     | Questões - Dados em Painel e Efeitos Fixos
 author: "Rafael Bressan"
 date: "`r Sys.Date()`"
-output: 
+format: 
   html:
     theme: cosmo
 lang: pt-BR
