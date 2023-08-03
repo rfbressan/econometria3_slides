@@ -1,3 +1,7 @@
+---
+from: markdown+emoji
+---
+
 # Bem-vindos a Econometria III
 
 Neste curso você aprenderá algumas das principais ferramentas atualmente utilizadas em ***microeconometria***. Modelos com dados em painel, regressão com efeitos-fixos, diferença-em-diferenças, modelos de equações simultâneas, variáveis instrumentais e mínimos quadrados em dois estágios (MQ2E) e, modelos com variável dependente limitada.
@@ -32,7 +36,7 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 
 
-## Bibliografia Recomendada
+## :books: Bibliografia Recomendada
 
 * WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. 
 
@@ -75,6 +79,8 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 * [Economia e Ciência de Dados](https://www.youtube.com/watch?v=6Q3SXs5agaU&list=PLSMHA74lM-x2VglhXkdbHEH80T2a_XgRr&index=2&t=4765s) Economia e Ciência de Dados com prof. Rafael Martins de Souza (FGV/EPGE)
 
 * [Carreira e Aplicações de Econometria](https://www.youtube.com/watch?v=VKZe49nNtxw&list=PLSMHA74lM-x2VglhXkdbHEH80T2a_XgRr&index=3&t=2182s) Carreira e Aplicações de Econometria com Luiz A. Esteves (Economista chefe do Banco do Nordeste)
+
+* [VSCode](https://www.youtube.com/@code)
 
 ## Outros Recursos
 

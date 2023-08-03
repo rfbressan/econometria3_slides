@@ -29,6 +29,8 @@ Na parte para estudantes, clique em **Sign up for Student Developer Pack** e em 
 
 Depois de alguns dias, você receberá um e-mail confirmando que você foi aceito no GitHub Education. A partir daí, você terá acesso a diversos benefícios como o GitHub Pro, que permite criar repositórios privados, e o GitHub Copilot, que é o assunto deste tutorial.
 
+Um roteiro da própria Microsoft está disponível [neste link](https://techcommunity.microsoft.com/t5/desenvolvedores-br/como-obter-github-copilot-gratuito-para-estudantes-e-professores/ba-p/3828780).
+
 # GitHub Copilot
 
 O [GitHub Copilot](https://github.com/features/copilot/) é uma ferramenta de programação assistida por inteligência artificial. Ela foi desenvolvida pela OpenAI em parceria com o GitHub. O GitHub Copilot é capaz de sugerir linhas de código para o usuário, baseado no contexto do código que está sendo escrito. Para isso, ele utiliza uma rede neural treinada com milhões de linhas de código-fonte de projetos open source hospedados no GitHub. Além disso, o Copilot também é capaz de sugerir documentação para o código que está sendo escrito, conversão de código entre linguagens e até mesmo a criação de testes unitários.
