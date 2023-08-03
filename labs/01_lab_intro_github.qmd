@@ -37,6 +37,8 @@ O [GitHub Copilot](https://github.com/features/copilot/) é uma ferramenta de pr
 
 ![GitHub Copilot](img/copilotPage.png)
 
+Para também utilizar o **Copilot Chat** é necessário se inscrever na [_waitlist_](https://github.com/github-copilot/chat_waitlist_signup/join)
+
 # Usando o VSCode com o GitHub Copilot
 
 Durante nossas aulas de laboratório faremos uso da linguagem R (e eventualmente Python). Para isso, utilizaremos o VSCode como IDE. O VSCode é uma IDE gratuita e open source desenvolvida pela Microsoft. Ela é muito utilizada por desenvolvedores de software e cientistas de dados. Para instalar o VSCode, acesse o site [VSCode](https://code.visualstudio.com/) e clique em **Download**. Siga as instruções de instalação^[Nos laboratórios da UDESC o VSCode já está instalado]. 
@@ -62,3 +64,8 @@ install.packages("languageserver")
 
 Para o **Copilot** ficar integrado ao VSCode é necessário que você logue com sua conta do GitHub no VSCode. Para isso, clique no ícone de contas no menu lateral esquerdo do VSCode. ![](img/contas.png)
 
+## Vídeo Tutoriais
+
+No canal do Youtube do VSCode existem alguns vídeos tutoriais sobre o GitHub Copilot. Segue o link do canal, procure pela _playlist_ **GitHub Copilot Series**.
+
+[VSCode - YouTube](https://www.youtube.com/@code)
