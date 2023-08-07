@@ -56,19 +56,41 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 * HANSEN, Bruce E. Econometrics. Manuscript, revision of February 2020.
 
-**Programação em R**
+**Programação**
 
-* FREIRE, Sergio M. Introdução ao R. 2021. URL: http://www.lampada.uerj.br/introducaoaor
+* [Coding for Economists](https://aeturrell.github.io/coding-for-economists/intro.html)
 
-* McDERMOTT, Grant. Data science for economists. URL: https://github.com/uo-ec607/lectures#lecture-outline-and-quicklinks
+**R**
 
-* R Core Team. An Introduction to R. URL: https://cran.r-project.org/doc/manuals/r-release/R-intro.html
+* [Introdução ao R](http://www.lampada.uerj.br/introducaoaor)
+* [Data science for economists](https://github.com/uo-ec607/lectures)
+* [R Core Team. An Introduction to R](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
+* [Introduction to Econometrics with R](https://www.econometrics-with-r.org/)
+* [Using R for Introductory Econometrics](http://urfie.net/)
+* [R for data science: import, tidy, transform, visualize, and model data](https://r4ds.had.co.nz/)
+* [Introduction to R by Sievertsen](https://hhsievertsen.shinyapps.io/r_introduction/)
+* [Applied Economics with R](https://hhsievertsen.github.io/applied_econ_with_r/)
+* [Big book of R](https://www.bigbookofr.com/index.html)
 
-* HANCK, Christoph et al. Introduction to Econometrics with R. University of Duisburg-Essen, 2019. URL: https://www.econometrics-with-r.org/
+**Stata**
 
-* HEISS, Florian. Using R for Introductory Econometrics. URL: http://urfie.net/
+* [The Stata workflow guide](https://medium.com/the-stata-guide/the-stata-workflow-guide-52418ce35006)
+* [Coding and do-file structure](https://github.com/michaelstepner/healthinequality-code/tree/main/code)
+* [Stata Cheatsheets](https://www.stata.com/bookstore/stata-cheat-sheets/)
+* [Customizing Stata Graphs](https://repec.sowi.unibe.ch/files/wp30/Jann-2018-grstyle-set.pdf)
+* [Microeconometrics Using Stata](https://cameron.econ.ucdavis.edu/musbook/MUS2_Draft_Contents_November_2020.pdf)
+* [Tips for managing large-scale datasets efficiently in Stata](https://www.peretaberner.eu/tips-for-managing-large-scale-datasets-efficiently-in-stata/)
 
-* WICKHAM, Hadley; GROLEMUND, Garrett. R for data science: import, tidy, transform, visualize, and model data. O'Reilly Media, Inc., 2016. URL: https://r4ds.had.co.nz/
+**Python**
+
+* [Python for Econometrics](https://pyecon.org/down/pyecon.pdf)
+* [QuantEcon Lectures](https://quantecon.org/projects/#filter=lecture)
+* [Introduction to Python for Econometrics, Statistics and Data Analysis](https://www.kevinsheppard.com/teaching/python/notes/)
+* [A First Look at Using Python for Econometrics](https://www.youtube.com/watch?v=kltX6XofxG0)
+
+**LaTeX**
+
+* [LaTex Table Hints and Tips](https://statatexblog.com/wp-content/uploads/2013/09/tabletricks_latex.pdf)
 
 ## Videos
 
