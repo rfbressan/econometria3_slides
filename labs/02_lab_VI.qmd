@@ -1,10 +1,11 @@
 ---
 title: Aula de laboratório - Variáveis Instrumentais
 author: Rafael Bressan
+date: "2023-08-07"
 format: 
   html:
     theme: cosmo
-date: "2023-07-23"
+    embed-resources: true
 lang: "pt-BR"
 ---
 
@@ -34,7 +35,7 @@ df <- mroz[!is.na(mroz$wage), ]
 
 ```{r}
 #| code-fold: true
-datasummary(All(df)~Ncol+NUnique+Mean+SD+Min+Median+Max, data = df)
+datasummary(All(df) ~ Ncol + NUnique + Mean + SD + Min + Median + Max, data = df)
 ```
 
 ## Regressão simples
@@ -42,7 +43,7 @@ datasummary(All(df)~Ncol+NUnique+Mean+SD+Min+Median+Max, data = df)
 Estimamos primeiro um MQO simples com a função `feols` do pacote `fixest`.
 
 ```{r}
-s_ols <- feols(lwage~educ, data = df) 
+s_ols <- feols(lwage ~ educ, data = df) 
 ```
 
 Leia a ajuda da função `feols` (?feols) e descubra como especificar um 
@@ -53,7 +54,7 @@ modelo de variáveis instrumentais (IVs).
 
 ```{r}
 #| code-fold: true
-iv_ols <- feols(lwage~1 | educ ~ fatheduc, data = df)
+iv_ols <- feols(lwage ~ 1 | educ ~ fatheduc, data = df)
 etable(list(OLS = s_ols, VI = iv_ols))
 ```
 
@@ -69,12 +70,12 @@ e experiência ao quadrado (`expersq`). Faça também um modelo de MQ2E
 
 ```{r}
 #| code-fold: true
-s_ols <- feols(lwage~educ+exper+expersq, data = df) 
-iv_ols <- feols(lwage~exper+expersq | educ ~ fatheduc, data = df)
-stage_1 <- feols(educ~exper+expersq+fatheduc, data = df)
+s_ols <- feols(lwage ~ educ + exper + expersq, data = df) 
+iv_ols <- feols(lwage ~ exper + expersq | educ ~ fatheduc, data = df)
+stage_1 <- feols(educ ~ exper + expersq + fatheduc, data = df)
 mq2e_df <- df
 mq2e_df$pred_educ <- fitted(stage_1)
-stage_2 <- feols(lwage~pred_educ+exper+expersq, data = mq2e_df)
+stage_2 <- feols(lwage ~ pred_educ + exper + expersq, data = mq2e_df)
 etable(list(OLS = s_ols, MQ2E = stage_2, VI = iv_ols))
 ```
 
@@ -103,7 +104,7 @@ endogeneidade do regressor caso rejeite-se a hipótese nula.
 ```{r}
 #| code-fold: true
 mq2e_df$resid_educ <- residuals(stage_1)
-hausman <- feols(lwage~educ+exper+expersq+resid_educ, data = mq2e_df)
+hausman <- feols(lwage ~ educ + exper + expersq + resid_educ, data = mq2e_df)
 summary(hausman)
 ```
 
@@ -128,12 +129,12 @@ variáveis endógenas.
 
 ```{r}
 #| code-fold: true
-sobre_iv <- feols(lwage~exper+expersq|educ~fatheduc+motheduc, data = df)
+sobre_iv <- feols(lwage ~ exper + expersq | educ ~ fatheduc + motheduc, data = df)
 sobre_df <- df
 sobre_df$resid <- residuals(sobre_iv)
-resid_reg <- feols(resid~exper+expersq+fatheduc+motheduc, data = sobre_df)
+resid_reg <- feols(resid ~ exper + expersq + fatheduc + motheduc, data = sobre_df)
 n <- nobs(resid_reg)
 r2 <- r2(resid_reg, type = "r2")
-sobre_stat <- n*r2
+sobre_stat <- n * r2
 pchisq(sobre_stat, df = 1, lower.tail = FALSE)
 ```
