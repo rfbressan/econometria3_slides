@@ -47,7 +47,7 @@ MPL sofrem de heterocedasticidade e, portanto, devemos utilizar erros padrão
 robustos.
 
 
-**Cheque a estrutura dos dados com uma tabela de estatísticas descritivas.** Vamos usar o **Copilot** para criar o código para nós. Uma sugestão de *prompt* é:
+**Cheque a estrutura dos dados com uma tabela de estatísticas descritivas.**
 
 | | *Prompt* |
 |-|-----|
