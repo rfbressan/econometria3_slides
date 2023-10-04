@@ -3376,7 +3376,7 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
     <div>
     <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">7 de agosto de 2023</p>
+      <p class="date">4 de outubro de 2023</p>
     </div>
   </div>
   
@@ -3415,15 +3415,15 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>crime4_p<span class="sc">$</span>cr_B <span class="ot">&lt;-</span> plm<span class="sc">::</span><span class="fu">Between</span>(crime4_p<span class="sc">$</span>crmrte)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>crime4_p<span class="sc">$</span>cr_W <span class="ot">&lt;-</span> plm<span class="sc">::</span><span class="fu">Within</span>(crime4_p<span class="sc">$</span>crmrte)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crime4_p[, <span class="fu">c</span>(<span class="st">&quot;county&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;cr_l&quot;</span>, <span class="st">&quot;cr_d&quot;</span>, <span class="st">&quot;cr_B&quot;</span>, <span class="st">&quot;cr_W&quot;</span>)])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crime4_p[, <span class="fu">c</span>(<span class="st">&quot;county&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;crmrte&quot;</span>, <span class="st">&quot;cr_l&quot;</span>, <span class="st">&quot;cr_d&quot;</span>, <span class="st">&quot;cr_B&quot;</span>, <span class="st">&quot;cr_W&quot;</span>)])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     county year      cr_l         cr_d       cr_B          cr_W
-1-81      1   81        NA           NA 0.03574136  0.0041435414
-1-82      1   82 0.0398849 -0.001539998 0.03574136  0.0026035437
-1-83      1   83 0.0383449 -0.008040100 0.03574136 -0.0054365567
-1-84      1   84 0.0303048  0.004421100 0.03574136 -0.0010154567
-1-85      1   85 0.0347259  0.001847100 0.03574136  0.0008316429
-1-86      1   86 0.0365730 -0.001820602 0.03574136 -0.0009889587</code></pre>
+<pre><code>     county year    crmrte      cr_l         cr_d       cr_B          cr_W
+1-81      1   81 0.0398849        NA           NA 0.03574136  0.0041435414
+1-82      1   82 0.0383449 0.0398849 -0.001539998 0.03574136  0.0026035437
+1-83      1   83 0.0303048 0.0383449 -0.008040100 0.03574136 -0.0054365567
+1-84      1   84 0.0347259 0.0303048  0.004421100 0.03574136 -0.0010154567
+1-85      1   85 0.0365730 0.0347259  0.001847100 0.03574136  0.0008316429
+1-86      1   86 0.0347524 0.0365730 -0.001820602 0.03574136 -0.0009889587</code></pre>
 </div>
 </div>
 </section>
@@ -3654,7 +3654,7 @@ no individual variation: year d81 d82 d83 d84 d85 d86 d87 wi_educ </code></pre>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wagepan_p,</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">&quot;random&quot;</span></span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>reg_fe <span class="ot">&lt;-</span> <span class="fu">plm</span>(lwage <span class="sc">~</span> <span class="fu">I</span>(exper<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> married <span class="sc">+</span> union <span class="sc">+</span> year,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>reg_fe <span class="ot">&lt;-</span> <span class="fu">plm</span>(lwage <span class="sc">~</span> exper <span class="sc">+</span> <span class="fu">I</span>(exper<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> married <span class="sc">+</span> union <span class="sc">+</span> year,</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wagepan_p,</span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">&quot;within&quot;</span></span>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -3716,13 +3716,13 @@ no individual variation: year d81 d82 d83 d84 d85 d86 d87 wi_educ </code></pre>
 <td style="text-align: left;">exper</td>
 <td style="text-align: center;">0.067</td>
 <td style="text-align: center;">0.106</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">0.132</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: center;">(0.014)</td>
 <td style="text-align: center;">(0.015)</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.010)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">I(exper^2)</td>
@@ -3802,6 +3802,8 @@ no individual variation: year d81 d82 d83 d84 d85 d86 d87 wi_educ </code></pre>
 
 </div>
 </div>
+<section id="teste-de-hausman" class="level3">
+<h3 class="anchored" data-anchor-id="teste-de-hausman">Teste de Hausman</h3>
 <p>Para escolher qual modelo utilizar é importante entender as hipóteses que cada um assume sobre a heterogeneidade não observada. O <em>Pooled</em> MQO assume inexistência de heterogeneidade, enquanto que o modelo de Efeitos Aleatórios assume que este heterogeneidade não está correlacionada com nenhum regressor. Ambas as hipóteses são pouco factíveis em inúmeros casos práticos e, portanto, o estimador de Efeito Fixo é muito utilizado pelos econometristas empíricos.</p>
 <p>Ainda assim, se o pesquisador achar necessário, existe o teste formal de Haussman para decidir entre EA ou EF. O pacote plm implementa este teste com a função <code>phtest</code>.</p>
 <div class="cell">
@@ -3810,12 +3812,13 @@ no individual variation: year d81 d82 d83 d84 d85 d86 d87 wi_educ </code></pre>
 <pre><code>
     Hausman Test
 
-data:  lwage ~ I(exper^2) + married + union + year
-chisq = 26.361, df = 10, p-value = 0.003284
+data:  lwage ~ exper + I(exper^2) + married + union + year
+chisq = 31.707, df = 10, p-value = 0.000448
 alternative hypothesis: one model is inconsistent</code></pre>
 </div>
 </div>
 <p>Neste caso rejeitamos a H0 que ambos os modelos são consitentes. Como EF é sempre consistente dada a correta especificação, é o caso de rejeitarmos a hipótese de consistência do modelo EA. Portanto, neste caso, devemos utilizar o modelo de efeitos fixos.</p>
+</section>
 </section>
 
 </main>
