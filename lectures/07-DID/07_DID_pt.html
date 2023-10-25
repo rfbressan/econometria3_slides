@@ -37,7 +37,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 2023-06-18
+### Esag </br> 2023-10-25
 ]
 
 ---
@@ -739,7 +739,9 @@ $$
 
 Seja `\(\delta\)` o verdadeiro impacto do aumento do salário mínimo:
 
-`$$\mathbb{E}[Y_{ist}^1 - Y_{ist}^0|s,t] := \delta$$`
+`$$\mathbb{E}[Y_{ist}^1 - Y_{ist}^0|s=\text{Nova Jersey},t=\text{Nov}] := \delta$$`
+
+- Efeito causal médio do tratamento nos tratados (**ATT**)
 
 --
 
@@ -767,7 +769,7 @@ Portanto nós temos que:
 
 $$
 `\begin{align}
-\mathbb{E}[Y_{ist}&amp;|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}] = \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
+\mathbb{E}[Y_{ist}&amp;|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}] = \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{tendência temporal}}
 \end{align}`
 $$
 
@@ -775,7 +777,7 @@ $$
 
 $$
 `\begin{align}
-\mathbb{E}[Y_{ist}&amp;|s = \text{NJ},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{NJ},t = \text{Fev}] = \delta + \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
+\mathbb{E}[Y_{ist}&amp;|s = \text{NJ},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{NJ},t = \text{Fev}] = \delta + \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{tendência temporal}}
 \end{align}`
 $$
 
@@ -808,7 +810,7 @@ $$
 
 - O teste placebo mais utilizado é obter observações de um **período anterior** ao próprio período pré-tratamento e utilizá-las no design **como se fossem observações posteriores**.
 
-- Se havia tendências paralelas entre os períodos pré-tratamento ($t_{-1}$, `\(t_0\)`), então não deve aparecer efeito na regressão 
+- Se havia tendências paralelas entre os períodos pré-tratamento `\((t_{-1}, t_0)\)`, então não deve aparecer efeito na regressão 
 
 - Suponha que temos observações de Jan/92:
 
@@ -819,6 +821,8 @@ DID &amp;= \underbrace{\mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Jan}] - \math
 &amp;= 0\quad\text{caso sejam tendências paralelas}
 \end{align}`
 $$
+
+---
 
 # Estudos de Eventos
 
@@ -834,7 +838,7 @@ $$
 
 # Estudos de Eventos
 
-&lt;img src="07_DID_pt_files/figure-html/event-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="07_DID_pt_files/figure-html/event-1.svg" height="550" style="display: block; margin: auto;" /&gt;
 
 ---
 # Leitura Recomendada
@@ -856,7 +860,7 @@ background-position: 9% 19%
 
 # ATÉ A PRÓXIMA AULA!
 
-Com a Lista 5 feita! ✅
+&lt;!-- Com a Lista 5 feita! ✅ --&gt;
 
 .footnote[
 [1]: Este slides foram baseados nas aulas de econometria da [SciencesPo Department of Economics](https://github.com/ScPoEcon/ScPoEconometrics-Slides)
