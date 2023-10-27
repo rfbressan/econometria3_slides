@@ -1,13 +1,14 @@
 ---
 title: Aula de laboratório - Diferenças em diferenças
 author: Rafael Bressan
-date: "2023-08-07"
+date: "2023-10-30"
 format: 
   html:
     theme: cosmo
     embed-resources: true
 lang: "pt-BR"
 from: markdown+emoji
+bibliography: ../exams/references.bib
 ---
 
 ```{r}
@@ -35,8 +36,8 @@ quanto no tempo para obter o **efeito médio do tratamento sobre os tratados**
 
 $$
 \begin{align}
-DID &= \underbrace{\mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Fev}]}_{\Delta_t^{GT}} 
-- \Big(\underbrace{\mathbb{E}[Y_{ist}|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}]}_{\Delta_t^{GC}}\Big) \\
+DID &= \underbrace{\mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Fev}]}_{\Delta_t^{GT}} \\
+&- \Big(\underbrace{\mathbb{E}[Y_{ist}|s = \text{PA},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{PA},t = \text{Fev}]}_{\Delta_t^{GC}}\Big) \\
 \end{align}
 $$
 
@@ -123,6 +124,55 @@ $$
 
 onde $g_i$ é o período de adoção inicial ao tratamento (data que define a coorte) da unidade $i$ e $h$ é o tempo relativo ao tratamento (valores negativos indicam períodos anteriores ao tratamento).
 
+Vamos criar uma base de dados fictícia para entender melhor o tratamento escalonado.
+
+```{r}
+dat4 <- data.frame(
+    id = rep(1:3, times = 10),
+    tt = rep(1:10, each = 3)
+) |>
+    within({
+        D <- (id == 2 & tt >= 5) | (id == 3 & tt >= 8)
+        btrue <- ifelse(D & id == 3, 4, ifelse(D & id == 2, 2, 0))
+        y <- id + 1 * tt + btrue * D
+    })
+```
+
+O gráfico deste conjunto de dados é o seguinte:
+
+```{r}
+ggplot(dat4, aes(x = tt, y = y, col = factor(id))) +
+    geom_point() +
+    geom_line() +
+    geom_vline(xintercept = c(4.5, 7.5), lty = 2) +
+    scale_x_continuous(breaks = scales::pretty_breaks()) +
+    labs(x = "Período", y = "Variável Dependente", col = "ID")
+```
+
+A decomposição de @GOODMANBACON2021254 é:
+
+```{r}
+(bgd <- bacon(y ~ D, dat4, id_var = "id", time_var = "tt"))
+```
+
+Podemos visualizar os quatro DID canônicos que o TWFE está estimando através do gráfico abaixo:
+
+```{r}
+rbind(
+    dat4 |> subset(id %in% c(1, 2)) |> transform(role = ifelse(id == 2, "Tratamento", "Controle"), comp = "1.1. Early vs Untreated"),
+    dat4 |> subset(id %in% c(1, 3)) |> transform(role = ifelse(id == 3, "Tratamento", "Controle"), comp = "1.2. Late vs Untreated"),
+    dat4 |> subset(id %in% c(2, 3) & tt < 8) |> transform(role = ifelse(id == 2, "Tratamento", "Controle"), comp = "2.1. Early vs Late"),
+    dat4 |> subset(id %in% c(2:3) & tt > 4) |> transform(role = ifelse(id == 3, "Tratamento", "Controle"), comp = "2.2. Late vs Early")
+) |>
+    ggplot(aes(tt, y, group = id, col = factor(id), lty = role)) +
+    geom_point() +
+    geom_line() +
+    facet_wrap(~comp) +
+    scale_x_continuous(breaks = scales::pretty_breaks()) +
+    scale_linetype_manual(values = c("Controle" = 5, "Tratamento" = 1)) +
+    labs(x = "Período", y = "Variável Dependente", col = "ID", lty = "Papel")
+```
+
 Vamos implementar o exemplo com dados reais encontrado na documentação do pacote [`did`](https://bcallaway11.github.io/did/articles/did-basics.html#an-example-with-real-data). Este é um conjunto de dados que contém as taxas de emprego de adolescentes ao nível do condado de 2003-2007.
 
 
@@ -131,7 +181,7 @@ data(mpdta)
 head(mpdta)
 ```
 
-Este é um painel balanceado com 2500 observações ao todo. As coortes $g$ são dadas pela coluna `first.treat` enquanto que o período é dado pela coluna `year` e o efetivo tratamento em `treat`. Primeiramente vamos estimar um modelo TWFE dinâmico.
+Este é um painel balanceado com 2500 observações ao todo. As coortes $g$ são dadas pela coluna `first.treat` enquanto que o período é dado pela coluna `year` e o grupo tratamento está contido em `treat`. Primeiramente vamos estimar um modelo TWFE dinâmico.
 
 ```{r}
 # Cria uma coluna com tempo relativo ao tratamento
@@ -146,7 +196,7 @@ msummary(twfe_reg)
 iplot(twfe_reg)
 ```
 
-Agora, iremos estimar o modelo usando o estimador de Callaway & Sant'anna.
+Agora, iremos estimar o modelo usando o estimador de @callaway2021difference.
 
 ```{r}
 did_reg <- att_gt(
@@ -168,15 +218,6 @@ ggdid(did_dyn)
 
 Vejam que as estimativas mudaram ligeiramente apenas. Muito embora a 
 especificação TWFE deva ser viesada em teoria, este viés aparentemente é
-pequeno. Podemos averiguar esta situação através da decomposição de 
-Goodman-Bacon. Se nenhum dos pesos atribuídos as estimativas for negativo,
-então o viés do TWFE tende a ser pequeno (pesos negativos exacerbam o viés 
-além de prejudicar uma interpretação causal do estimador TWFE).
+pequeno. 
 
-```{r}
-bacon_d <- bacon(lemp ~ treat,
-    data = mpdta,
-    id_var = "countyreal",
-    time_var = "year"
-)
-```
+# Referências
