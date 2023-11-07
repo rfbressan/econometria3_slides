@@ -39,7 +39,7 @@ class: center, middle, inverse, title-slide
 ### Rafael Bressan
 ]
 .date[
-### Esag </br> 08/03/2023
+### Esag </br> 08/11/2023
 ]
 
 ---
@@ -185,9 +185,11 @@ $$
 
 ```r
 data(mroz, package = "wooldridge")
-plot(factor(inlf) ~ age, data = mroz, 
-     ylevels = 2:1,
-     ylab = "in labor force?")
+plot(factor(inlf) ~ age,
+  data = mroz,
+  ylevels = 2:1,
+  ylab = "in labor force?"
+)
 ```
 
 &lt;img src="02-probit_pt_files/figure-html/unnamed-chunk-1-1.svg" style="display: block; margin: auto;" /&gt;
@@ -200,8 +202,9 @@ plot(factor(inlf) ~ age, data = mroz,
 .pull-left[
 
 ```r
-LPM &lt;- lm(inlf ~ nwifeinc + educ + exper + I(exper^2) + age +I(age^2) + kidslt6,
-          data = mroz)
+LPM &lt;- lm(inlf ~ nwifeinc + educ + exper + I(exper^2) + age + I(age^2) + kidslt6,
+  data = mroz
+)
 broom::tidy(LPM)
 ```
 
@@ -258,13 +261,15 @@ broom::tidy(LPM)
 .left-wide[
 
 ```r
-mroz %&lt;&gt;% 
+mroz %&lt;&gt;%
   # classify age into 3 and huswage into 2 classes
-  mutate(age_fct = cut(age,breaks = 3,labels = FALSE),
-         huswage_fct = cut(huswage, breaks = 2,labels = FALSE)) %&gt;%
-  mutate(classes = paste0("age_",age_fct,"_hus_",huswage_fct))
+  mutate(
+    age_fct = cut(age, breaks = 3, labels = FALSE),
+    huswage_fct = cut(huswage, breaks = 2, labels = FALSE)
+  ) %&gt;%
+  mutate(classes = paste0("age_", age_fct, "_hus_", huswage_fct))
 
-LPM_saturated = mroz %&gt;%
+LPM_saturated &lt;- mroz %&gt;%
   lm(inlf ~ classes, data = .)
 broom::tidy(LPM_saturated)
 ```
@@ -380,13 +385,15 @@ Para **probit** e **logit**:
 
 
 ```r
-probit &lt;- glm(inlf ~ age, 
-                    data = mroz, 
-                    family = binomial(link = "probit"))
+probit &lt;- glm(inlf ~ age,
+  data = mroz,
+  family = binomial(link = "probit")
+)
 
-logit &lt;- glm(inlf ~ age, 
-                    data = mroz, 
-                    family = binomial(link = "logit"))
+logit &lt;- glm(inlf ~ age,
+  data = mroz,
+  family = binomial(link = "logit")
+)
 ```
 
 ---
@@ -396,7 +403,7 @@ logit &lt;- glm(inlf ~ age,
 .pull-left[
 
 ```r
-modelsummary::modelsummary(list("probit" = probit,"logit" = logit))
+modelsummary::modelsummary(list("probit" = probit, "logit" = logit))
 ```
 
 &lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
@@ -420,13 +427,13 @@ modelsummary::modelsummary(list("probit" = probit,"logit" = logit))
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.013 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.020 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.020 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;box-shadow: 0px 1px"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.006) &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.009) &lt;/td&gt;
+   &lt;td style="text-align:left;box-shadow: 0px 1.5px"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.006) &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.009) &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
@@ -445,8 +452,8 @@ modelsummary::modelsummary(list("probit" = probit,"logit" = logit))
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Log.Lik. &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −512.442 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −512.431 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -512.442 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -512.431 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
@@ -507,12 +514,16 @@ Felizmente, existem pacotes disponíveis que nos ajudam a calcular esses efeitos
 ```r
 f &lt;- "inlf ~ age + kidslt6 + nwifeinc" # setup a formula
 glms &lt;- list()
-glms$probit &lt;- glm(formula = f, 
-                    data = mroz, 
-                    family = binomial(link = "probit"))
-glms$logit &lt;- glm(formula = f, 
-                    data = mroz, 
-                    family = binomial(link = "logit"))
+glms$probit &lt;- glm(
+  formula = f,
+  data = mroz,
+  family = binomial(link = "probit")
+)
+glms$logit &lt;- glm(
+  formula = f,
+  data = mroz,
+  family = binomial(link = "logit")
+)
 # now the marginal effects versions
 mfx_mean &lt;- lapply(glms, marginaleffects, newdata = "mean")
 mfx_avg &lt;- lapply(glms, marginaleffects)
@@ -541,45 +552,45 @@ mfx_avg &lt;- lapply(glms, marginaleffects)
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.014*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.014*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.013*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.013*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013*** &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; (0.003) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; (0.003) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.002) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.002) &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; (0.002) &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; (0.002) &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; kidslt6 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.314*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.322*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.290*** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.292*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.300*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.303*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.290*** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.292*** &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; (0.044) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; (0.046) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.039) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.040) &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; (0.036) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; (0.037) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; (0.036) &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; nwifeinc &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.004** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.005** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.004** &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −0.004** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.004** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.004** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.004** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.004** &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;box-shadow: 0px 1px"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.002) &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.002) &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.001) &lt;/td&gt;
-   &lt;td style="text-align:center;box-shadow: 0px 1px"&gt; (0.002) &lt;/td&gt;
+   &lt;td style="text-align:left;box-shadow: 0px 1.5px"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.002) &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.002) &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.002) &lt;/td&gt;
+   &lt;td style="text-align:center;box-shadow: 0px 1.5px"&gt; (0.002) &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Num.Obs. &lt;/td&gt;
@@ -590,10 +601,10 @@ mfx_avg &lt;- lapply(glms, marginaleffects)
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Log.Lik. &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −478.395 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −478.377 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −478.395 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; −478.377 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -478.395 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -478.377 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -478.395 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -478.377 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
@@ -636,7 +647,7 @@ layout: true
 
 ```r
 glms$probit0 &lt;- update(glms$probit, formula = . ~ 1)
-1 - as.vector(logLik(glms$probit)/logLik(glms$probit0))
+1 - as.vector(logLik(glms$probit) / logLik(glms$probit0))
 ```
 
 ```
@@ -654,14 +665,20 @@ glms$probit0 &lt;- update(glms$probit, formula = . ~ 1)
 
 
 ```r
-prop_tbl &lt;- prop.table(table(true = mroz$inlf, 
-                             pred = round(fitted(glms$probit)))) |&gt; 
-    as.data.table() |&gt; 
-    dcast(true~pred, value.var = "N")
-kbl(prop_tbl, digits = 4,
-    caption = "Matriz de Confusão") |&gt; 
-    add_header_above(c(" " = 1,
-                       "Pred" = 2))
+prop_tbl &lt;- prop.table(table(
+  true = mroz$inlf,
+  pred = round(fitted(glms$probit))
+)) |&gt;
+  as.data.table() |&gt;
+  dcast(true ~ pred, value.var = "N")
+kbl(prop_tbl,
+  digits = 4,
+  caption = "Matriz de Confusão"
+) |&gt;
+  add_header_above(c(
+    " " = 1,
+    "Pred" = 2
+  ))
 ```
 
 &lt;table&gt;
@@ -839,12 +856,12 @@ kbl(prop_tbl, digits = 4,
 
 ```r
 pred_prob &lt;- prediction(fitted(glms$probit), mroz$inlf)
-par(mfrow = c(1,2), mar = lowtop)
-acc &lt;- ROCR::performance(pred_prob,"acc")
+par(mfrow = c(1, 2), mar = lowtop)
+acc &lt;- ROCR::performance(pred_prob, "acc")
 max_acc &lt;- which.max(acc@y.values[[1]])
 plot(acc)
 points(acc@x.values[[1]][max_acc], acc@y.values[[1]][max_acc], col = "darkgreen")
-roc &lt;- ROCR::performance(pred_prob,"tpr","fpr")
+roc &lt;- ROCR::performance(pred_prob, "tpr", "fpr")
 plot(roc)
 points(roc@x.values[[1]][max_acc], roc@y.values[[1]][max_acc], col = "darkgreen")
 abline(0, 1, lty = 2, col = "red")
@@ -926,9 +943,9 @@ P(y_i=0|x_i)&amp;=P(y_i* \leq 0|x_i)\\
 
 ## Exemplo Probit
 
-* A densidade condicional pode ser escrita como:
+* A função de probabilidade condicional pode ser escrita como:
 
-`$$f(y_i|x_i)=\Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$`
+`$$p(y_i|x_i)=\Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$`
 --
 
 * Esta é a probabilidade de ocorrência de um ponto `\((x_i, y_i)\)`. Para o conjunto de dados observados temos a ***função de verossimilhança***
@@ -1069,7 +1086,7 @@ R.: `$$s(\theta)=\sum_{i}\frac{\phi(x_i\theta)}{\Phi(x_i\theta)[1-\Phi(x_i\theta
 --
 
 .right-thin[
-.center[![](https://media.giphy.com/media/KU60D6Of7xb4qmFQwT/giphy.gif)]
+.center[![](https://media.giphy.com/media/111ebonMs90YLu/giphy.gif)]
 ]
 
 ---

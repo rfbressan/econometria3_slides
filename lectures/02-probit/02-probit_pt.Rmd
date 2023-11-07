@@ -2,7 +2,7 @@
 title: "Econometria III"
 subtitle: "Modelos de Escolha Qualitativa"
 author: "Rafael Bressan"
-date: "Esag </br> 08/03/2023"
+date: "Esag </br> 08/11/2023"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -31,13 +31,13 @@ knitr::opts_chunk$set(
   dev = "svg",
   cache = TRUE,
   fig.align = "center"
-  #fig.width = 11,
-  #fig.height = 5
+  # fig.width = 11,
+  # fig.height = 5
 )
 
 # define vars
-om = par("mar")
-lowtop = c(om[1],om[2],0.1,om[4])
+om <- par("mar")
+lowtop <- c(om[1], om[2], 0.1, om[4])
 library(dplyr)
 library(ggplot2)
 library(ROCR)
@@ -178,9 +178,11 @@ $$
 
 ```{r,fig.height = 4}
 data(mroz, package = "wooldridge")
-plot(factor(inlf) ~ age, data = mroz, 
-     ylevels = 2:1,
-     ylab = "in labor force?")
+plot(factor(inlf) ~ age,
+  data = mroz,
+  ylevels = 2:1,
+  ylab = "in labor force?"
+)
 ```
 
 
@@ -190,8 +192,9 @@ plot(factor(inlf) ~ age, data = mroz,
 
 .pull-left[
 ```{r}
-LPM <- lm(inlf ~ nwifeinc + educ + exper + I(exper^2) + age +I(age^2) + kidslt6,
-          data = mroz)
+LPM <- lm(inlf ~ nwifeinc + educ + exper + I(exper^2) + age + I(age^2) + kidslt6,
+  data = mroz
+)
 broom::tidy(LPM)
 ```
 ]
@@ -214,10 +217,10 @@ broom::tidy(LPM)
 
 .pull-left[
 ```{r,echo = FALSE}
-pr = predict(LPM)
-plot(pr[order(pr)],ylab = "P(inlf = 1)")
-abline(a = 0, b = 0, col = "red",lw = 3)
-abline(a = 1, b = 0, col = "red",lw = 3)
+pr <- predict(LPM)
+plot(pr[order(pr)], ylab = "P(inlf = 1)")
+abline(a = 0, b = 0, col = "red", lw = 3)
+abline(a = 1, b = 0, col = "red", lw = 3)
 ```
 ]
 
@@ -238,13 +241,15 @@ abline(a = 1, b = 0, col = "red",lw = 3)
 
 .left-wide[
 ```{r,message=FALSE,warning=FALSE}
-mroz %<>% 
+mroz %<>%
   # classify age into 3 and huswage into 2 classes
-  mutate(age_fct = cut(age,breaks = 3,labels = FALSE),
-         huswage_fct = cut(huswage, breaks = 2,labels = FALSE)) %>%
-  mutate(classes = paste0("age_",age_fct,"_hus_",huswage_fct))
+  mutate(
+    age_fct = cut(age, breaks = 3, labels = FALSE),
+    huswage_fct = cut(huswage, breaks = 2, labels = FALSE)
+  ) %>%
+  mutate(classes = paste0("age_", age_fct, "_hus_", huswage_fct))
 
-LPM_saturated = mroz %>%
+LPM_saturated <- mroz %>%
   lm(inlf ~ classes, data = .)
 broom::tidy(LPM_saturated)
 ```
@@ -266,10 +271,10 @@ broom::tidy(LPM_saturated)
 ```{r saturated,message=FALSE,warning=FALSE,fig.height = 5,echo = FALSE}
 mroz$pred <- predict(LPM_saturated)
 
-ggplot(mroz[order(mroz$pred),], aes(x = 1:nrow(mroz),y = pred,color = classes)) + 
-  geom_point() + 
-  theme_bw() + 
-  scale_y_continuous(limits = c(0,1), name = "p(inlf)")
+ggplot(mroz[order(mroz$pred), ], aes(x = 1:nrow(mroz), y = pred, color = classes)) +
+  geom_point() +
+  theme_bw() +
+  scale_y_continuous(limits = c(0, 1), name = "p(inlf)")
 ```
 ]
 
@@ -307,11 +312,11 @@ $$
 
 .left-wide[
 ```{r cdfs,echo = FALSE,fig.height = 4}
-ggplot(data.frame(x = c(-5,5)), aes(x = x)) + 
-  stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) + 
-  stat_function(fun = plogis, aes(colour = "Logit"), size = 1) + 
-  theme_bw() + 
-  scale_colour_manual(name = "Função G",values = c("red", "blue")) +
+ggplot(data.frame(x = c(-5, 5)), aes(x = x)) +
+  stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) +
+  stat_function(fun = plogis, aes(colour = "Logit"), size = 1) +
+  theme_bw() +
+  scale_colour_manual(name = "Função G", values = c("red", "blue")) +
   scale_y_continuous(name = "Pr(y = 1 | x)")
 ```
 ]
@@ -337,11 +342,11 @@ Para **probit** e **logit**:
 
 .left-wide[
 ```{r cdfs2, echo = FALSE,fig.height = 4}
-ggplot(data.frame(x = c(-5,5)), aes(x = x)) + 
-  stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) + 
-  stat_function(fun = plogis, aes(colour = "Logit"), size = 1) + 
-  theme_bw() + 
-  scale_colour_manual(name = "Função G",values = c("red", "blue")) +
+ggplot(data.frame(x = c(-5, 5)), aes(x = x)) +
+  stat_function(fun = pnorm, aes(colour = "Probit"), size = 1) +
+  stat_function(fun = plogis, aes(colour = "Logit"), size = 1) +
+  theme_bw() +
+  scale_colour_manual(name = "Função G", values = c("red", "blue")) +
   scale_y_continuous(name = "Pr(y = 1 | x)")
 ```
 ]
@@ -368,14 +373,15 @@ ggplot(data.frame(x = c(-5,5)), aes(x = x)) +
 * Isso *generaliza* nosso modelo linear padrão. Temos que especificar uma `família` e um `link`:
 
 ```{r}
-probit <- glm(inlf ~ age, 
-                    data = mroz, 
-                    family = binomial(link = "probit"))
+probit <- glm(inlf ~ age,
+  data = mroz,
+  family = binomial(link = "probit")
+)
 
-logit <- glm(inlf ~ age, 
-                    data = mroz, 
-                    family = binomial(link = "logit"))
-
+logit <- glm(inlf ~ age,
+  data = mroz,
+  family = binomial(link = "logit")
+)
 ```
 
 ---
@@ -384,7 +390,7 @@ logit <- glm(inlf ~ age,
 
 .pull-left[
 ```{r}
-modelsummary::modelsummary(list("probit" = probit,"logit" = logit))
+modelsummary::modelsummary(list("probit" = probit, "logit" = logit))
 ```
 ]
 
@@ -432,16 +438,19 @@ Felizmente, existem pacotes disponíveis que nos ajudam a calcular esses efeitos
 ```{r glms}
 f <- "inlf ~ age + kidslt6 + nwifeinc" # setup a formula
 glms <- list()
-glms$probit <- glm(formula = f, 
-                    data = mroz, 
-                    family = binomial(link = "probit"))
-glms$logit <- glm(formula = f, 
-                    data = mroz, 
-                    family = binomial(link = "logit"))
+glms$probit <- glm(
+  formula = f,
+  data = mroz,
+  family = binomial(link = "probit")
+)
+glms$logit <- glm(
+  formula = f,
+  data = mroz,
+  family = binomial(link = "logit")
+)
 # now the marginal effects versions
 mfx_mean <- lapply(glms, marginaleffects, newdata = "mean")
 mfx_avg <- lapply(glms, marginaleffects)
-
 ```
 
 
@@ -451,13 +460,16 @@ mfx_avg <- lapply(glms, marginaleffects)
 
 ```{r, echo = FALSE}
 modelsummary(c(mfx_mean, mfx_avg),
-             output = "kableExtra",
-             stars = TRUE,
-             gof_omit = "AIC|BIC") |> 
-    kable_classic() |> 
-    add_header_above(c(" " = 1,
-                       "PEA" = 2,
-                       "APE" = 2))
+  output = "kableExtra",
+  stars = TRUE,
+  gof_omit = "AIC|BIC"
+) |>
+  kable_classic() |>
+  add_header_above(c(
+    " " = 1,
+    "PEA" = 2,
+    "APE" = 2
+  ))
 ```
 
 ---
@@ -481,7 +493,7 @@ layout: true
 
 ```{r, eval=TRUE}
 glms$probit0 <- update(glms$probit, formula = . ~ 1)
-1 - as.vector(logLik(glms$probit)/logLik(glms$probit0))
+1 - as.vector(logLik(glms$probit) / logLik(glms$probit0))
 ```
 
 --
@@ -494,14 +506,20 @@ glms$probit0 <- update(glms$probit, formula = . ~ 1)
 * Vamos verificar **precisão** - qual é a proporção prevista corretamente! `round(fitted(x))` atribui `1` se a prob $> 0.5$ previsto.
 
 ```{r, echo=TRUE}
-prop_tbl <- prop.table(table(true = mroz$inlf, 
-                             pred = round(fitted(glms$probit)))) |> 
-    as.data.table() |> 
-    dcast(true~pred, value.var = "N")
-kbl(prop_tbl, digits = 4,
-    caption = "Matriz de Confusão") |> 
-    add_header_above(c(" " = 1,
-                       "Pred" = 2))
+prop_tbl <- prop.table(table(
+  true = mroz$inlf,
+  pred = round(fitted(glms$probit))
+)) |>
+  as.data.table() |>
+  dcast(true ~ pred, value.var = "N")
+kbl(prop_tbl,
+  digits = 4,
+  caption = "Matriz de Confusão"
+) |>
+  add_header_above(c(
+    " " = 1,
+    "Pred" = 2
+  ))
 ```
 
 ---
@@ -518,9 +536,11 @@ tn <- prop_tbl[1, 2]
 n <- fp + tn
 fpr <- fp / n
 
-base_kbl <- kbl(prop_tbl, digits = 4) |> 
-    add_header_above(c(" " = 1,
-                       "Pred" = 2))
+base_kbl <- kbl(prop_tbl, digits = 4) |>
+  add_header_above(c(
+    " " = 1,
+    "Pred" = 2
+  ))
 ```
 
 ## [Nomenclatura](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
@@ -544,14 +564,16 @@ xaringanExtra::use_panelset()
 .panel[.panel-name[TPR]
 ```{r tpr, echo=FALSE}
 base_kbl |>
-    column_spec(2,
-             bold = FALSE,
-             background = ifelse(prop_tbl$`0` < 0.13, "darkgreen", "white"),
-             color = ifelse(prop_tbl$`0` < 0.13, "white", "black")) |> 
-    column_spec(3,
-                bold = FALSE,
-                background = ifelse(prop_tbl$`1` > 0.44, "darkgreen", "white"),
-                color = ifelse(prop_tbl$`1` > 0.44, "white", "black"))
+  column_spec(2,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`0` < 0.13, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`0` < 0.13, "white", "black")
+  ) |>
+  column_spec(3,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`1` > 0.44, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`1` > 0.44, "white", "black")
+  )
 ```
 
 <br>
@@ -561,15 +583,16 @@ base_kbl |>
 .panel[.panel-name[FPR]
 ```{r fpr, echo=FALSE}
 base_kbl |>
-    column_spec(2,
-             bold = FALSE,
-             background = ifelse(prop_tbl$`0` > 0.13, "darkgreen", "white"),
-             color = ifelse(prop_tbl$`0` > 0.13, "white", "black")) |> 
-    column_spec(3,
-                bold = FALSE,
-                background = ifelse(prop_tbl$`1` < 0.44, "darkgreen", "white"),
-                color = ifelse(prop_tbl$`1` < 0.44, "white", "black"))
-
+  column_spec(2,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`0` > 0.13, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`0` > 0.13, "white", "black")
+  ) |>
+  column_spec(3,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`1` < 0.44, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`1` < 0.44, "white", "black")
+  )
 ```
 
 <br>
@@ -579,14 +602,16 @@ base_kbl |>
 .panel[.panel-name[ACC]
 ```{r acc, echo=FALSE}
 base_kbl |>
-    column_spec(2,
-             bold = FALSE,
-             background = ifelse(prop_tbl$`0` > 0.13, "darkgreen", "white"),
-             color = ifelse(prop_tbl$`0` > 0.13, "white", "black")) |> 
-    column_spec(3,
-                bold = FALSE,
-                background = ifelse(prop_tbl$`1` > 0.44, "darkgreen", "white"),
-                color = ifelse(prop_tbl$`1` > 0.44, "white", "black"))
+  column_spec(2,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`0` > 0.13, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`0` > 0.13, "white", "black")
+  ) |>
+  column_spec(3,
+    bold = FALSE,
+    background = ifelse(prop_tbl$`1` > 0.44, "darkgreen", "white"),
+    color = ifelse(prop_tbl$`1` > 0.44, "white", "black")
+  )
 ```
 ]
 
@@ -625,12 +650,12 @@ base_kbl |>
 .left-wide[
 ```{r,fig.height = 3}
 pred_prob <- prediction(fitted(glms$probit), mroz$inlf)
-par(mfrow = c(1,2), mar = lowtop)
-acc <- ROCR::performance(pred_prob,"acc")
+par(mfrow = c(1, 2), mar = lowtop)
+acc <- ROCR::performance(pred_prob, "acc")
 max_acc <- which.max(acc@y.values[[1]])
 plot(acc)
 points(acc@x.values[[1]][max_acc], acc@y.values[[1]][max_acc], col = "darkgreen")
-roc <- ROCR::performance(pred_prob,"tpr","fpr")
+roc <- ROCR::performance(pred_prob, "tpr", "fpr")
 plot(roc)
 points(roc@x.values[[1]][max_acc], roc@y.values[[1]][max_acc], col = "darkgreen")
 abline(0, 1, lty = 2, col = "red")
@@ -710,9 +735,9 @@ P(y_i=0|x_i)&=P(y_i* \leq 0|x_i)\\
 
 ## Exemplo Probit
 
-* A densidade condicional pode ser escrita como:
+* A função de probabilidade condicional pode ser escrita como:
 
-$$f(y_i|x_i)=\Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$
+$$p(y_i|x_i)=\Phi(x_i\theta)^{y_i}\cdot [1-\Phi(x_i\theta)]^{1-y_i}$$
 --
 
 * Esta é a probabilidade de ocorrência de um ponto $(x_i, y_i)$. Para o conjunto de dados observados temos a ***função de verossimilhança***
@@ -853,7 +878,7 @@ $$\hat{m}(\hat\beta)=\begin{cases}
 --
 
 .right-thin[
-.center[![](https://media.giphy.com/media/KU60D6Of7xb4qmFQwT/giphy.gif)]
+.center[![](https://media.giphy.com/media/111ebonMs90YLu/giphy.gif)]
 ]
 
 ---
