@@ -979,7 +979,21 @@ P(y_i=0|x_i)&amp;=P(y_i* \leq 0|x_i)\\
 
 Exercício: Calcule o _score_ do modelo probit.
 
-R.: `$$s(\theta)=\sum_{i}\frac{\phi(x_i\theta)}{\Phi(x_i\theta)[1-\Phi(x_i\theta)]}(y_i-\Phi(x_i\theta))x_i$$`
+---
+# Estimação de Máxima Verossimilhança
+
+## Exemplo Probit - Solução
+
+`\(\mathcal{L}(\theta)=\sum_{i=1}^N y_i\log(\Phi(x_i\theta))+(1-y_i)\log(1-\Phi(x_i\theta))\)`
+
+--
+
+`$$\begin{align}
+s(\theta)&amp;=\frac{d\mathcal{L}(\theta)}{d\theta}=\sum_{i=1}^N y_i x_i\frac{\phi(x_i \theta)}{\Phi(x_i \theta)} - (1-y_i)x_i\frac{\phi(x_i \theta)}{1-\Phi(x_i \theta)}\\
+&amp;=\sum_{i=1}^N \frac{[1-\Phi(x_i \theta)]y_i x_i\phi(x_i \theta) - \Phi(x_i \theta)(1-y_i)x_i\phi(x_i \theta)}{\Phi(x_i \theta) [1-\Phi(x_i \theta)]}\\
+&amp;=\sum_{i=1}^N \frac{x_i\phi(x_i \theta)}{\Phi(x_i \theta) [1-\Phi(x_i \theta)]}[y_i-\Phi(x_i \theta)]
+\end{align}$$`
+
 
 ---
 # Estimação de Máxima Verossimilhança
