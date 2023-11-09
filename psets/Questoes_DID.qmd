@@ -93,13 +93,13 @@ options(dplyr.summarise.inform = FALSE)
 
 
 # Load terror data
-terror <- read_stata("data/MonthlyPanel.dta") %>% 
+terror <- read_stata("data/MonthlyPanel.dta") %>%
     # The attack happened on July 18. The authors omitted data from July 19-31, so
     # all July observations are from before the attack. Make a new indicator
     # variable `after` to mark if the row is from before or after the attack
-    mutate(after = mes > 7) %>% 
+    mutate(after = mes > 7) %>%
     # There are some weird months in the data like 73. Filter out anything > 12
-    filter(mes <= 12) %>% 
+    filter(mes <= 12) %>%
     # Rename some columns to be more readable
     rename(
         same_block = institu1,
@@ -107,13 +107,13 @@ terror <- read_stata("data/MonthlyPanel.dta") %>%
         car_theft = totrob,
         month = mes,
         block = observ
-    ) %>% 
+    ) %>%
     # Create indicator variables for the distance of each block to a synagogue
     mutate(
         one_block_away = ifelse(distance == 1, 1, 0),
         two_blocks_away = ifelse(distance == 2, 1, 0),
         more_than_two_away = ifelse(distance > 2, 1, 0)
-    ) %>% 
+    ) %>%
     # Make these factors/categories
     mutate(
         block = as.factor(block),
@@ -140,11 +140,11 @@ d) O que você diria sobre a suposição de tendências paralelas na Figura 1 ab
 
 ```{r plot-trends, fig.cap="Tendências temporais de furto."}
 # Make a plot here
-trends_df <- terror |> 
-    group_by(month, same_block_factor) |> 
+trends_df <- terror |>
+    group_by(month, same_block_factor) |>
     summarise(avg_theft = mean(car_theft))
 
-ggplot(trends_df, aes(month, avg_theft, 
+ggplot(trends_df, aes(month, avg_theft,
     group = same_block_factor,
     color = same_block_factor
 )) +
@@ -161,21 +161,21 @@ ggplot(trends_df, aes(month, avg_theft,
 
 ```{r manual-diff-diff}
 # Calculate average of car_theft across same_block and after
-man_did <- terror |> 
-    group_by(after, same_block) |> 
+man_did <- terror |>
+    group_by(after, same_block) |>
     summarise(avg_theft = mean(car_theft))
 # Pull each average
-theft_before_control <- man_did |> 
-    filter(after == FALSE, same_block == 0) |> 
+theft_before_control <- man_did |>
+    filter(after == FALSE, same_block == 0) |>
     pull(avg_theft)
-theft_after_control <- man_did |> 
-    filter(after == TRUE, same_block == 0) |> 
+theft_after_control <- man_did |>
+    filter(after == TRUE, same_block == 0) |>
     pull(avg_theft)
-theft_before_treat <- man_did |> 
-    filter(after == FALSE, same_block == 1) |> 
+theft_before_treat <- man_did |>
+    filter(after == FALSE, same_block == 1) |>
     pull(avg_theft)
-theft_after_treat <- man_did |> 
-    filter(after == TRUE, same_block == 1) |> 
+theft_after_treat <- man_did |>
+    filter(after == TRUE, same_block == 1) |>
     pull(avg_theft)
 
 man_did_est <- (theft_after_treat - theft_before_treat) - (theft_after_control - theft_before_control)
@@ -346,7 +346,7 @@ a)  Compare os gastos médios com saúde (health_expenditures) antes (round = 0)
 library(haven)
 eval_df <- read_dta("data/evaluation.dta")
 # Apenas comunidades de tratamento
-eval_df <- eval_df |> 
+eval_df <- eval_df |>
     filter(treatment_locality == 1)
 ```
 
