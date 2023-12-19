@@ -84,7 +84,7 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 **Python**
 
 * [Python for Econometrics](https://pyecon.org/down/pyecon.pdf)
-* [QuantEcon Lectures](https://quantecon.org/projects/#filter=lecture)
+* [QuantEcon Lectures](https://quantecon.org/lectures/)
 * [Introduction to Python for Econometrics, Statistics and Data Analysis](https://www.kevinsheppard.com/teaching/python/notes/)
 * [A First Look at Using Python for Econometrics](https://www.youtube.com/watch?v=kltX6XofxG0)
 
@@ -125,7 +125,9 @@ Observe que várias dessas aulas se estendem por duas ou mais sessões.
 
 O sistema de avaliação da disciplina se dará da seguinte maneira:
 
-- 3 Provas escritas, presenciais, com os seguintes pesos: 30%, 35% e 35%.
+- 2 Provas escritas, presenciais, com os seguintes pesos: 30% e 30%.
+
+- 1 Trabalho econométrico individual de cunho prático.
 
 - É obrigatória a frequência em no mínimo 75% das aulas para aprovação.
 
