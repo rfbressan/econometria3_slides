@@ -58,7 +58,7 @@ layout: true
     * Identificação
     * Estimador de VI
 * Estimação de VI via Mínimos Quadrados Ordinários em 2 Estágios
-* Vamos implementar Angrist e Krueger (1991)!
+* Sobreidentificação
 * Instrumentos Fracos
 
 ---
@@ -111,7 +111,7 @@ $$
 
 .pull-right[
 
-&lt;img src="../../img/schooling-dag2.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="../../img/schooling-dag2.png" width="853" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -154,7 +154,7 @@ Seja `\(z\)` nossa candidata a VI
 
 ## Modelo Válido (A) vs Model Inválido (B) para VI `z`
 
-&lt;img src="didatica-IV-MQ2E_files/figure-html/IV-dag2-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="didatica_2024-IV-MQ2E_files/figure-html/IV-dag2-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -272,192 +272,27 @@ Assim o segundo estágio faz uso somente de ***variações exógenas*** de `\(s_
 --
 * ⚠️ o primeiro estágio **DEVE** ser linear. Caso contrário, regressão proibida de Hausman! (MHE ch. 4, p. 142)
 
-* Não realizamos manualmente porque os erros padrão no 2º estágio estarão errados
-
-&lt;!-- --- --&gt;
-&lt;!-- layout: false --&gt;
-&lt;!-- class: separator, middle --&gt;
-
-&lt;!-- # Vamos implementar Angrist e Krueger (1991)!  --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- layout: true --&gt;
-
-&lt;!-- &lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt;  --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Dados sobre aniversário e salários --&gt;
-
-&lt;!-- Vamos carregar os dados e olhar seu sumário --&gt;
-
-&lt;!-- ```{r ak-data} --&gt;
-&lt;!-- # remotes::install_github("jrnold/masteringmetrics",  --&gt;
-&lt;!-- #                         subdir = "masteringmetrics") --&gt;
-&lt;!-- data("ak91", package = "masteringmetrics") --&gt;
-&lt;!-- # from the modelsummary package --&gt;
-&lt;!-- datasummary_skim(data.frame(ak91), histogram = TRUE) --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Transformações dos Dados --&gt;
-
-&lt;!-- * Queremos criar  uma _dummy_ `q4` que é `TRUE` se você nasceu no 4º trimestre. --&gt;
-
-&lt;!-- * criar versões `factor` de trimestre e ano de nascimento. --&gt;
-
-&lt;!-- ```{r, cache=TRUE} --&gt;
-&lt;!-- ak91 &lt;- mutate(ak91, --&gt;
-&lt;!--                qob_fct = factor(qob), --&gt;
-&lt;!--                q4 = as.integer(qob == "4"), --&gt;
-&lt;!--                yob_fct = factor(yob)) --&gt;
-&lt;!-- # get mean wage by year/quarter --&gt;
-&lt;!-- ak91_age &lt;- ak91 %&gt;% --&gt;
-&lt;!--   group_by(qob, yob) %&gt;% --&gt;
-&lt;!--   summarise(lnw = mean(lnw), s = mean(s)) %&gt;% --&gt;
-&lt;!--   mutate(q4 = (qob == 4)) --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Primeiro Estágio! --&gt;
-
-&lt;!-- .left-thin[ --&gt;
-&lt;!-- &lt;br&gt; --&gt;
-&lt;!-- 1. Os números rotulados significam trimestre de nascimento. --&gt;
-
-&lt;!-- 1. Nascidos no 4º trimestre **obtiveram** mais educação na maioria dos anos! --&gt;
-
-&lt;!-- 1. **Relevância da VI**. --&gt;
-
-&lt;!-- ] --&gt;
-
-&lt;!-- .right-wide[ --&gt;
-&lt;!-- ```{r ak91-dummy, eval = TRUE, echo = FALSE, fig.height = 5} --&gt;
-&lt;!-- ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) + --&gt;
-&lt;!--   geom_line() +  --&gt;
-&lt;!--   geom_label(mapping = aes(label = qob, color = q4)) + --&gt;
-&lt;!--   guides(label = FALSE, color = FALSE) + --&gt;
-&lt;!--   scale_x_continuous("Year of birth", breaks = 1930:1940) + --&gt;
-&lt;!--   scale_y_continuous("Years of Education", breaks = seq(12.2, 13.2, by = 0.2), --&gt;
-&lt;!--                      limits = c(12.2, 13.2)) + --&gt;
-&lt;!--   theme_bw() --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Impacto da VI no resultado --&gt;
+* Não realizamos manualmente porque os erros padrão no 2º estágio estarão errados.
 
 
-&lt;!-- .left-thin[ --&gt;
-&lt;!-- &lt;br&gt; --&gt;
-&lt;!-- &lt;br&gt; --&gt;
-&lt;!-- 1. Nascidos no 4º trimestre estão entre os mais bem pagos por ano de nascimento. --&gt;
-
-&lt;!-- 1. Em geral, os salários semanais parecem diminuir um pouco ao longo do tempo. --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- .right-wide[ --&gt;
-
-&lt;!-- ```{r ak91-wage,echo = FALSE,fig.height = 5} --&gt;
-&lt;!-- ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) + --&gt;
-&lt;!--   geom_line() + --&gt;
-&lt;!--   geom_label(mapping = aes(label = qob, color = q4)) + --&gt;
-&lt;!--   scale_x_continuous("Year of birth", breaks = 1930:1940) + --&gt;
-&lt;!--   scale_y_continuous("Log weekly wages") + --&gt;
-&lt;!--   guides(label = FALSE, color = FALSE) +   --&gt;
-&lt;!--   theme_bw() --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- # Executando estimativa VI no `R` --&gt;
-
-&lt;!-- &lt;br&gt; --&gt;
-&lt;!-- &lt;br&gt; --&gt;
-
-&lt;!-- .pull-left[ --&gt;
-&lt;!-- * Várias opções (como sempre com `R`! 😉) --&gt;
-
-&lt;!-- * Usará a função [`iv_robust`](https://declaredesign.org/r/estimatr/reference/iv_robust.html) do pacote `estimatr`. --&gt;
-
-&lt;!-- * *Robusto*? Calcula erros padrão corretos. [Detalhes aqui.](https://declaredesign.org/r/estimatr/articles/mathematical-notes.html) --&gt;
-
-&lt;!-- * Observe o `predict` para obter `\(\hat{s}\)`. --&gt;
-&lt;!-- ] --&gt;
-
-
-&lt;!-- .pull-right[ --&gt;
-&lt;!-- ```{r, eval = TRUE} --&gt;
-&lt;!-- library(estimatr) --&gt;
-&lt;!-- # create a list of models --&gt;
-&lt;!-- mod &lt;- list() --&gt;
-
-&lt;!-- # standard (biased!) OLS --&gt;
-&lt;!-- mod$ols &lt;- lm(lnw ~ s, data = ak91) --&gt;
-
-&lt;!-- # IV: born in q4 is TRUE? --&gt;
-&lt;!-- # doing IV manually in 2 stages. --&gt;
-&lt;!-- mod$stage_1 &lt;- lm(s ~ q4, data = ak91) --&gt;
-&lt;!-- ak91$shat &lt;- predict(mod$stage_1) #&lt;&lt; --&gt;
-&lt;!-- mod$stage_2 &lt;- lm(lnw ~ shat, data = ak91) --&gt;
-
-&lt;!-- # run 2SLS --&gt;
-&lt;!-- # doing IV all in one go --&gt;
-&lt;!-- # notice the formula! --&gt;
-&lt;!-- # formula = y ~ x | z --&gt;
-&lt;!-- mod$MQ2E  &lt;- iv_robust(lnw ~ s | q4, --&gt;
-&lt;!--                        data = ak91, --&gt;
-&lt;!--                        diagnostics = TRUE) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- layout: false --&gt;
-
-&lt;!-- # Resultados --&gt;
-
-&lt;!-- .left-wide[ --&gt;
-&lt;!-- ```{r ms1, echo = FALSE} --&gt;
-&lt;!-- glance_custom.iv_robust &lt;- function(x){ --&gt;
-&lt;!--   f = x$diagnostic_first_stage_fstatistic --&gt;
-&lt;!--   if (is.null(f)) { --&gt;
-&lt;!--     return() --&gt;
-&lt;!--   } else { --&gt;
-&lt;!--     out &lt;- tibble::tibble(`1. Stage F:` = f["value"]) --&gt;
-&lt;!--     return(out) --&gt;
-&lt;!--   } --&gt;
-&lt;!-- } --&gt;
-&lt;!-- library(huxtable) --&gt;
-&lt;!-- tab = msummary(models = mod, --&gt;
-&lt;!--                stars = TRUE, --&gt;
-&lt;!--                statistic = 'std.error', --&gt;
-&lt;!--                gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|statistic|Log.Lik.|Num.Obs.|N', --&gt;
-&lt;!--                output = "huxtable" --&gt;
-&lt;!-- ) --&gt;
-&lt;!-- tab %&gt;% --&gt;
-&lt;!--   set_bottom_border(row = 9, col = everywhere) %&gt;% --&gt;
-&lt;!--   set_tb_padding(3.5) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- .right-thin[ --&gt;
-&lt;!-- 1. MQO viesado para baixo (erro de medição) --&gt;
-
-&lt;!-- 1. Primeira Fase: VI `q4` é estatisticamente significativo --&gt;
-
-&lt;!-- 1. O segundo estágio tem a mesma estimativa pontual que `MQ2E`, mas erro padrão diferente (segundo estágio está errado) --&gt;
-&lt;!-- ] --&gt;
-
-&lt;!-- --- --&gt;
-&lt;!-- layout: true --&gt;
-
-&lt;!-- &lt;div class="my-footer"&gt;&lt;img src="../../img/logo/UdescEsag.jpeg" style="height: 60px;"/&gt;&lt;/div&gt;  --&gt;
 
 ---
+# Mais de um instrumento
+
+* Podemos ter mais de um instrumento para `\(s_i\)`.
+
+--
+
+* Neste caso, temos o que chamamos de **sobre-identificação**.
+
+--
+
+* A estimação **deve** ser realizada por MQ2E, com o primeiro estágio da seguinte forma:
+
+`$$s_i = \alpha_0 + \alpha_1 z_{1i} + \alpha_2 z_{2i} + \alpha_3 x_i + \eta_i$$`
+
+---
+
 # Lembra da estatística F?
 
 * Encontramos isso antes: é útil testar modelos restritos versus irrestritos entre si.
@@ -466,38 +301,42 @@ Assim o segundo estágio faz uso somente de ***variações exógenas*** de `\(s_
 
 * Interessados em saber se os instrumentos são *conjuntamente* significativos.
 
-`$$s_i=\alpha_0 + \alpha_1 z_i + \alpha_2 x_i + \eta_i$$`
+`$$s_i=\alpha_0 + \alpha_1 z_{1i} + \alpha_2 z_{2i} + \alpha_3 x_i + \eta_i$$`
 
 --
 
-* A F-Stat compara o poder preditivo do primeiro estágio com e sem as VIs. Se eles tiverem poder preditivo muito semelhante, a F-stat será baixa e não poderemos rejeitar H0 de que nossas VIs são **conjuntamente insignificantes** no modelo do primeiro estágio. 
+* A F-Stat compara o poder preditivo do primeiro estágio com ($\alpha_1, \alpha_2\neq 0$) e sem as VIs ($\alpha_1,\alpha_2=0$). 
+
+* Se os modelos tiverem poder preditivo semelhante, a F-stat será baixa e não rejeitamos H0. VIs são **conjuntamente insignificantes** no modelo de primeiro estágio. 
 
 * **Instrumentos fracos**! 😞
+
 ---
 
 # VI com um instrumento fraco
 
-* VI é consistente sob determinadas premissas.
+* VI é viesado, porém **consistente sob determinadas premissas**.
 
-* No entanto, *mesmo* que tenhamos apenas `\(Cor(z,u)\)` muito pequenos, podemos errar
+--
+
+* Mesmo com `\(Corr(z,u)\)` muito pequena, podemos errar.
 
 * Pequena correlação entre `\(x\)` e `\(z\)` pode produzir estimativas **inconsistentes**.
 
 $$
-\text{plim}(\hat{\beta}_{1,IV}) = \beta_1 + \frac{Cor(z,u)}{Cor(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
+\text{plim}\left(\hat{\beta}_1^{VI}\right) = \beta_1 + \frac{Corr(z,u)}{Corr(z,x)} \cdot \frac{\sigma_u}{\sigma_x}
 $$
 
 --
 
 
-* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Cor(z,x)\)`
+* Um **instrumento fraco** é aquele com pequeno valor absoluto para `\(Corr(z,x)\)`.
 
 * Usamos o teste F no primeiro estágio para verificar a existência de instrumentos fracos. Regra de bolso: `\(F_{stat} &gt; 10\)` (Staiger e Stock, 1997) contestada por Lee et al. 2021.
 
-
 ---
 
-# Leitura Recomendada
+# Leitura Recomendada 📚
 
 * WOOLDRIDGE, Jeffrey M. Introdução à econometria: uma abordagem moderna. São Paulo: Cengage Learning, 2016. Tradução da 4ª edição norte-americana por José Antonio Ferreira. Capítulo 15 Estimação de Variáveis Instrumentais e Mínimos Quadrados em dois Estágios.
 
@@ -531,6 +370,7 @@ Com a Lista 2 feita! ✅
 | &lt;a href="https://github.com/rfbressan/econometria3_slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
 | &lt;a href="http://github.com/rfbressan"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @rfbressan                      |
 | &lt;a href="https://raw.githack.com/rfbressan/econometria3_slides/master/lectures/05-IV2/lista_I_pt.html"&gt;.ScPored[&lt;i class="fa fa-list fa-fw"&gt;&lt;/i&gt;] | Lista de Exercícios I |
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

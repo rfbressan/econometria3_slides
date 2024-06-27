@@ -2,7 +2,7 @@
 title: "Econometria III"
 subtitle: "Variáveis Instrumentais e Mínimos Quadrados em 2 Estágios"
 author: "Rafael Bressan"
-date: "Esag </br> `r Sys.Date()`"
+date: "Esag </br> 28/06/2024"
 output: pdf_document
 ---
 
@@ -15,11 +15,15 @@ knitr::opts_chunk$set(echo = TRUE)
 * Motivando Variáveis Instrumentais
     * Retornos da Escolaridade
     * Mincer com Habilidade não Observada
+    
 * Mecânica das Variáveis Instrumentais
     * Identificação
     * Estimador de VI
+    
 * Estimação de VI via Mínimos Quadrados Ordinários em 2 Estágios
-* Vamos implementar Angrist e Krueger (1991)!
+
+* Sobreidentificação
+
 * Instrumentos Fracos
 
 # Leitura Recomendada
