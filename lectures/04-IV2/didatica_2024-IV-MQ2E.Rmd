@@ -341,7 +341,7 @@ $$s_i=\alpha_0 + \alpha_1 z_{1i} + \alpha_2 z_{2i} + \alpha_3 x_i + \eta_i$$
 
 --
 
-* A F-Stat compara o poder preditivo do primeiro estágio com ($\alpha_1, \alpha_2\neq 0$) e sem as VIs ($\alpha_1,\alpha_2=0$). 
+* A F-Stat compara o poder preditivo do primeiro estágio com $(\alpha_1, \alpha_2\neq 0)$ e sem as VIs $(\alpha_1,\alpha_2=0)$. 
 
 * Se os modelos tiverem poder preditivo semelhante, a F-stat será baixa e não rejeitamos H0. VIs são **conjuntamente insignificantes** no modelo de primeiro estágio. 
 
